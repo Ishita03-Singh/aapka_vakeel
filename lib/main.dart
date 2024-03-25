@@ -7,9 +7,20 @@ import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:firebase_core/firebase_core.dart';
+
+import 'screens/firebasedemo.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+      options: FirebaseOptions(
+    apiKey: 'AIzaSyB1E0HHJlBd7oCrAK8m6B0fL459tT2itfg',
+    appId: 'id',
+    messagingSenderId: 'sendid',
+    projectId: 'aapkavakeel-72737',
+    storageBucket: 'aapkavakeel-72737.appspot.com',
+  ));
   await AppColor.setCurrentTheme();
   runApp(const MyApp());
 }
@@ -55,7 +66,7 @@ class MyApp extends StatelessWidget {
           // bool isEmpty = await LocalStorageHelper.instance.isServerListEmpty();
           // if (isEmpty) {
           print(AppColor.primaryTextColor);
-          return const WelcomePage();
+          return const PhoneOTPVerification();
           // }
 
           // return const SelectServer();

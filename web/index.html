@@ -32,8 +32,22 @@
   <title>aapka_vakeel</title>
   <link rel="manifest" href="manifest.json">
 
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script> 
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script> 
+  
   <script>
     // The value below is injected by flutter build, do not touch.
+    const firebaseConfig = {
+  apiKey: "AIzaSyAWjwnwNuIGERn7b1OooEzTKhGiFVsXzRI",
+  authDomain: "aapkavakeel-72737.firebaseapp.com",
+  projectId: "aapkavakeel-72737",
+  storageBucket: "aapkavakeel-72737.appspot.com",
+  messagingSenderId: "734684575873",
+  appId: "1:734684575873:web:1b8b27ddb47f8e5e29b580",
+  measurementId: "G-C9S41D5DEV"
+};
+const app = initializeApp(firebaseConfig); 
+    const analytics = getAnalytics(app);
     const serviceWorkerVersion = null;
   </script>
   <!-- This script adds the flutter initialization JS code -->

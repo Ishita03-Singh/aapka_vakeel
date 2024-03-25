@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "734684575873",
+    "project_id": "aapkavakeel-72737",
+    "storage_bucket": "aapkavakeel-72737.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:734684575873:android:d3fba98aab02875629b580",
+        "android_client_info": {
+          "package_name": "com.example.aapka_vakeel"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB1E0HHJlBd7oCrAK8m6B0fL459tT2itfg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
