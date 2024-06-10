@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 class MyAppBar {
   static appbar(context) {
     return AppBar(
-      titleSpacing: 10,
+      titleSpacing: 16,
       title: Align(
           alignment: Alignment.centerLeft,
           child: CustomText.appNameText(StrLiteral.appName)),

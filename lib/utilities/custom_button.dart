@@ -65,10 +65,10 @@ class CustomButton {
       style: TextButton.styleFrom(
           padding: const EdgeInsets.all(10.5),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(4.0),
+            borderRadius: BorderRadius.circular(10.0),
           ),
-          foregroundColor: AppColor.tertiaryColor,
-          backgroundColor: AppColor.secondaryColor,
+          foregroundColor: AppColor.primaryTextColor,
+          backgroundColor: AppColor.primaryTextColor,
           // minimumSize: const Size(100, 30),
           elevation: 0,
           shadowColor: AppColor.secondaryColor),
@@ -79,7 +79,7 @@ class CustomButton {
       style: TextButton.styleFrom(
           padding: const EdgeInsets.all(16),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(4.0),
+            borderRadius: BorderRadius.circular(10.0),
           ),
           foregroundColor: AppColor.tertiaryColor,
           backgroundColor: Colors.black,

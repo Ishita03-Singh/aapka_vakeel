@@ -2,18 +2,21 @@ import 'package:flutter/material.dart';
 import '../Utilities/colors.dart';
 
 class CustomText {
-  static Text appNameText(String text) => Text(text,
+  static Text appNameText(String text, {bool isCenter = false}) => Text(text,
+      textAlign: isCenter ? TextAlign.center : TextAlign.left,
       style: TextStyle(
           fontSize: 22, color: Colors.black, fontWeight: FontWeight.w700));
   static Text headText(String text) => Text(text,
       style: TextStyle(
           fontSize: 24, color: Colors.black, fontWeight: FontWeight.w900));
 
-  static Text infoText(String text) => Text(text,
+  static Text infoText(String text, {bool isCenter = false}) => Text(text,
+      textAlign: isCenter ? TextAlign.center : TextAlign.left,
       style: TextStyle(
           fontSize: 14,
           color: AppColor.secondaryTextColor,
           fontWeight: FontWeight.w300));
+
   // static Text text(String text, {double fontsize = 16}) => Text(
   //     textAlign: TextAlign.left,
   //     text,
@@ -28,14 +31,14 @@ class CustomText {
   //         fontWeight: FontWeight.w400));
 
   static cancelBtnText(String text, {double fontsize = 16}) => Text(
-      textAlign: TextAlign.left,
+      textAlign: TextAlign.center,
       text,
       style: TextStyle(
           fontSize: fontsize,
-          color: AppColor.tertiaryTextColor,
+          color: Colors.black,
           fontWeight: FontWeight.w600));
   static taskBtnText(String text, {double fontsize = 16}) => Text(
-      textAlign: TextAlign.left,
+      textAlign: TextAlign.center,
       text,
       style: TextStyle(
           fontSize: fontsize,

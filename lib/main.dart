@@ -1,5 +1,6 @@
+import 'package:aapka_vakeel/screens/IntroScreen.dart';
 import 'package:aapka_vakeel/screens/phoneNumber_page.dart';
-import 'package:aapka_vakeel/screens/welcome.dart';
+import 'package:aapka_vakeel/screens/CatgoryScreen.dart';
 import 'package:aapka_vakeel/utilities/colors.dart';
 import 'package:aapka_vakeel/utilities/strings.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
@@ -66,7 +67,7 @@ class MyApp extends StatelessWidget {
           // bool isEmpty = await LocalStorageHelper.instance.isServerListEmpty();
           // if (isEmpty) {
           print(AppColor.primaryTextColor);
-          return const PhoneOTPVerification();
+          return IntroPage();
           // }
 
           // return const SelectServer();

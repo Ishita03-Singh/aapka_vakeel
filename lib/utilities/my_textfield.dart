@@ -45,24 +45,84 @@ class MyTextField {
                   size: 22),
               onPressed: () => onEyeClicked()));
 
-  static InputDecoration filledTextField(String labeltext, String hinttext) =>
+  static InputDecoration filledTextFieldCountryCode(
+          String hinttext) =>
       InputDecoration(
+          contentPadding: EdgeInsets.only(left: 8),
           hintText: hinttext,
           filled: true,
           fillColor: Color(0xffececec),
-          hintStyle: TextStyle(
-              color: AppColor.secondaryTextColor,
-              fontSize: 13,
-              fontWeight: FontWeight.w400),
+          hintStyle:
+              TextStyle(
+                  color: AppColor.secondaryTextColor,
+                  fontSize: 13,
+                  fontWeight: FontWeight.w400),
           errorStyle: const TextStyle(color: Colors.red),
-          enabledBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: Color(0xffececec))),
-          focusedBorder: UnderlineInputBorder( 
-              borderSide: BorderSide(color: Color(0xffececec))),
+          enabledBorder:
+              UnderlineInputBorder(
+                  borderRadius:
+                      BorderRadius
+                          .only(
+                              topRight: Radius.circular(0),
+                              topLeft: Radius.circular(8),
+                              bottomLeft: Radius.circular(8)),
+                  borderSide: BorderSide(color: Color(0xffececec))),
+          focusedBorder:
+              UnderlineInputBorder(
+                  borderSide: BorderSide(color: Color(0xffececec))),
           focusedErrorBorder: const UnderlineInputBorder(
               borderSide: BorderSide(color: Colors.red)),
           errorBorder: const UnderlineInputBorder(
               borderSide: BorderSide(color: Colors.red)));
+
+  static InputDecoration PhoneText(String hinttext) => InputDecoration(
+      hintText: hinttext,
+      contentPadding: EdgeInsets.only(right: 8),
+      filled: true,
+      fillColor: Color(0xffececec),
+      hintStyle: TextStyle(
+          color: AppColor.secondaryTextColor,
+          fontSize: 13,
+          fontWeight: FontWeight.w400),
+      errorStyle: const TextStyle(color: Colors.red),
+      enabledBorder: UnderlineInputBorder(
+          borderRadius: BorderRadius.only(
+              topRight: Radius.circular(8), bottomRight: Radius.circular(8)),
+          borderSide: BorderSide(color: Color(0xffececec))),
+      focusedBorder: UnderlineInputBorder(
+          borderRadius: BorderRadius.only(
+              topRight: Radius.circular(8), bottomRight: Radius.circular(8)),
+          borderSide: BorderSide(color: Color(0xffececec))),
+      focusedErrorBorder: const UnderlineInputBorder(
+          borderRadius: BorderRadius.only(
+              topRight: Radius.circular(8), bottomRight: Radius.circular(8)),
+          borderSide: BorderSide(color: Colors.red)),
+      errorBorder: const UnderlineInputBorder(
+          borderRadius: BorderRadius.only(
+              topRight: Radius.circular(8), bottomRight: Radius.circular(8)),
+          borderSide: BorderSide(color: Colors.red)));
+
+  static InputDecoration filledTextField(String hinttext) => InputDecoration(
+      hintText: hinttext,
+      filled: true,
+      fillColor: Color(0xffececec),
+      hintStyle: TextStyle(
+          color: AppColor.secondaryTextColor,
+          fontSize: 13,
+          fontWeight: FontWeight.w400),
+      errorStyle: const TextStyle(color: Colors.red),
+      enabledBorder: UnderlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(8)),
+          borderSide: BorderSide(color: Color(0xffececec))),
+      focusedBorder: UnderlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(8)),
+          borderSide: BorderSide(color: Color(0xffececec))),
+      focusedErrorBorder: const UnderlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(8)),
+          borderSide: BorderSide(color: Colors.red)),
+      errorBorder: const UnderlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(8)),
+          borderSide: BorderSide(color: Colors.red)));
   // setting.dart -> TextField Decoration
   static InputDecoration settingDecoration(String labeltext, String hinttext) =>
       InputDecoration(
