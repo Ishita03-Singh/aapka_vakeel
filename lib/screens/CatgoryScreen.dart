@@ -30,7 +30,7 @@ class WelcomePage extends StatelessWidget {
                   Navigator.push(
                       context,
                       PageTransition(
-                          child: PhoneNumPage(first: true),
+                          child: PhoneNumPage(first: true,isAdvocate:true),
                           type: PageTransitionType.rightToLeft));
                 }),
                 Padding(padding: EdgeInsets.all(8)),
@@ -38,7 +38,7 @@ class WelcomePage extends StatelessWidget {
                   Navigator.push(
                       context,
                       PageTransition(
-                          child: PhoneNumPage(),
+                          child: PhoneNumPage(first: true,isAdvocate: false,),
                           type: PageTransitionType.rightToLeft));
                 }),
               ],

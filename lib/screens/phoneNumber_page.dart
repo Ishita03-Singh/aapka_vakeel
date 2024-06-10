@@ -17,7 +17,8 @@ import 'package:country_picker/country_picker.dart';
 
 class PhoneNumPage extends StatefulWidget {
   var first;
-  PhoneNumPage({super.key, this.first});
+  bool isAdvocate;
+  PhoneNumPage({super.key, required this.first, required this.isAdvocate});
 
   @override
   State<PhoneNumPage> createState() => _PhoneNumPageState();
@@ -225,6 +226,8 @@ class _PhoneNumPageState extends State<PhoneNumPage> {
                       auth: _auth,
                       verificationId: verificationId,
                       phoneNumber: phone,
+                      isFirst: widget.first,
+                      isAdvocate:widget.isAdvocate
                     )));
         // showDialog(
         //     context: context,

@@ -102,6 +102,28 @@ class MyTextField {
               topRight: Radius.circular(8), bottomRight: Radius.circular(8)),
           borderSide: BorderSide(color: Colors.red)));
 
+  static InputDecoration outlinedTextField(String hinttext) => InputDecoration(
+      hintText: hinttext,
+      filled: false,
+      // fillColor: Color(0xffececec),
+      hintStyle: TextStyle(
+          color: AppColor.secondaryTextColor,
+          fontSize: 13,
+          fontWeight: FontWeight.w400),
+      errorStyle: const TextStyle(color: Colors.red),
+      enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(8)),
+          borderSide: BorderSide(color: Colors.black54)),
+      focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(8)),
+          borderSide: BorderSide(color: Colors.black54)),
+      focusedErrorBorder: const OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(8)),
+          borderSide: BorderSide(color: Colors.red)),
+      errorBorder: const OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(8)),
+          borderSide: BorderSide(color: Colors.red)));
+
   static InputDecoration filledTextField(String hinttext) => InputDecoration(
       hintText: hinttext,
       filled: true,

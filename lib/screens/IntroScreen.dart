@@ -1,3 +1,4 @@
+import 'package:aapka_vakeel/screens/CatgoryScreen.dart';
 import 'package:aapka_vakeel/screens/phoneNumber_page.dart';
 import 'package:aapka_vakeel/utilities/colors.dart';
 import 'package:aapka_vakeel/utilities/custom_button.dart';
@@ -91,6 +92,7 @@ class _IntroPageState extends State<IntroPage> {
                           MaterialPageRoute(
                               builder: (context) => PhoneNumPage(
                                     first: false,
+                                    isAdvocate: false,
                                   )));
                     }),
                     Padding(padding: EdgeInsets.all(8)),
@@ -98,9 +100,7 @@ class _IntroPageState extends State<IntroPage> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => PhoneNumPage(
-                                    first: true,
-                                  )));
+                              builder: (context) => WelcomePage()));
                     }),
                     Padding(padding: EdgeInsets.all(6)),
                     CustomText.cancelBtnText('Looking for help?', fontsize: 13)

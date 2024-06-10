@@ -1,3 +1,4 @@
+import 'package:aapka_vakeel/screens/AdvocateRegisterScreen.dart';
 import 'package:aapka_vakeel/screens/IntroScreen.dart';
 import 'package:aapka_vakeel/screens/phoneNumber_page.dart';
 import 'package:aapka_vakeel/screens/CatgoryScreen.dart';
@@ -68,6 +69,7 @@ class MyApp extends StatelessWidget {
           // if (isEmpty) {
           print(AppColor.primaryTextColor);
           return IntroPage();
+          // return IntroPage();
           // }
 
           // return const SelectServer();

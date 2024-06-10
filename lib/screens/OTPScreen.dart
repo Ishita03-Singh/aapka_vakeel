@@ -1,3 +1,4 @@
+import 'package:aapka_vakeel/screens/AdvocateRegisterScreen.dart';
 import 'package:aapka_vakeel/screens/DashboardScreen.dart';
 import 'package:aapka_vakeel/utilities/colors.dart';
 import 'package:aapka_vakeel/utilities/custom_button.dart';
@@ -13,11 +14,15 @@ class OTPScreen extends StatefulWidget {
   var verificationId;
   FirebaseAuth auth;
   String phoneNumber;
+  bool isFirst;
+  bool isAdvocate;
   OTPScreen(
       {super.key,
       required this.verificationId,
       required this.auth,
-      required this.phoneNumber});
+      required this.phoneNumber,
+      required this.isAdvocate,
+      required this.isFirst});
 
   @override
   State<OTPScreen> createState() => _OTPScreenState();
@@ -138,12 +143,20 @@ class _OTPScreenState extends State<OTPScreen> {
 
               if (user != null) {
                 print(user);
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => DashboardScreen(
-                              user: user,
-                            )));
+                if (widget.isFirst) {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => UserRegistrationForm(
+                              isAdvocate: widget.isAdvocate)));
+                } else {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => DashboardScreen(
+                                user: user,
+                              )));
+                }
               } else {
                 print("Error");
               }
@@ -170,42 +183,5 @@ class _OTPScreenState extends State<OTPScreen> {
         ),
       ),
     );
-
-    Container(
-        child: Column(
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        TextField(
-          controller: otpController,
-        ),
-        TextButton(
-          child: Text("Confirm"),
-          // textColor: Colors.white,
-          // color: Colors.blue,
-          onPressed: () async {
-            final code = otpController.text.trim();
-            AuthCredential credential = PhoneAuthProvider.credential(
-                verificationId: widget.verificationId, smsCode: code);
-
-            UserCredential result =
-                await widget.auth.signInWithCredential(credential);
-
-            User user = result.user!;
-
-            if (user != null) {
-              print(user);
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => DashboardScreen(
-                            user: user,
-                          )));
-            } else {
-              print("Error");
-            }
-          },
-        )
-      ],
-    ));
   }
 }
