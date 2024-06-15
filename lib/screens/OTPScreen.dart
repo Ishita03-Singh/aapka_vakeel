@@ -3,6 +3,7 @@ import 'package:aapka_vakeel/screens/DashboardScreen.dart';
 import 'package:aapka_vakeel/utilities/colors.dart';
 import 'package:aapka_vakeel/utilities/custom_button.dart';
 import 'package:aapka_vakeel/utilities/custom_text.dart';
+import 'package:aapka_vakeel/utilities/cutom_message.dart';
 import 'package:aapka_vakeel/utilities/my_appbar.dart';
 import 'package:aapka_vakeel/utilities/my_textfield.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -37,6 +38,7 @@ class _OTPScreenState extends State<OTPScreen> {
       List.generate(6, (index) => TextEditingController());
   List<FocusNode> _focusNodes = List.generate(6, (index) => FocusNode());
   final FocusScopeNode _focusScopeNode = FocusScopeNode();
+  // late UserCredential userCredential;
 
   @override
   void dispose() {
@@ -165,7 +167,8 @@ class _OTPScreenState extends State<OTPScreen> {
                           context,
                           MaterialPageRoute(
                               builder: (context) => UserRegistrationForm(
-                                  isAdvocate: widget.isAdvocate)));
+                                  isAdvocate: widget.isAdvocate,
+                                  userCredential: result,)));
                     } else {
                       Navigator.push(
                           context,
@@ -250,6 +253,10 @@ class _OTPScreenState extends State<OTPScreen> {
         //This callback would gets called when verification is done auto maticlly
       },
       verificationFailed: (FirebaseAuthException exception) {
+         CustomMessenger.defaultMessenger(context,exception.message.toString());
+        setState(() {
+          _isLoading=false;
+        });
         print(exception);
       },
       codeSent: (String verificationId, int? forceResendingToken) {

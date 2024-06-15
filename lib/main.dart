@@ -5,6 +5,7 @@ import 'package:aapka_vakeel/screens/CatgoryScreen.dart';
 import 'package:aapka_vakeel/utilities/colors.dart';
 import 'package:aapka_vakeel/utilities/strings.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -23,6 +24,10 @@ void main() async {
     projectId: 'aapkavakeel-72737',
     storageBucket: 'aapkavakeel-72737.appspot.com',
   ));
+   FirebaseFirestore.instance.settings = const Settings(
+    persistenceEnabled: true,
+    cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED,
+  );
   await AppColor.setCurrentTheme();
   runApp(const MyApp());
 }

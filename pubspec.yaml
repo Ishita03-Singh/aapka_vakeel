@@ -46,6 +46,7 @@ dependencies:
   loading_animation_widget: ^1.2.1
   firebase_auth: ^4.17.9
   file_picker: 
+  cloud_firestore:
 
 dev_dependencies:
   flutter_test:

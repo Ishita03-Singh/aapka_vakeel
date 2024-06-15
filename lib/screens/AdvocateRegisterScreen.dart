@@ -6,16 +6,20 @@ import 'package:aapka_vakeel/screens/phoneNumber_page.dart';
 import 'package:aapka_vakeel/utilities/colors.dart';
 import 'package:aapka_vakeel/utilities/custom_button.dart';
 import 'package:aapka_vakeel/utilities/custom_text.dart';
+import 'package:aapka_vakeel/utilities/cutom_message.dart';
 import 'package:aapka_vakeel/utilities/my_appbar.dart';
 import 'package:aapka_vakeel/utilities/my_textfield.dart';
 import 'package:aapka_vakeel/utilities/strings.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 
 class UserRegistrationForm extends StatefulWidget {
   bool isAdvocate = false;
-  UserRegistrationForm({super.key, required this.isAdvocate});
+  UserCredential userCredential;
+  UserRegistrationForm({super.key, required this.isAdvocate,required this.userCredential});
 
   @override
   State<UserRegistrationForm> createState() => _UserRegistrationFormState();
@@ -38,6 +42,71 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
       new TextEditingController();
   Gender? _selectedGender;
   File? _selectedFile;
+  final _formKey = GlobalKey<FormState>();
+
+  Future<bool> _register() async {
+    if (_formKey.currentState!.validate()) {
+      try {
+        // UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        //   email: _emailController.text,
+        //   password: _passwordController.text,
+        // );
+
+        // Save additional user data in Firestore
+        if(!widget.isAdvocate){
+          await FirebaseFirestore.instance.collection('users').doc(widget.userCredential.user!.uid).set({
+          'firstName': firstNameController.text,
+          'lastName': lastNameController.text,
+          'email': EmailController.text,
+          'gender':GenderController.text,
+          'address':"${AddressController.text},${CityController.text},${StateController.text},${PinCodeController.text}"
+          // 'city':CityController.text,
+          // 'pinCode':PinCodeController.text,
+        });
+        }
+       
+        else{
+           if(_selectedGender==null){
+           CustomMessenger.defaultMessenger(context, "Please select gender");
+           return false;
+           }
+
+           if( _selectedFile == null){
+            CustomMessenger.defaultMessenger(context, "Please select a file");
+            return false;
+           }
+
+           await FirebaseFirestore.instance.collection('users').doc(widget.userCredential.user!.uid).set({
+          'firstName': firstNameController.text,
+          'lastName': lastNameController.text,
+          'email': EmailController.text,
+          'gender':GenderController.text,
+          'address':"${AddressController.text},${CityController.text},${StateController.text},${PinCodeController.text}",
+          // 'address':AddressController.text,
+          // 'state':StateController.text,
+          // 'city':CityController.text,
+          // 'pinCode':PinCodeController.text,
+          'barRegistrationNo':BarRegistrationNoController.text,
+          'barRegistrationCertificate':_selectedFile!.path.split('/').last,
+        });
+        }
+
+        // Navigate to another page or show success message
+        // ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Registration successful')));
+        CustomMessenger.defaultMessenger(context, "Registration successful");
+        return true;
+
+      } on FirebaseAuthException catch (e) {
+        CustomMessenger.defaultMessenger(context, "Failed to register: $e");
+        return false;
+        // ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Failed to register: $e')));
+      }
+    }
+    else{
+      return false;
+    }
+  }
+  
 
   Future<void> _pickFile() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
@@ -63,39 +132,50 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
         scrollDirection: Axis.vertical,
         child: Container(
           padding: EdgeInsets.all(8),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              giveInputField("First name", firstNameController, true,TextInputType.name),
-              giveInputField("Last name", lastNameController, true,TextInputType.name),
-              giveInputField("Email", EmailController, false,TextInputType.emailAddress),
-              giveRadioField("Gender", GenderController, true),
-              giveInputField("Address", AddressController, true,TextInputType.streetAddress),
-              giveInputField("State", StateController, true,TextInputType.text),
-              giveInputField("City", CityController, true,TextInputType.text),
-              giveInputField("Pin code", PinCodeController, true,TextInputType.phone),
-              if (widget.isAdvocate)
-                giveInputField("Bar registration number",
-                    BarRegistrationNoController, true,TextInputType.text),
-              if (widget.isAdvocate)
-              giveFileBrowseInputField("Bar registration Certificate",
-                  BarRegistrationCertificateController, true),
-              customButton.taskButton("Save", () {
-                if (widget.isAdvocate) {
-                  Navigator.push(
+          child: Form(
+              key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                giveInputField("First name", firstNameController, true,TextInputType.name),
+                giveInputField("Last name", lastNameController, true,TextInputType.name),
+                giveInputField("Email", EmailController, false,TextInputType.emailAddress),
+                giveRadioField("Gender", GenderController, true),
+                giveInputField("Address", AddressController, true,TextInputType.streetAddress),
+                giveInputField("State", StateController, true,TextInputType.text),
+                giveInputField("City", CityController, true,TextInputType.text),
+                giveInputField("Pin code", PinCodeController, true,TextInputType.phone),
+                if (widget.isAdvocate)
+                  giveInputField("Bar registration number",
+                      BarRegistrationNoController, true,TextInputType.text),
+                if (widget.isAdvocate)
+                giveFileBrowseInputField("Bar registration Certificate",
+                    BarRegistrationCertificateController, true),
+                customButton.taskButton("Save", () async{
+                  if (widget.isAdvocate) {
+                    var res= await  _register();
+                    if(res){
+                    Navigator.push(
+                        context,
+                        PageTransition(
+                            child: CaptureImage(),
+                            type: PageTransitionType.rightToLeft));
+                    }
+                    
+                  } else {
+                    var res= await _register();
+                    if(res){
+                       Navigator.push(
                       context,
                       PageTransition(
-                          child: CaptureImage(),
+                          child: DashboardScreen(user: widget.userCredential.user!,),
                           type: PageTransitionType.rightToLeft));
-                } else {
-                  //  Navigator.push(
-                  //   context,
-                  //   PageTransition(
-                  //       child: DashboardScreen(),
-                  //       type: PageTransitionType.rightToLeft));
-                }
-              })
-            ],
+                    }
+                    
+                  }
+                })
+              ],
+            ),
           ),
         ),
       ),
@@ -237,11 +317,17 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
               CustomText.infoText(HeadText),
             ],
           ),
-          TextField(
+          TextFormField(
               decoration: MyTextField.outlinedTextField(""),
               keyboardType: textInputType,
               controller: controller,
               // readOnly: true,
+               validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter your name';
+                  }
+                  return null;
+                },
               enabled: true,
               enableInteractiveSelection: false,
               cursorColor: AppColor.primaryTextColor,

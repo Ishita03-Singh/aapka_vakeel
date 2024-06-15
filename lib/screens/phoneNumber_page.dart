@@ -277,6 +277,10 @@ class _PhoneNumPageState extends State<PhoneNumPage> {
         //This callback would gets called when verification is done auto maticlly
       },
       verificationFailed: (FirebaseAuthException exception) {
+        CustomMessenger.defaultMessenger(context,exception.message.toString());
+        setState(() {
+          _isLoading=false;
+        });
         print(exception);
       },
       codeSent: (String verificationId, int? forceResendingToken) {
