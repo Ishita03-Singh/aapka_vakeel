@@ -66,17 +66,18 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              giveInputField("First name", firstNameController, true),
-              giveInputField("Last name", lastNameController, true),
-              giveInputField("Email", EmailController, false),
+              giveInputField("First name", firstNameController, true,TextInputType.name),
+              giveInputField("Last name", lastNameController, true,TextInputType.name),
+              giveInputField("Email", EmailController, false,TextInputType.emailAddress),
               giveRadioField("Gender", GenderController, true),
-              giveInputField("Address", AddressController, true),
-              giveInputField("State", StateController, true),
-              giveInputField("City", CityController, true),
-              giveInputField("Pin code", PinCodeController, true),
+              giveInputField("Address", AddressController, true,TextInputType.streetAddress),
+              giveInputField("State", StateController, true,TextInputType.text),
+              giveInputField("City", CityController, true,TextInputType.text),
+              giveInputField("Pin code", PinCodeController, true,TextInputType.phone),
               if (widget.isAdvocate)
                 giveInputField("Bar registration number",
-                    BarRegistrationNoController, true),
+                    BarRegistrationNoController, true,TextInputType.text),
+              if (widget.isAdvocate)
               giveFileBrowseInputField("Bar registration Certificate",
                   BarRegistrationCertificateController, true),
               customButton.taskButton("Save", () {
@@ -220,7 +221,7 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
   }
 
   giveInputField(
-      String HeadText, TextEditingController controller, bool isrequired) {
+      String HeadText, TextEditingController controller, bool isrequired, TextInputType textInputType) {
     return Container(
       padding: EdgeInsets.only(bottom: 20),
       child: Column(
@@ -238,7 +239,7 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
           ),
           TextField(
               decoration: MyTextField.outlinedTextField(""),
-              keyboardType: TextInputType.phone,
+              keyboardType: textInputType,
               controller: controller,
               // readOnly: true,
               enabled: true,
