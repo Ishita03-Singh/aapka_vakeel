@@ -1,4 +1,6 @@
 import 'package:aapka_vakeel/screens/AdvocateRegisterScreen.dart';
+import 'package:aapka_vakeel/screens/Dashboard.dart';
+import 'package:aapka_vakeel/screens/DashboardScreen.dart';
 import 'package:aapka_vakeel/screens/IntroScreen.dart';
 import 'package:aapka_vakeel/screens/phoneNumber_page.dart';
 import 'package:aapka_vakeel/screens/CatgoryScreen.dart';
@@ -18,11 +20,11 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
       options: FirebaseOptions(
-    apiKey: 'AIzaSyB1E0HHJlBd7oCrAK8m6B0fL459tT2itfg',
+    apiKey: 'AIzaSyAELVWJ4VVYcnb_1FBpVY4GPBtXWVtsu0M',
     appId: 'id',
     messagingSenderId: 'sendid',
-    projectId: 'aapkavakeel-72737',
-    storageBucket: 'aapkavakeel-72737.appspot.com',
+    projectId: 'appkavakeel',
+    storageBucket: 'appkavakeel.appspot.com',
   ));
    FirebaseFirestore.instance.settings = const Settings(
     persistenceEnabled: true,
@@ -73,7 +75,7 @@ class MyApp extends StatelessWidget {
           // bool isEmpty = await LocalStorageHelper.instance.isServerListEmpty();
           // if (isEmpty) {
           print(AppColor.primaryTextColor);
-          return IntroPage();
+          return Dashboard();
           // return IntroPage();
           // }
 

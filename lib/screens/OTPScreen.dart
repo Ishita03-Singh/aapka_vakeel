@@ -79,7 +79,7 @@ class _OTPScreenState extends State<OTPScreen> {
                             children: List.generate(6, (index) {
                               return Container(
                                 width: 45,
-                                height: 45,
+                                height: 55,
                                 margin: index > 0
                                     ? EdgeInsets.symmetric(horizontal: 5)
                                     : EdgeInsets.symmetric(horizontal: 0),
