@@ -1,9 +1,13 @@
+import 'dart:async';
+
 import 'package:aapka_vakeel/Utilities/strings.dart';
 import 'package:aapka_vakeel/screens/OTPScreen.dart';
+import 'package:aapka_vakeel/utilities/custom_button.dart';
 import 'package:aapka_vakeel/utilities/custom_text.dart';
 import 'package:aapka_vakeel/utilities/my_appbar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
 class Dashboard extends StatefulWidget {
   
@@ -14,6 +18,137 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
+
+  //scroll widget variables
+   final PageController _pageController = PageController();
+  int _currentPage = 0;
+  Timer? _timer;
+  bool _isVisible = false;
+  final List<Map> scrollWidgetContent = [
+    {
+      "headText":"Are you in a legal dilemma?",
+      "infoText":"Contact our lawyers now!",
+      "btnText":"Call now",
+      "imagePath":StrLiteral.slider1,
+      "terms":false
+    },
+     {
+      "headText":"Do you want to seek advice from a lawyer?",
+      "infoText":"Price: Rs.x/min*",
+      "btnText":"Call now",
+      "imagePath":StrLiteral.slider2,
+      "terms":true
+    },
+     {
+      "headText":"Do you need a lawyer for your case?",
+      "infoText":"",
+      "btnText":"Contact now",
+      "imagePath":StrLiteral.slider3,
+      "terms":false
+    },
+     {
+      "headText":"You focus on the business,",
+      "infoText":"We can handle your legal needs",
+      "btnText":"Contact now",
+      "imagePath":StrLiteral.slider4,
+      "terms":false
+    }
+      
+    ];
+
+   @override
+  void initState() {
+    super.initState();
+    _startAutoScroll();
+  }
+ void _startAutoScroll() {
+    _timer = Timer.periodic(Duration(seconds: 2), (timer) {
+      if (_isVisible) {
+        if (_currentPage < 5) {
+          setState(() {
+          _currentPage++;
+          });
+        } else {
+          setState(() {
+          _currentPage = 0; 
+          });
+        }
+        _pageController.animateToPage(
+          _currentPage,
+          duration: Duration(milliseconds: 200),
+          curve: Curves.easeInOut,
+        );
+      }
+    });
+  }
+   @override
+  void dispose() {
+    _timer?.cancel();
+    _pageController.dispose();
+    super.dispose();
+  }
+  
+  getScrollWigets(){
+      return VisibilityDetector(
+      key: Key('horizontal-scrolling-divs'),
+      onVisibilityChanged: (VisibilityInfo info) {
+        _isVisible = info.visibleFraction > 0;
+      },
+      child: Container(
+        height: 200.0, // Height of the horizontal scroll view
+        child: PageView.builder(
+          controller: _pageController,
+          scrollDirection: Axis.horizontal,
+          itemCount: scrollWidgetContent.length,
+          itemBuilder: (context, index) {
+            return Container(
+              padding: EdgeInsets.fromLTRB(18,18,18,6),
+              width: 150.0, // Width of each div
+              margin: EdgeInsets.all(8.0),
+              decoration: BoxDecoration(
+              border: Border.all(color: Color(0xFF333333).withOpacity(0.2)),
+              color: Colors.white,
+              borderRadius: BorderRadius.all(Radius.circular(20))
+              ),
+              child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+             children: [
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                CustomText.infoText(scrollWidgetContent[index]["headText"]),
+                CustomText.RegularDarkText(scrollWidgetContent[index]["infoText"]),
+                SizedBox(height: 5),
+                customButton.smalltaskButton(scrollWidgetContent[index]["btnText"], (){},radius: 24) 
+                             ],),
+              ),
+              SizedBox(width: 8),
+             Column(mainAxisAlignment: MainAxisAlignment.spaceAround,
+                         //  crossAxisAlignment: CrossAxisAlignment.end,
+             
+               children: [
+                 ClipRRect(borderRadius: BorderRadius.all(Radius.circular(20)), 
+                         child: Image.asset(scrollWidgetContent[index]["imagePath"],fit: BoxFit.fill,)),
+               if(scrollWidgetContent[index]["terms"])
+                CustomText.extraSmallinfoText("*Terms and conditions apply")
+             
+               ],
+             ),
+             ],
+              ),
+            );
+          },
+        ),
+      ),
+    );
+  }
+
+
+
+
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,35 +175,40 @@ class _DashboardState extends State<Dashboard> {
                    Row( mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                     Expanded(child:
-                    getDashboardwidger(StrLiteral.lawyerImage,"Affidavit/Agreement","Lorem Ipsum is simply dummy "),
+                    getDashboardwidger(StrLiteral.affidavit,"Affidavit/Agreement","Lorem Ipsum is simply dummy "),
                     ),
                     SizedBox(width: 20,),
                     Expanded(child:
-                    getDashboardwidger(StrLiteral.lawyerImage,"Affidavit/Agreement","Lorem Ipsum is simply dummy "),
+                    getDashboardwidger(StrLiteral.consultation,"Legal Consultation","Lorem Ipsum is simply dummy "),
                     )
                    ],)
                    , SizedBox(height: 20,),
                    Row( mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                     Expanded(child:
-                    getDashboardwidger(StrLiteral.lawyerImage,"Affidavit/Agreement","Lorem Ipsum is simply dummy "),
+                    getDashboardwidger(StrLiteral.challan,"Fill Challan","Lorem Ipsum is simply dummy "),
                     ),
                     SizedBox(width: 20,),
                     Expanded(child:
-                    getDashboardwidger(StrLiteral.lawyerImage,"Affidavit/Agreement","Lorem Ipsum is simply dummy "),
+                    getDashboardwidger(StrLiteral.stampPaper,"Stamp Paper","Lorem Ipsum is simply dummy "),
                     )
                    ],),
                     SizedBox(height: 20,),
                    Row( mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                     Expanded(child:
-                    getDashboardwidger(StrLiteral.lawyerImage,"Affidavit/Agreement","Lorem Ipsum is simply dummy "),
+                    getDashboardwidger(StrLiteral.GST,"GST","Lorem Ipsum is simply dummy "),
                     ),
                     SizedBox(width: 20,),
                     Expanded(child:
-                    getDashboardwidger(StrLiteral.lawyerImage,"Affidavit/Agreement","Lorem Ipsum is simply dummy "),
+                    getDashboardwidger(StrLiteral.tradeMark,"Trademark","Lorem Ipsum is simply dummy "),
                     )
-                   ],)
+                   ],),
+                   SizedBox(height: 20),
+                   getScrollWigets(),
+                   SizedBox(height: 20),
+                   CustomText.headText("Recent Activities",color:Color(0xFF9C9999)),
+
                 ],),
                        ),
              ],
@@ -78,6 +218,8 @@ class _DashboardState extends State<Dashboard> {
   }
 
 
+
+
 scBarContainer(){
     return 
        Container(
@@ -85,11 +227,13 @@ scBarContainer(){
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-        Icon(Icons.home,size: 28),
-         Icon(Icons.note,size: 28),
-          Icon(Icons.leave_bags_at_home_outlined,size: 28),
-           Icon(Icons.home,size: 28),
-            Icon(Icons.home,size: 28)
+            Image.asset(StrLiteral.home_filled,width:28),
+            Image.asset(StrLiteral.note,width:28),
+            Image.asset(StrLiteral.advocate,width:30),
+            Image.asset(StrLiteral.setting,width:28),
+            Image.asset(StrLiteral.profile,width:28),
+
+        
         ],),
       
     );
@@ -101,20 +245,23 @@ scBarContainer(){
     color: Colors.white,
     boxShadow: [BoxShadow(
                   color: Color(0xFF333333).withOpacity(0.2),
-                  spreadRadius: 5,
-                  blurRadius: 7,
+                  spreadRadius: 3,
+                  blurRadius: 4,
                   offset: Offset(0, 3), // changes position of shadow
                 ),] 
     ),
     child: Column(
       children: [
-      Image.asset(img),
+      ClipRRect(
+        borderRadius: BorderRadius.only(topLeft: Radius.circular(20),topRight: Radius.circular(20)), 
+        child: Image.asset(img,fit: BoxFit.fill,height: 140,)),
       Container(
+        padding: EdgeInsets.all(8),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-          CustomText.headText(headText),
-          CustomText.infoText(infoText,isCenter: false),
+          CustomText.smallheadText(headText),
+          CustomText.extraSmallinfoText(infoText,isCenter: false),
         ],),
       )
     ],),

@@ -75,8 +75,7 @@ class MyApp extends StatelessWidget {
           // bool isEmpty = await LocalStorageHelper.instance.isServerListEmpty();
           // if (isEmpty) {
           print(AppColor.primaryTextColor);
-          return Dashboard();
-          // return IntroPage();
+          return IntroPage();
           // }
 
           // return const SelectServer();

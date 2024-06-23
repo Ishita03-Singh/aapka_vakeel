@@ -89,11 +89,11 @@ class CustomButton {
       onPressed: onPressed,
       child: CustomText.taskBtnText(text));
 
-  smalltaskButton(String text, Function() onPressed) => TextButton(
+  smalltaskButton(String text, Function() onPressed,{double radius=10}) => TextButton(
       style: TextButton.styleFrom(
-          padding: const EdgeInsets.all(8),
+          padding: const EdgeInsets.fromLTRB(20, 2, 20, 2),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10.0),
+            borderRadius: BorderRadius.circular(radius),
           ),
           foregroundColor: AppColor.tertiaryColor,
           backgroundColor: Colors.black,
@@ -101,7 +101,7 @@ class CustomButton {
           elevation: 0,
           shadowColor: AppColor.secondaryColor),
       onPressed: onPressed,
-      child: CustomText.taskBtnText(text, fontsize: 11));
+      child: CustomText.taskBtnText(text, fontsize: 12));
 
   gridButton(BuildContext context, int index, String msg, IconData icon,
           Function fun) =>

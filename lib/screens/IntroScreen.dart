@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:aapka_vakeel/screens/CatgoryScreen.dart';
 import 'package:aapka_vakeel/screens/phoneNumber_page.dart';
 import 'package:aapka_vakeel/utilities/colors.dart';
@@ -9,6 +11,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
 class IntroPage extends StatefulWidget {
   IntroPage({super.key});
@@ -18,20 +21,130 @@ class IntroPage extends StatefulWidget {
 }
 
 class _IntroPageState extends State<IntroPage> {
+   final PageController _pageController = PageController();
+  int _currentPage = 0;
+  Timer? _timer;
+  // bool _isVisible = false;
+  final List<Map> introScrolls = [
+    {
+      "headText":"Get guidance from trusted lawyers",
+      "infoText":"Lorem Ipsum is simply dummy text of the  printing and typesetting industry. Lorem Ipsm has been dummy text ever since the 1500s", 
+    },
+     {
+      "headText":"Get guidance from trusted lawyers",
+      "infoText":"Lorem Ipsum is simply dummy text of the  printing and typesetting industry. Lorem Ipsm has been dummy text ever since the 1500s",
+    },
+     {
+     "headText":"Get guidance from trusted lawyers",
+    "infoText":"Lorem Ipsum is simply dummy text of the  printing and typesetting industry. Lorem Ipsm has been dummy text ever since the 1500s",
+    }
+    ];
+
+     @override
+  void initState() {
+    super.initState();
+    _startAutoScroll();
+  }
+ void _startAutoScroll() {
+    _timer = Timer.periodic(Duration(seconds: 3), (timer) {
+      // if (_isVisible) {
+        if (_currentPage < 2) {
+          setState(() {
+          _currentPage++;
+          });
+        } else {
+          setState(() {
+          _currentPage = 0; 
+          });
+        }
+        _pageController.animateToPage(
+          _currentPage,
+          duration: Duration(milliseconds: 300),
+          curve: Curves.easeInOut,
+        );
+      // }
+    });
+  }
+   @override
+  void dispose() {
+    _timer?.cancel();
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  getScrollWigets(){
+      return  Container(
+        height: 180.0, // Height of the horizontal scroll view
+        child: PageView.builder(
+          controller: _pageController,
+          scrollDirection: Axis.horizontal,
+          itemCount: introScrolls.length,
+          itemBuilder: (context, index) {
+        return Column(
+         children: [CustomText.appNameText(introScrolls[index]["headText"],
+                          isCenter: true),
+                      Padding(padding: EdgeInsets.all(3)),
+                      CustomText.infoText(introScrolls[index]["infoText"],
+                           isCenter: true),
+                          Padding(padding: EdgeInsets.all(12)),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            margin: EdgeInsets.all(5),
+                            width: 25,
+                            height: 4,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.all(Radius.circular(2)),
+                              color: index==0?Colors.black:Colors.white,
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.all(5),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.all(Radius.circular(2)),
+                              color: index==1?Colors.black:Colors.white,
+                              
+                            ),
+                            width: 25,
+                            height: 4,
+                          ),
+                          Container(
+                            margin: EdgeInsets.all(5),
+                            width: 25,
+                            height: 4,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.all(Radius.circular(2)),
+                              color: index==2?Colors.black:Colors.white,
+                            ),
+                          )
+                        ],
+                      ),
+                          ],
+        );})
+      
+    );
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColor.bgColor,
       appBar: MyAppBar.appbar(context),
       body: Container(
-        // padding: EdgeInsets.all(16),
+        padding: EdgeInsets.only(top:26),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Image.asset(
-              StrLiteral.appLogoPath,
-              width: 100,
-              height: 200,
+            Row(mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset(
+                  StrLiteral.intro1,
+                ),
+                Image.asset(
+                  StrLiteral.intro2, 
+                ),
+              ],
             ),
             Expanded(
               child: Container(
@@ -46,46 +159,8 @@ class _IntroPageState extends State<IntroPage> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Padding(padding: EdgeInsets.all(16)),
-                    CustomText.appNameText("Get guidance from trusted lawyers",
-                        isCenter: true),
-                    Padding(padding: EdgeInsets.all(3)),
-                    CustomText.infoText(
-                        'Lorem Ipsum is simply dummy text of the  printing and typesetting industry. Lorem Ipsm has been dummy text ever since the 1500s',
-                        isCenter: true),
-                    Padding(padding: EdgeInsets.all(12)),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          margin: EdgeInsets.all(5),
-                          width: 25,
-                          height: 4,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(2)),
-                            color: Colors.black,
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.all(5),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(2)),
-                            color: Colors.white,
-                          ),
-                          width: 25,
-                          height: 4,
-                        ),
-                        Container(
-                          margin: EdgeInsets.all(5),
-                          width: 25,
-                          height: 4,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(2)),
-                            color: Colors.white,
-                          ),
-                        )
-                      ],
-                    ),
-                    Padding(padding: EdgeInsets.all(8)),
+                    getScrollWigets(),
+                    Padding(padding: EdgeInsets.all(4)),
                     customButton.cancelButton("Login", () {
                       Navigator.push(
                           context,

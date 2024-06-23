@@ -6,14 +6,26 @@ class CustomText {
       textAlign: isCenter ? TextAlign.center : TextAlign.left,
       style: TextStyle(
           fontSize: 22, color: Colors.black, fontWeight: FontWeight.w700));
-  static Text headText(String text) => Text(text,
+  static Text headText(String text,{Color color=Colors.black}) => Text(text,
       style: TextStyle(
-          fontSize: 24, color: Colors.black, fontWeight: FontWeight.w900));
+          fontSize: 24, color: color, fontWeight: FontWeight.w900));
+  static Text RegularDarkText(String text) => Text(text,
+      style: TextStyle(
+          fontSize: 18, color: Colors.black, fontWeight: FontWeight.w400));
+  static Text smallheadText(String text) => Text(text,
+      style: TextStyle(
+          fontSize: 16, color: Colors.black, fontWeight: FontWeight.w900));
 
   static Text infoText(String text, {bool isCenter = false}) => Text(text,
       textAlign: isCenter ? TextAlign.center : TextAlign.left,
       style: TextStyle(
           fontSize: 14,
+          color: AppColor.secondaryTextColor,
+          fontWeight: FontWeight.w300));
+    static Text extraSmallinfoText(String text, {bool isCenter = false}) => Text(text,
+      textAlign: isCenter ? TextAlign.center : TextAlign.left,
+      style: TextStyle(
+          fontSize: 10,
           color: AppColor.secondaryTextColor,
           fontWeight: FontWeight.w300));
 
