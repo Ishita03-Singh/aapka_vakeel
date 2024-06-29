@@ -9,6 +9,7 @@ import 'package:aapka_vakeel/utilities/strings.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:country_picker/country_picker.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:page_transition/page_transition.dart';
@@ -75,7 +76,7 @@ class MyApp extends StatelessWidget {
           // bool isEmpty = await LocalStorageHelper.instance.isServerListEmpty();
           // if (isEmpty) {
           print(AppColor.primaryTextColor);
-          return IntroPage();
+          return Dashboard();
           // }
 
           // return const SelectServer();

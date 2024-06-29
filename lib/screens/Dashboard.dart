@@ -2,16 +2,20 @@ import 'dart:async';
 
 import 'package:aapka_vakeel/Utilities/strings.dart';
 import 'package:aapka_vakeel/screens/OTPScreen.dart';
+import 'package:aapka_vakeel/screens/affidavitScreen.dart';
+import 'package:aapka_vakeel/screens/scbarContainer.dart';
 import 'package:aapka_vakeel/utilities/custom_button.dart';
 import 'package:aapka_vakeel/utilities/custom_text.dart';
 import 'package:aapka_vakeel/utilities/my_appbar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 class Dashboard extends StatefulWidget {
+  User? user;
   
-   Dashboard({super.key});
+   Dashboard({super.key, this.user});
 
   @override
   State<Dashboard> createState() => _DashboardState();
@@ -153,7 +157,7 @@ class _DashboardState extends State<Dashboard> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: scrollContainer(),
-      bottomNavigationBar: scBarContainer(),
+      bottomNavigationBar: ScBar(),
     );
   }
 
@@ -220,51 +224,44 @@ class _DashboardState extends State<Dashboard> {
 
 
 
-scBarContainer(){
-    return 
-       Container(
-        height: 70,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Image.asset(StrLiteral.home_filled,width:28),
-            Image.asset(StrLiteral.note,width:28),
-            Image.asset(StrLiteral.advocate,width:30),
-            Image.asset(StrLiteral.setting,width:28),
-            Image.asset(StrLiteral.profile,width:28),
 
-        
-        ],),
-      
-    );
-  }
   getDashboardwidger(String img, String headText, String infoText ){
-   return Container(
-    decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(20)),
-    border: Border.all(color: Color(0xFF333333).withOpacity(0.2),width: 1),
-    color: Colors.white,
-    boxShadow: [BoxShadow(
-                  color: Color(0xFF333333).withOpacity(0.2),
-                  spreadRadius: 3,
-                  blurRadius: 4,
-                  offset: Offset(0, 3), // changes position of shadow
-                ),] 
-    ),
-    child: Column(
-      children: [
-      ClipRRect(
-        borderRadius: BorderRadius.only(topLeft: Radius.circular(20),topRight: Radius.circular(20)), 
-        child: Image.asset(img,fit: BoxFit.fill,height: 140,)),
-      Container(
-        padding: EdgeInsets.all(8),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-          CustomText.smallheadText(headText),
-          CustomText.extraSmallinfoText(infoText,isCenter: false),
-        ],),
-      )
-    ],),
+   return GestureDetector(
+    onTap: () {
+      // AffidavitScreen
+      Navigator.push(
+                        context,
+                        PageTransition(
+                            child: AffidavitScreen(),
+                            type: PageTransitionType.rightToLeft));
+    },
+     child: Container(
+      decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(20)),
+      border: Border.all(color: Color(0xFF333333).withOpacity(0.2),width: 1),
+      color: Colors.white,
+      boxShadow: [BoxShadow(
+                    color: Color(0xFF333333).withOpacity(0.2),
+                    spreadRadius: 3,
+                    blurRadius: 4,
+                    offset: Offset(0, 3), // changes position of shadow
+                  ),] 
+      ),
+      child: Column(
+        children: [
+        ClipRRect(
+          borderRadius: BorderRadius.only(topLeft: Radius.circular(20),topRight: Radius.circular(20)), 
+          child: Image.asset(img,fit: BoxFit.fill,height: 140,)),
+        Container(
+          padding: EdgeInsets.all(8),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+            CustomText.smallheadText(headText),
+            CustomText.extraSmallinfoText(infoText,isCenter: false),
+          ],),
+        )
+      ],),
+     ),
    );
   }
 }

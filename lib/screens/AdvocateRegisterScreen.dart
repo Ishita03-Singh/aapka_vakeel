@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:aapka_vakeel/screens/CaptureImage.dart';
+import 'package:aapka_vakeel/screens/Dashboard.dart';
 import 'package:aapka_vakeel/screens/DashboardScreen.dart';
 import 'package:aapka_vakeel/screens/phoneNumber_page.dart';
 import 'package:aapka_vakeel/utilities/colors.dart';
@@ -158,7 +159,7 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
                     Navigator.push(
                         context,
                         PageTransition(
-                            child: CaptureImage(),
+                            child: CaptureImage(user:widget.userCredential.user! ,),
                             type: PageTransitionType.rightToLeft));
                     }
                     
@@ -168,7 +169,7 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
                        Navigator.push(
                       context,
                       PageTransition(
-                          child: DashboardScreen(user: widget.userCredential.user!,),
+                          child: Dashboard(user: widget.userCredential.user!,),
                           type: PageTransitionType.rightToLeft));
                     }
                     

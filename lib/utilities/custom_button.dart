@@ -65,6 +65,7 @@ class CustomButton {
       style: TextButton.styleFrom(
           padding: const EdgeInsets.all(10.5),
           shape: RoundedRectangleBorder(
+            side:BorderSide(color: Colors.black),
             borderRadius: BorderRadius.circular(10.0),
           ),
           foregroundColor: AppColor.primaryTextColor,

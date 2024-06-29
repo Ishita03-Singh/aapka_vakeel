@@ -1,16 +1,19 @@
+import 'package:aapka_vakeel/screens/Dashboard.dart';
 import 'package:aapka_vakeel/screens/DashboardScreen.dart';
 import 'package:aapka_vakeel/screens/phoneNumber_page.dart';
 import 'package:aapka_vakeel/utilities/colors.dart';
 import 'package:aapka_vakeel/utilities/custom_button.dart';
 import 'package:aapka_vakeel/utilities/custom_text.dart';
 import 'package:aapka_vakeel/utilities/my_appbar.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:page_transition/page_transition.dart';
 import 'package:image_picker/image_picker.dart';
 
 class CaptureImage extends StatefulWidget {
-  const CaptureImage({super.key});
+  User user;
+   CaptureImage({super.key,required this.user});
 
   @override
   State<CaptureImage> createState() => _CaptureImageState();
@@ -63,7 +66,7 @@ class _CaptureImageState extends State<CaptureImage> {
                 Navigator.push(
                     context,
                     PageTransition(
-                        child: PreviewImage(image: _image),
+                        child: PreviewImage(image: _image,user: widget.user,),
                         type: PageTransitionType.rightToLeft));
               }
             })
@@ -73,8 +76,9 @@ class _CaptureImageState extends State<CaptureImage> {
 }
 
 class PreviewImage extends StatefulWidget {
+  User user;
   var image;
-  PreviewImage({super.key, required this.image});
+  PreviewImage({super.key, required this.image,required this.user});
 
   @override
   State<PreviewImage> createState() => _PreviewImageState();
@@ -106,11 +110,11 @@ class _PreviewImageState extends State<PreviewImage> {
             }),
             Padding(padding: EdgeInsets.all(4)),
             customButton.taskButton("Save", () {
-              // Navigator.push(
-              //     context,
-              //     PageTransition(
-              //         child: DashboardScreen(user: user,),
-              //         type: PageTransitionType.rightToLeft));
+              Navigator.push(
+                  context,
+                  PageTransition(
+                      child: Dashboard(user: widget.user,),
+                      type: PageTransitionType.rightToLeft));
             }),
             Padding(padding: EdgeInsets.all(4)),
             Padding(padding: EdgeInsets.all(4)),

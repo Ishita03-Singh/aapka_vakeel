@@ -15,7 +15,9 @@ class StrLiteral {
   static const String slider2= 'assets/images/slider2.png';
   static const String slider3= 'assets/images/slider3.png';
   static const String slider4= 'assets/images/slider4.png';
-
+  static const String aiDrafts='assets/images/AIDrafts.png';
+  static const String lawyerDrafts='assets/images/LawyerDrafts.png';
+  
 
   //icons
   static const String home= 'assets/images/home.png';

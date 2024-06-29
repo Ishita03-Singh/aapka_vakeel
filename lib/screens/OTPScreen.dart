@@ -1,4 +1,5 @@
 import 'package:aapka_vakeel/screens/AdvocateRegisterScreen.dart';
+import 'package:aapka_vakeel/screens/Dashboard.dart';
 import 'package:aapka_vakeel/screens/DashboardScreen.dart';
 import 'package:aapka_vakeel/utilities/colors.dart';
 import 'package:aapka_vakeel/utilities/custom_button.dart';
@@ -173,7 +174,7 @@ class _OTPScreenState extends State<OTPScreen> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => DashboardScreen(
+                              builder: (context) => Dashboard(
                                     user: user,
                                   )));
                     }

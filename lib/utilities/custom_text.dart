@@ -9,9 +9,9 @@ class CustomText {
   static Text headText(String text,{Color color=Colors.black}) => Text(text,
       style: TextStyle(
           fontSize: 24, color: color, fontWeight: FontWeight.w900));
-  static Text RegularDarkText(String text) => Text(text,
+  static Text RegularDarkText(String text,{double fontSize=18}) => Text(text,
       style: TextStyle(
-          fontSize: 18, color: Colors.black, fontWeight: FontWeight.w400));
+          fontSize: fontSize, color: Colors.black, fontWeight: FontWeight.w400));
   static Text smallheadText(String text) => Text(text,
       style: TextStyle(
           fontSize: 16, color: Colors.black, fontWeight: FontWeight.w900));

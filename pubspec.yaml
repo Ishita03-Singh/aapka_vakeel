@@ -37,6 +37,7 @@ dependencies:
   shared_preferences: 
   flutter_launcher_icons: 
   animated_splash_screen: 
+  http:
   country_picker: 
   page_transition: 
   firebase_database:
