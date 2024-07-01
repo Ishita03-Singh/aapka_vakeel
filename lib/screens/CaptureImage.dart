@@ -1,3 +1,5 @@
+import 'package:aapka_vakeel/model/user.dart';
+import 'package:aapka_vakeel/others/shared_pref.dart';
 import 'package:aapka_vakeel/screens/Dashboard.dart';
 import 'package:aapka_vakeel/screens/DashboardScreen.dart';
 import 'package:aapka_vakeel/screens/phoneNumber_page.dart';
@@ -110,10 +112,11 @@ class _PreviewImageState extends State<PreviewImage> {
             }),
             Padding(padding: EdgeInsets.all(4)),
             customButton.taskButton("Save", () {
+              MySharedPreferences.instance.setISLoggedIn(userClass);
               Navigator.push(
                   context,
                   PageTransition(
-                      child: Dashboard(user: widget.user,),
+                      child: Dashboard(user: widget.user,userclass: userClass,),
                       type: PageTransitionType.rightToLeft));
             }),
             Padding(padding: EdgeInsets.all(4)),

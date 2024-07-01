@@ -76,7 +76,7 @@ class _AffidavitScreenState extends State<AffidavitScreen> {
                     borderRadius: BorderRadius.all(Radius.circular(20))),
                   child: isAffidavitPage?CustomText.taskBtnText("Affidavit"):CustomText.cancelBtnText("Affidavit")),
               )),
-              SizedBox(width: 4),
+              SizedBox(width: 40),
               Expanded(child: GestureDetector(
                   onTap: () {
                     setState(() {
@@ -213,7 +213,7 @@ List<String> affidavitList= [];
 
 
 @override
-  void initState() async{
+  void initState() {
     // TODO: implement initState
     super.initState();
      _startAutoScroll();
@@ -242,7 +242,7 @@ List<String> affidavitList= [];
      @override
   void dispose() {
     _timer?.cancel();
-    // _pageController.dispose();
+    _pageController.dispose();
     super.dispose();
   }
   

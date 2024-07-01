@@ -1,3 +1,5 @@
+import 'package:aapka_vakeel/model/user.dart';
+import 'package:aapka_vakeel/others/shared_pref.dart';
 import 'package:aapka_vakeel/screens/AdvocateRegisterScreen.dart';
 import 'package:aapka_vakeel/screens/Dashboard.dart';
 import 'package:aapka_vakeel/screens/DashboardScreen.dart';
@@ -171,11 +173,16 @@ class _OTPScreenState extends State<OTPScreen> {
                                   isAdvocate: widget.isAdvocate,
                                   userCredential: result,)));
                     } else {
+                      
+                      //get user from firebase
+
+                      // MySharedPreferences.instance.setISLoggedIn();
                       Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => Dashboard(
                                     user: user,
+                                    userclass: userClass,
                                   )));
                     }
                   } else {

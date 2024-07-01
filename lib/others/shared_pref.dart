@@ -1,11 +1,25 @@
+import 'package:aapka_vakeel/model/user.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../Utilities/colors.dart';
+import 'dart:convert';
 class MySharedPreferences {
   MySharedPreferences();
   MySharedPreferences._privateConstructor();
 
   static final MySharedPreferences instance =
       MySharedPreferences._privateConstructor();
+
+
+void setISLoggedIn(UserClass user) async {
+    SharedPreferences myPrefs = await SharedPreferences.getInstance();
+    myPrefs.setString('LOGGED_USER',  jsonEncode(user.toJson()));
+  }
+Future<String> getISLoggedIn() async {
+    SharedPreferences myPrefs = await SharedPreferences.getInstance();
+    return myPrefs.getString('LOGGED_USER') ?? "";
+  }
+
 
   // void setTheme(String themeName) async {
   //   SharedPreferences myPrefs = await SharedPreferences.getInstance();

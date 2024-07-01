@@ -1,3 +1,7 @@
+import 'dart:convert';
+
+import 'package:aapka_vakeel/model/user.dart';
+import 'package:aapka_vakeel/others/shared_pref.dart';
 import 'package:aapka_vakeel/screens/AdvocateRegisterScreen.dart';
 import 'package:aapka_vakeel/screens/Dashboard.dart';
 import 'package:aapka_vakeel/screens/DashboardScreen.dart';
@@ -73,13 +77,17 @@ class MyApp extends StatelessWidget {
         pageTransitionType: PageTransitionType.rightToLeftWithFade,
         backgroundColor: AppColor.secondaryColor,
         screenFunction: () async {
+           String userString= await MySharedPreferences.instance.getISLoggedIn();
           // bool isEmpty = await LocalStorageHelper.instance.isServerListEmpty();
-          // if (isEmpty) {
+          
+          if (userString=="") {
           print(AppColor.primaryTextColor);
-          return Dashboard();
-          // }
-
-          // return const SelectServer();
+          return IntroPage();
+          }
+        //  User user= jsonDecode(userString);
+         Map<String, dynamic> userMap = jsonDecode(userString);
+    UserClass user = UserClass.fromJson(userMap);
+          return  Dashboard(userclass: userClass);
         },
       ),
     );

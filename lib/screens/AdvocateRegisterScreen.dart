@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:aapka_vakeel/model/user.dart';
+import 'package:aapka_vakeel/others/shared_pref.dart';
 import 'package:aapka_vakeel/screens/CaptureImage.dart';
 import 'package:aapka_vakeel/screens/Dashboard.dart';
 import 'package:aapka_vakeel/screens/DashboardScreen.dart';
@@ -56,6 +58,7 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
         // Save additional user data in Firestore
         if(!widget.isAdvocate){
           await FirebaseFirestore.instance.collection('users').doc(widget.userCredential.user!.uid).set({
+          'phoneNumber':widget.userCredential.user!.phoneNumber,
           'firstName': firstNameController.text,
           'lastName': lastNameController.text,
           'email': EmailController.text,
@@ -78,6 +81,7 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
            }
 
            await FirebaseFirestore.instance.collection('users').doc(widget.userCredential.user!.uid).set({
+          'phoneNumber':widget.userCredential.user!.phoneNumber,
           'firstName': firstNameController.text,
           'lastName': lastNameController.text,
           'email': EmailController.text,
@@ -91,7 +95,15 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
           'barRegistrationCertificate':_selectedFile!.path.split('/').last,
         });
         }
-
+        userClass.uid=widget.userCredential.user!.uid;
+        userClass.email=EmailController.text;
+        userClass.displayName=firstNameController.text +lastNameController.text;
+        userClass.address="${AddressController.text},${CityController.text},${StateController.text},${PinCodeController.text}";
+        userClass.barRegistrationNo= BarRegistrationNoController.text??"";
+        userClass.barRegistrationCertificate=BarRegistrationCertificateController.text??"";
+        userClass.phoneNumber= widget.userCredential.user!.phoneNumber!;
+        
+        
         // Navigate to another page or show success message
         // ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Registration successful')));
         CustomMessenger.defaultMessenger(context, "Registration successful");
@@ -166,10 +178,11 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
                   } else {
                     var res= await _register();
                     if(res){
+                       MySharedPreferences.instance.setISLoggedIn(userClass);
                        Navigator.push(
                       context,
                       PageTransition(
-                          child: Dashboard(user: widget.userCredential.user!,),
+                          child: Dashboard(user: widget.userCredential.user!,userclass: userClass,),
                           type: PageTransitionType.rightToLeft));
                     }
                     

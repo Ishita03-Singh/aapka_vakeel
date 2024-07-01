@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:aapka_vakeel/Utilities/strings.dart';
+import 'package:aapka_vakeel/model/user.dart';
 import 'package:aapka_vakeel/screens/OTPScreen.dart';
 import 'package:aapka_vakeel/screens/affidavitScreen.dart';
 import 'package:aapka_vakeel/screens/scbarContainer.dart';
@@ -14,8 +15,11 @@ import 'package:visibility_detector/visibility_detector.dart';
 
 class Dashboard extends StatefulWidget {
   User? user;
+  UserClass userclass;
   
-   Dashboard({super.key, this.user});
+   Dashboard({super.key, this.user,
+   required this.userclass
+   });
 
   @override
   State<Dashboard> createState() => _DashboardState();
