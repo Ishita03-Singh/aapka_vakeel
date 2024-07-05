@@ -21,29 +21,40 @@ class _AffidavitScreenState extends State<AffidavitScreen> {
   TextEditingController _searchController = TextEditingController();
   // List<String> _allItems = ['Apple', 'Banana', 'Cherry', 'Date', 'Elderberry'];
   List<String> affidavitList = [];
+  List<String> agreementList = [];
+
   bool isAffidavitPage=true;
+  List<String> _filteredItems=[];
 
 
 
   @override
   void initState() {
     super.initState();
-    // affidavitList=await Serverhttphelper.getAffidavitFileList();
-    // _filteredItems.addAll(_allItems);
+    _initializeAsync();
+    
+   
   }
 
+Future<void> _initializeAsync() async {
+  List<String> affidavitlist=await Serverhttphelper.getAffidavitFileList();
+    setState(() {
+      affidavitlist = affidavitlist;
+    });
+     _filteredItems.addAll(affidavitList);
+  }
   void _filterItems(String query) {
-    // List<String> results = [];
-    // if (query.isEmpty) {
-    //   results.addAll(_allItems);
-    // } else {
-    //   results = _allItems
-    //       .where((item) => item.toLowerCase().contains(query.toLowerCase()))
-    //       .toList();
-    // }
-    // setState(() {
-    //   _filteredItems = results;
-    // });
+    List<String> results = [];
+    if (query.isEmpty) {
+      results.addAll(affidavitList);
+    } else {
+      results = affidavitList
+          .where((item) => item.toLowerCase().contains(query.toLowerCase()))
+          .toList();
+    }
+    setState(() {
+      _filteredItems = results;
+    });
   }
 
   @override
@@ -78,7 +89,8 @@ class _AffidavitScreenState extends State<AffidavitScreen> {
               )),
               SizedBox(width: 40),
               Expanded(child: GestureDetector(
-                  onTap: () {
+                  onTap: ()async {
+                    agreementList= await Serverhttphelper.getAgreementFileList();
                     setState(() {
                       isAffidavitPage=false;
                     });
@@ -146,7 +158,17 @@ class _AffidavitScreenState extends State<AffidavitScreen> {
               //   ),
               // ),
               IconButton(onPressed: (){}, icon: Icon(Icons.menu)),
-              draftListContainer(" Address proof Affidavit"),
+                 Container(
+                   height: MediaQuery.of(context).size.height-400,
+                   width: MediaQuery.of(context).size.width,
+                   child: ListView.builder(
+                    itemCount: affidavitList.length,
+                    itemBuilder: (context, index) {
+                    return  draftListContainer(affidavitList[index]);
+                     },
+                                  ),
+                 ),
+              // draftListContainer(" Address proof Affidavit"),
             ],
           ),
     );
@@ -154,7 +176,51 @@ class _AffidavitScreenState extends State<AffidavitScreen> {
   
 
   agreementContainer(){
-    return Container();
+     return Container(
+      height: MediaQuery.of(context).size.height-250,
+      padding: EdgeInsets.all(16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              TextField(
+                controller: _searchController,
+                onChanged: _filterItems,
+                decoration: InputDecoration(
+                  contentPadding: EdgeInsets.all(0),
+                  labelText: 'Search..',
+                  prefixIcon: Icon(Icons.search),
+                  border: OutlineInputBorder(
+                    // borderSide: ,
+                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                  ),
+                ),
+              ),
+              // Expanded(
+              //   child: ListView.builder(
+              //     itemCount: _filteredItems.length,
+              //     itemBuilder: (context, index) {
+              //       return ListTile(
+              //         title: Text(_filteredItems[index]),
+              //       );
+              //     },
+              //   ),
+              // ),
+              IconButton(onPressed: (){}, icon: Icon(Icons.menu)),
+              Container(
+                   height: MediaQuery.of(context).size.height-400,
+                   width: MediaQuery.of(context).size.width,
+                child: ListView.builder(
+                    itemCount: agreementList.length,
+                    itemBuilder: (context, index) {
+                    return  draftListContainer(agreementList[index]);
+                     },
+                 ),
+              ),
+             
+             
+            ],
+          ),
+    );
   }
 
   draftListContainer(String text,){

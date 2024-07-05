@@ -28,15 +28,15 @@ class _IntroPageState extends State<IntroPage> {
   final List<Map> introScrolls = [
     {
       "headText":"Get guidance from trusted lawyers",
-      "infoText":"Lorem Ipsum is simply dummy text of the  printing and typesetting industry. Lorem Ipsm has been dummy text ever since the 1500s", 
+      "infoText":"Aapka Vakeel transforms how you access legal services, making professional legal assistance just a few clicks away, no matter where you are.", 
     },
      {
       "headText":"Get guidance from trusted lawyers",
-      "infoText":"Lorem Ipsum is simply dummy text of the  printing and typesetting industry. Lorem Ipsm has been dummy text ever since the 1500s",
+      "infoText":"Embrace the future of law with Aapka Vakeel. Our innovative application combines technology with legal expertise to deliver unparalleled service.",
     },
      {
      "headText":"Get guidance from trusted lawyers",
-    "infoText":"Lorem Ipsum is simply dummy text of the  printing and typesetting industry. Lorem Ipsm has been dummy text ever since the 1500s",
+    "infoText":"Experience legal excellence with Aapka Vakeel. Our platform delivers expert legal solutions right to your device, making legal help more accessible than ever.",
     }
     ];
 
