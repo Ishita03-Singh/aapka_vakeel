@@ -82,7 +82,8 @@ class MyApp extends StatelessWidget {
           
           if (userString=="") {
           print(AppColor.primaryTextColor);
-          return IntroPage();
+          return Dashboard();
+          // return IntroPage();
           }
         //  User user= jsonDecode(userString);
          Map<String, dynamic> userMap = jsonDecode(userString);

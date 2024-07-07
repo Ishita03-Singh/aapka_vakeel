@@ -15,10 +15,11 @@ import 'package:visibility_detector/visibility_detector.dart';
 
 class Dashboard extends StatefulWidget {
   User? user;
-  UserClass userclass;
+  UserClass? userclass;
   
    Dashboard({super.key, this.user,
-   required this.userclass
+  //  required this.userclass
+  this.userclass
    });
 
   @override

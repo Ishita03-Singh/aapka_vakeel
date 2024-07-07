@@ -48,6 +48,7 @@ dependencies:
   firebase_auth:
   file_picker: 
   cloud_firestore:
+  path_provider:
   visibility_detector:
 
 dev_dependencies:

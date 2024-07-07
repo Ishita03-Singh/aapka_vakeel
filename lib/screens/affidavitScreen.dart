@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:ffi';
 
 import 'package:aapka_vakeel/HTTP/serverhttpHelper.dart';
+import 'package:aapka_vakeel/screens/affidavitFullScreen.dart';
 import 'package:aapka_vakeel/screens/scbarContainer.dart';
 import 'package:aapka_vakeel/utilities/custom_button.dart';
 import 'package:aapka_vakeel/utilities/custom_text.dart';
@@ -238,7 +239,7 @@ Future<void> _initializeAsync() async {
         Navigator.push(
                         context,
                         PageTransition(
-                            child: ContractLoader(),
+                            child: ContractLoader(fileName:text,isAffidavitPage: isAffidavitPage,),
                             type: PageTransitionType.rightToLeft));
       })
       ],),
@@ -247,7 +248,9 @@ Future<void> _initializeAsync() async {
 }
 
 class ContractLoader extends StatefulWidget {
-   ContractLoader({super.key});
+   String fileName;
+   bool isAffidavitPage;
+   ContractLoader({super.key,required this.fileName,required this.isAffidavitPage});
 
   @override
   State<ContractLoader> createState() => _ContractLoaderState();
@@ -286,7 +289,7 @@ List<String> affidavitList= [];
     
   }
    void _startAutoScroll() {
-    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+    _timer = Timer.periodic(Duration(seconds: 2), (timer) {
       // if (_isVisible) {
         if (_currentPage < 1) {
           setState(() {
@@ -299,7 +302,7 @@ List<String> affidavitList= [];
         }
         _pageController.animateToPage(
           _currentPage,
-          duration: Duration(milliseconds: 100),
+          duration: Duration(milliseconds: 200),
           curve: Curves.easeInOut,
         );
       // }
@@ -369,9 +372,21 @@ List<String> affidavitList= [];
                           ),
           ],),
           SizedBox(height: 12),
-          customButton.taskButton("Continue with Lawyer", (){}),
+          customButton.taskButton("Continue with Lawyer", (){
+            Navigator.pushReplacement(
+                    context,
+                    PageTransition(
+                        child: AffidavitFullScreen(fileName:widget.fileName,isAffidavitPage:widget.isAffidavitPage),
+                        type: PageTransitionType.rightToLeft));
+          }),
           SizedBox(height: 12),
-          customButton.taskButton("Continue with AI", (){}),
+          customButton.taskButton("Continue with AI", (){
+               Navigator.push(
+                    context,
+                    PageTransition(
+                        child: AffidavitFullScreen(fileName:widget.fileName,isAffidavitPage:widget.isAffidavitPage),
+                        type: PageTransitionType.rightToLeft));
+          }),
         ],),
       ),
     );
