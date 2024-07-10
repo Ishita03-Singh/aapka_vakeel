@@ -1,6 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:aapka_vakeel/screens/stampPaper.dart';
+import 'package:aapka_vakeel/utilities/custom_button.dart';
+import 'package:flutter_pdfview/flutter_pdfview.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:aapka_vakeel/HTTP/serverhttpHelper.dart';
 import 'package:aapka_vakeel/main.dart';
@@ -20,7 +24,8 @@ class AffidavitFullScreen extends StatefulWidget {
 class _AffidavitFullScreenState extends State<AffidavitFullScreen> {
   bool isAIDraft=false;
   // late File draftFile;
-  Uint8List _fileContent = new Uint8List.fromList([]);
+  // Uint8List _fileContent = new Uint8List.fromList([]);
+    String filePath="";
    var  draftFile;
 
 
@@ -31,15 +36,16 @@ class _AffidavitFullScreenState extends State<AffidavitFullScreen> {
     
    
   }
-String bytesToHex(Uint8List data) {
-  return data.map((byte) => byte.toRadixString(16).padLeft(2, '0')).join(' ');
-}
+// String bytesToHex(Uint8List data) {
+//   return data.map((byte) => byte.toRadixString(16).padLeft(2, '0')).join(' ');
+// }
 Future<void> _initializeAsync() async {
-  Uint8List draftfile=await Serverhttphelper.getAffidavitFile(widget.fileName);
-  draftFile= bytesToHex(draftfile);
+  String dir= widget.isAffidavitPage?"AffidavitDocument":"AgreementDocument";
+  String draftfile=await Serverhttphelper.getAffidavitFile(widget.fileName,dir);
+  // draftFile= bytesToHex(draftfile);
 
     setState(() {
-      _fileContent = draftfile;
+      filePath = draftfile??"";
     });
     //  _filteredItems.addAll(affidavitList);
   }
@@ -52,7 +58,7 @@ Future<void> _initializeAsync() async {
       body: Container(
         // padding: EdgeInsets.al,
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
               Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -95,19 +101,42 @@ Future<void> _initializeAsync() async {
               ],),
               ),
               Container(
-                height: MediaQuery.of(context).size.height/1.5,
-                child: SingleChildScrollView(child: CustomText.infoText(_fileContent==[]?"Loading...":draftFile.toString(),isCenter: true)),
+                height: MediaQuery.of(context).size.height/1.55,
+                color: Colors.green,
+                child: filePath == null|| filePath==""
+                          ? Center(child: CircularProgressIndicator())
+                          : PDFView(
+                            // nightMode: true,
+                              filePath: filePath!,
+                              // nightMode: true,
+                              onError: (error) {
+                                print(error);
+                              },
+                              onViewCreated: (controller) {
+                                print(controller.getCurrentPage());
+                              },
+                              onRender: (pages) {
+                                print(pages);
+                              },
+                            ),
               )
+              ,customButton.smalltaskButton("Stamp Paper", (){
+    Navigator.push(
+                        context,
+                        PageTransition(
+                            child: StampPaper(),
+                            type: PageTransitionType.rightToLeft));
+              })
 
         ],),
       ),
     );
   }
-  Future<String> saveUint8ListToFile(Uint8List data, String filename) async {
-  final directory = await getApplicationCacheDirectory();
-  final file = File('${directory.path}/$filename');
-  await file.writeAsBytes(data);
-  print('File saved successfully at ${file.path}');
-  return await file.readAsString();
-}
+  // Future<String> saveUint8ListToFile(Uint8List data, String filename) async {
+//   final directory = await getApplicationCacheDirectory();
+//   final file = File('${directory.path}/$filename');
+//   await file.writeAsBytes(data);
+//   print('File saved successfully at ${file.path}');
+//   return await file.readAsString();
+// }
 }

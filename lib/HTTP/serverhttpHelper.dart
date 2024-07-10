@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:http/http.dart' as http;
+import 'package:path_provider/path_provider.dart';
 class Serverhttphelper{
   
   static String ip="192.168.1.46";
@@ -38,34 +39,43 @@ class Serverhttphelper{
 
   }
 
-   static Future<Uint8List> getAffidavitFile(String filename) async {
+   static Future<String> getAffidavitFile(String filename,String dirname) async {
     var _fileContent;
      Uri uri = Uri.parse('http://$ip:8080/file')
     .replace(queryParameters: {
       'fileName': filename,
-      'dirName': 'AgreementDocument'
+      'dirName': dirname
     });
     // List<String> _filenames = [];
      final response = await http.get(uri);
 
     if (response.statusCode == 200) {
-     if(response.body!="[]"||response.body!=""){
-       List<int> byteList = response.body
-    .replaceAll('[', '')
-    .replaceAll(']', '')
-    .split(',')
-    .map((s) => int.parse(s.trim()))
-    .toList(); 
-     Uint8List byteArray = Uint8List.fromList(byteList);
-     return byteArray;
-     }
+      final dir = await getApplicationDocumentsDirectory();
+        final file = File('${dir.path}/downloaded.pdf');
+        await file.writeAsBytes(response.bodyBytes);
+
+
+        // var data= await file.readAsBytes();
+        // print(data);
+    //  if(response.body!="[]"||response.body!=""){
+    //    List<int> byteList = response.body
+    // .replaceAll('[', '')
+    // .replaceAll(']', '')
+    // .split(',')
+    // .map((s) => int.parse(s.trim()))
+    // .toList(); 
+    //  Uint8List byteArray = Uint8List.fromList(byteList);
+     return file.path;
+    //  }
       
     } else {    
       print("Failed to load filenames: ${response.reasonPhrase}");
-      _fileContent = [];
+      // _fileContent = [];
+      return "Failed to load filenames: ${response.reasonPhrase}";
       
     }
-    return _fileContent;
+    
+    // return _fileContent;
 
   }
 
