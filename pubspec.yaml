@@ -51,6 +51,9 @@ dependencies:
   path_provider:
   flutter_pdfview:
   visibility_detector:
+  flutter_webrtc:
+  permission_handler:
+  uuid:
 
 dev_dependencies:
   flutter_test:

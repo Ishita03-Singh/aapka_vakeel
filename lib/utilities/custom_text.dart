@@ -1,5 +1,7 @@
+// import 'package:aapka_vakeel/utilities/colors.dart';
+import 'package:aapka_vakeel/utilities/colors.dart';
 import 'package:flutter/material.dart';
-import '../Utilities/colors.dart';
+// import '../Utilities/colors.dart';
 
 class CustomText {
   static Text appNameText(String text, {bool isCenter = false}) => Text(text,
@@ -9,9 +11,18 @@ class CustomText {
   static Text headText(String text,{Color color=Colors.black}) => Text(text,
       style: TextStyle(
           fontSize: 24, color: color, fontWeight: FontWeight.w900));
+
+  static Text boldinfoText(String text) => Text(text,
+      style: TextStyle(
+          fontSize: 18, color: Color(0xFF9C9999), fontWeight: FontWeight.w900));
+
   static Text RegularDarkText(String text,{double fontSize=18}) => Text(text,
       style: TextStyle(
           fontSize: fontSize, color: Colors.black, fontWeight: FontWeight.w400));
+
+  static Text boldDarkText(String text,{double fontSize=18}) => Text(text,
+      style: TextStyle(
+          fontSize: fontSize, color: Colors.black, fontWeight: FontWeight.w800));
   static Text smallheadText(String text) => Text(text,
       style: TextStyle(
           fontSize: 16, color: Colors.black, fontWeight: FontWeight.w900));

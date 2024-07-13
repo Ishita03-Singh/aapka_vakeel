@@ -43,6 +43,22 @@ class CustomButton {
             ],
           )));
 
+ rectIconButton(BuildContext context, String msg, IconData icon, Function() fun)=>  ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Color(0xFFD9D9D9), // Background color
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(0), // Rectangle shape
+        ),
+        padding: EdgeInsets.all(4),
+      ),
+      onPressed: fun,
+      child: Icon(
+        icon,
+        color: Colors.black, // Icon color
+        size: 20, // Icon size
+      ),
+    );
+
   iconButton(BuildContext context, String msg, IconData icon, Function() fun) =>
       Tooltip(
           message: msg,
@@ -54,8 +70,10 @@ class CustomButton {
               // const Settings()),
               style: TextButton.styleFrom(
                   // backgroundColor: AppColor.bgColor,
-                  fixedSize: const Size(10, 10),
+                  fixedSize: const Size(20, 20),
                   elevation: 0,
+                 
+                  // backgroundColor: Color(0xFFD9D9D9),
                   alignment: Alignment.center,
                   padding: EdgeInsets.zero),
               icon: Icon(icon, color: Colors.black)));

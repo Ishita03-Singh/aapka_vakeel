@@ -6,8 +6,10 @@ import 'package:aapka_vakeel/screens/AdvocateRegisterScreen.dart';
 import 'package:aapka_vakeel/screens/Dashboard.dart';
 import 'package:aapka_vakeel/screens/DashboardScreen.dart';
 import 'package:aapka_vakeel/screens/IntroScreen.dart';
+import 'package:aapka_vakeel/screens/notaryScreen.dart';
 import 'package:aapka_vakeel/screens/phoneNumber_page.dart';
 import 'package:aapka_vakeel/screens/CatgoryScreen.dart';
+import 'package:aapka_vakeel/screens/videoCall.dart';
 import 'package:aapka_vakeel/utilities/colors.dart';
 import 'package:aapka_vakeel/utilities/strings.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
@@ -82,7 +84,7 @@ class MyApp extends StatelessWidget {
           
           if (userString=="") {
           print(AppColor.primaryTextColor);
-          return Dashboard();
+          return VideoCall(data: "hsj");
           // return IntroPage();
           }
         //  User user= jsonDecode(userString);

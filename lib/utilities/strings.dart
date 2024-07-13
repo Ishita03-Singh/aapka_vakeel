@@ -17,6 +17,8 @@ class StrLiteral {
   static const String slider4= 'assets/images/slider4.png';
   static const String aiDrafts='assets/images/AIDrafts.png';
   static const String lawyerDrafts='assets/images/LawyerDrafts.png';
+  static const String wait='assets/images/wait.png';
+
   
 
   //icons
@@ -26,7 +28,8 @@ class StrLiteral {
   static const String advocate= 'assets/images/advocate.png';
   static const String note= 'assets/images/note.png';
   static const String profile= 'assets/images/profile.png';
-
+  static const String upload= 'assets/images/upload.png';
+ static const String videoCall= 'assets/images/videoCall.png';
 
 
   // static const String LottiePath = 'assets/images/Blue.json';

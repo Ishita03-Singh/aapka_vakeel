@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 class Serverhttphelper{
   
-  static String ip="192.168.1.46";
+  static String ip="192.168.1.34";
   static Future<List<String>> getAffidavitFileList() async {
     var _fileContent=[];
     List<String> _filenames = [];

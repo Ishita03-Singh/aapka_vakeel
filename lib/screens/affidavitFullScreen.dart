@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:aapka_vakeel/screens/notaryScreen.dart';
 import 'package:aapka_vakeel/screens/stampPaper.dart';
 import 'package:aapka_vakeel/utilities/custom_button.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
@@ -124,7 +125,7 @@ Future<void> _initializeAsync() async {
     Navigator.push(
                         context,
                         PageTransition(
-                            child: StampPaper(),
+                            child: NotaryScreen(filePath: filePath,),
                             type: PageTransitionType.rightToLeft));
               })
 
