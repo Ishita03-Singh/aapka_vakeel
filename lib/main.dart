@@ -13,6 +13,7 @@ import 'package:aapka_vakeel/screens/videoCall.dart';
 import 'package:aapka_vakeel/utilities/colors.dart';
 import 'package:aapka_vakeel/utilities/strings.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
+import 'package:camera/camera.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:country_picker/country_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -20,6 +21,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:provider/provider.dart';
 
 import 'screens/firebasedemo.dart';
 
@@ -84,8 +86,13 @@ class MyApp extends StatelessWidget {
           
           if (userString=="") {
           print(AppColor.primaryTextColor);
-          return VideoCall(data: "hsj");
-          // return IntroPage();
+          // return VideoCall(data: "hsj");
+          // final cameras = await availableCameras();
+          // return  ChangeNotifierProvider(
+      // create: (context) => VideoCallProvider(),
+      // child: VideoCallSetupScreen(),
+    // );
+          return IntroPage();
           }
         //  User user= jsonDecode(userString);
          Map<String, dynamic> userMap = jsonDecode(userString);

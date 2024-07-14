@@ -54,6 +54,8 @@ dependencies:
   flutter_webrtc:
   permission_handler:
   uuid:
+  provider:
+  camera:
 
 dev_dependencies:
   flutter_test:

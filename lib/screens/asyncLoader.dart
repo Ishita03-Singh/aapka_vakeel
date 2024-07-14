@@ -21,7 +21,8 @@ class AsyncLoader extends StatelessWidget {
               WidgetsBinding.instance.addPostFrameCallback((_) {
                 Navigator.of(context).pushReplacement(
                   MaterialPageRoute(
-                    builder: (context) => VideoCall(data: snapshot.data!),
+                    builder: (context) =>VideoCall(data: "njnk",)
+                    // VideoCall(data: snapshot.data!),
                   ),
                 );
               });

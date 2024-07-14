@@ -187,3 +187,162 @@ class _VideoCallState extends State<VideoCall> {
     _peerConnection.addCandidate(candidate);
   }
 }
+
+
+// import 'package:camera/camera.dart';
+// import 'package:flutter/material.dart';
+// import 'package:permission_handler/permission_handler.dart';
+// import 'package:provider/provider.dart';
+
+// // void main() {
+// //   runApp(
+// //     ChangeNotifierProvider(
+// //       create: (context) => VideoCallProvider(),
+// //       child: MyApp(),
+// //     ),
+// //   );
+// // }
+
+// // class MyApp extends StatelessWidget {
+// //   @override
+// //   Widget build(BuildContext context) {
+// //     return MaterialApp(
+// //       home: VideoCallSetupScreen(),
+// //     );
+// //   }
+// // }
+// class VideoCallSetupScreen extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     var provider = Provider.of<VideoCallProvider>(context);
+
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: Text('Video Call Setup'),
+//       ),
+//       body: FutureBuilder(
+//         future: provider.initializeCamera(),
+//         builder: (context, snapshot) {
+//           // if (snapshot.connectionState == ConnectionState.done) {
+//             if (snapshot.hasError) {
+//               return Center(child: Text('Error initializing camera: ${snapshot.error}'));
+//             }
+//             return Column(
+//               children: [
+//                 AspectRatio(
+//                   aspectRatio: 1.0,
+//                   child: provider.controller != null
+//                       ? CameraPreview(provider.controller!)
+//                       : Container(color: Colors.black),
+//                 ),
+//                 Row(
+//                   mainAxisAlignment: MainAxisAlignment.center,
+//                   children: [
+//                     IconButton(
+//                       icon: Icon(
+//                         provider.isCameraOn ? Icons.videocam : Icons.videocam_off,
+//                         color: provider.isCameraOn ? Colors.green : Colors.red,
+//                       ),
+//                       onPressed: () {
+//                         provider.toggleCamera();
+//                       },
+//                     ),
+//                     IconButton(
+//                       icon: Icon(
+//                         provider.isMicOn ? Icons.mic : Icons.mic_off,
+//                         color: provider.isMicOn ? Colors.green : Colors.red,
+//                       ),
+//                       onPressed: () {
+//                         provider.toggleMic();
+//                       },
+//                     ),
+//                   ],
+//                 ),
+//                 ElevatedButton(
+//                   onPressed: () {
+//                     // Implement your join meeting functionality here
+//                     print('Joining meeting...');
+//                   },
+//                   child: Text('Join Meeting'),
+//                 ),
+//               ],
+//             );
+//           // } else if (snapshot.connectionState == ConnectionState.waiting) {
+//           //   return Center(child: CircularProgressIndicator());
+//           // } else {
+//           //   return Center(child: Text('Initializing...'));
+//           // }
+//         },
+//       ),
+//     );
+//   }
+// }
+
+// class VideoCallProvider with ChangeNotifier {
+//   late List<CameraDescription> cameras;
+//   CameraController? controller;
+//   bool _isCameraOn = true;
+//   bool _isMicOn = true;
+
+//   VideoCallProvider() {
+//     _initializeCameras();
+//   }
+
+//   bool get isCameraOn => _isCameraOn;
+//   bool get isMicOn => _isMicOn;
+
+//   Future<void> _initializeCameras() async {
+//     try {
+//       cameras = await availableCameras();
+//       await initializeCamera();
+//     } catch (e) {
+//       print('Error initializing cameras: $e');
+//     }
+//   }
+
+//   Future<void> initializeCamera() async {
+//     if (await _requestPermissions()) {
+//       if (cameras.isNotEmpty) {
+//         controller = CameraController(cameras[0], ResolutionPreset.high);
+//         controller?.addListener(() {
+//           if (controller!.value.hasError) {
+//             print('Camera error: ${controller!.value.errorDescription}');
+//           }
+//         });
+//         try {
+//           await controller?.initialize();
+//           notifyListeners();
+//         } catch (e) {
+//           print('Error initializing camera: $e');
+//         }
+//       } else {
+//         throw Exception('No cameras available');
+//       }
+//     } else {
+//       throw Exception('Camera permissions not granted');
+//     }
+//     return;
+//   }
+
+//   Future<bool> _requestPermissions() async {
+//     var cameraStatus = await Permission.camera.request();
+//     var micStatus = await Permission.microphone.request();
+//     return cameraStatus.isGranted && micStatus.isGranted;
+//   }
+
+//   void toggleCamera() async {
+//     _isCameraOn = !_isCameraOn;
+//     if (_isCameraOn) {
+//       await initializeCamera();
+//     } else {
+//       await controller?.dispose();
+//       controller = null; // Set controller to null when disposed
+//     }
+//     notifyListeners();
+//   }
+
+//   void toggleMic() {
+//     _isMicOn = !_isMicOn;
+//     notifyListeners();
+//   }
+// }
