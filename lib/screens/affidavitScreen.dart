@@ -62,62 +62,66 @@ Future<void> _initializeAsync() async {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MyAppBar.appbar(context),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-        Container(
-          padding: EdgeInsets.all(16),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            mainAxisSize: MainAxisSize.max,
+      body: SingleChildScrollView(
+        child: Container(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Expanded(
-                child: GestureDetector(
-                onTap: ()async{
-                  affidavitList= await Serverhttphelper.getAffidavitFileList();
-                  setState(() {
-                  isAffidavitPage=true;
-
-                  });
-                },
-                child: Container(
-                  padding: EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    border: Border.all(color:Colors.black),
-                    color: isAffidavitPage?Colors.black:Colors.white,
-                    borderRadius: BorderRadius.all(Radius.circular(20))),
-                  child: isAffidavitPage?CustomText.taskBtnText("Affidavit"):CustomText.cancelBtnText("Affidavit")),
-              )),
-              SizedBox(width: 40),
-              Expanded(child: GestureDetector(
-                  onTap: ()async {
-                    agreementList= await Serverhttphelper.getAgreementFileList();
-                    setState(() {
-                      isAffidavitPage=false;
-                    });
-                  },
-                  child: Container(
-                  padding: EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    border: Border.all(color:Colors.black),
-                    color: isAffidavitPage?Colors.white:Colors.black,
-                    borderRadius: BorderRadius.all(Radius.circular(20))),
-                  child: isAffidavitPage?CustomText.cancelBtnText("Agreement"):CustomText.taskBtnText("Agreement"),),
-                )),
-            // customButton.taskButton("Affidavit", (){
-            //   setState(() {
-            //     isAffidavitPage=true;
-            //   });
-            // }),
-            // customButton.cancelButton("Agreement", (){
-            //   setState(() {
-            //     isAffidavitPage=false;
-            //   });
-            // })
+            Container(
+              padding: EdgeInsets.all(16),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Expanded(
+                    child: GestureDetector(
+                    onTap: ()async{
+                      affidavitList= await Serverhttphelper.getAffidavitFileList();
+                      setState(() {
+                      isAffidavitPage=true;
+          
+                      });
+                    },
+                    child: Container(
+                      padding: EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        border: Border.all(color:Colors.black),
+                        color: isAffidavitPage?Colors.black:Colors.white,
+                        borderRadius: BorderRadius.all(Radius.circular(20))),
+                      child: isAffidavitPage?CustomText.taskBtnText("Affidavit"):CustomText.cancelBtnText("Affidavit")),
+                  )),
+                  SizedBox(width: 40),
+                  Expanded(child: GestureDetector(
+                      onTap: ()async {
+                        agreementList= await Serverhttphelper.getAgreementFileList();
+                        setState(() {
+                          isAffidavitPage=false;
+                        });
+                      },
+                      child: Container(
+                      padding: EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        border: Border.all(color:Colors.black),
+                        color: isAffidavitPage?Colors.white:Colors.black,
+                        borderRadius: BorderRadius.all(Radius.circular(20))),
+                      child: isAffidavitPage?CustomText.cancelBtnText("Agreement"):CustomText.taskBtnText("Agreement"),),
+                    )),
+                // customButton.taskButton("Affidavit", (){
+                //   setState(() {
+                //     isAffidavitPage=true;
+                //   });
+                // }),
+                // customButton.cancelButton("Agreement", (){
+                //   setState(() {
+                //     isAffidavitPage=false;
+                //   });
+                // })
+              ],),
+            ),
+            isAffidavitPage?affidavitContainer():agreementContainer()
           ],),
         ),
-        isAffidavitPage?affidavitContainer():agreementContainer()
-      ],),
+      ),
       bottomNavigationBar: ScBar(),
     );
   }

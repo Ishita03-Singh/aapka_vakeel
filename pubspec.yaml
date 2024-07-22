@@ -53,6 +53,8 @@ dependencies:
   visibility_detector:
   flutter_webrtc:
   permission_handler:
+  video_call:
+    path: /Users/ishitasingh/Desktop/aapka_vakeel/videosdk/video_call
   uuid:
   provider:
   camera:

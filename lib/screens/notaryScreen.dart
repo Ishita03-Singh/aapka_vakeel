@@ -1,7 +1,8 @@
 import 'dart:io';
 
+import 'package:aapka_vakeel/model/user.dart';
 import 'package:aapka_vakeel/screens/asyncLoader.dart';
-import 'package:aapka_vakeel/screens/videoCall.dart';
+// import 'package:aapka_vakeel/screens/videoCall.dart';
 import 'package:aapka_vakeel/utilities/custom_button.dart';
 import 'package:aapka_vakeel/utilities/custom_text.dart';
 import 'package:aapka_vakeel/utilities/cutom_message.dart';
@@ -140,7 +141,7 @@ class _NotaryScreenState extends State<NotaryScreen> {
   Navigator.push(
                         context,
                         PageTransition(
-                            child: AsyncLoader(),
+                            child: AsyncLoader(username:userClass.displayName,meetingId:userClass.uid),
                             type: PageTransitionType.rightToLeft));
         //  loaderfunction();
            }

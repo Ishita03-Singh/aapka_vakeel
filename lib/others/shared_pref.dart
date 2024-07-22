@@ -80,6 +80,17 @@ Future<String> getISLoggedIn() async {
   //       DefaultValues.isNotificationEnable;
   // }
 
+  setIp(String ip) async {
+    SharedPreferences myPrefs = await SharedPreferences.getInstance();
+    myPrefs.setString('IP', ip);
+  }
+
+  Future<String> getIP() async {
+    SharedPreferences myPrefs = await SharedPreferences.getInstance();
+    return myPrefs.getString('IP') ?? "";
+  }
+
+
   setDefaultView(bool defaultView) async {
     SharedPreferences myPrefs = await SharedPreferences.getInstance();
     myPrefs.setBool('_defaultView', defaultView);

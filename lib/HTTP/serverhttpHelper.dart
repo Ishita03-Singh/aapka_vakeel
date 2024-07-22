@@ -2,15 +2,17 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:aapka_vakeel/others/shared_pref.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 class Serverhttphelper{
   
-  static String ip="192.168.1.36";
+  // static String ip="172.20.10.5";
   static Future<List<String>> getAffidavitFileList() async {
+    String ip=  await MySharedPreferences.instance.getIP();
     var _fileContent=[];
     List<String> _filenames = [];
-     final response = await http.get(Uri.parse('http://${ip}:8080/getAffidavitFiles'));
+     final response =  await http.get(Uri.parse('http://${ip}:8080/getAffidavitFiles'));
 
     if (response.statusCode == 200) {
       _filenames = List<String>.from(json.decode(response.body));   
@@ -24,6 +26,7 @@ class Serverhttphelper{
   }
 
   static Future<List<String>> getAgreementFileList() async {
+      String ip=  await MySharedPreferences.instance.getIP();
     var _fileContent=[];
     List<String> _filenames = [];
      final response = await http.get(Uri.parse('http://${ip}:8080/getAgreementFiles'));
@@ -40,6 +43,7 @@ class Serverhttphelper{
   }
 
    static Future<String> getAffidavitFile(String filename,String dirname) async {
+      String ip=  await MySharedPreferences.instance.getIP();
     var _fileContent;
      Uri uri = Uri.parse('http://$ip:8080/file')
     .replace(queryParameters: {
@@ -81,12 +85,13 @@ class Serverhttphelper{
 
 
      static Future<List<String>> getAgreementFile(String filename) async {
+        String ip=  await MySharedPreferences.instance.getIP();
     var _fileContent;
     // List<String> _filenames = [];
     Uri uri = Uri.parse('http://$ip:8080/file')
     .replace(queryParameters: {
       'fileName': filename,
-      'dirName': 'AgreementDocument'
+      'dirName': 'AgreementDocument' 
     });
      final response = await http.get(uri);
 

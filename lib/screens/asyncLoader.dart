@@ -1,9 +1,13 @@
 import 'package:aapka_vakeel/screens/notaryScreen.dart';
 import 'package:aapka_vakeel/screens/videoCall.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:video_call/video_call.dart';
 
 class AsyncLoader extends StatelessWidget {
-  const AsyncLoader({super.key});
+  var username;
+  var meetingId;
+   AsyncLoader({super.key,required this.username,required this.meetingId});
 
   @override
   Widget build(BuildContext context) {
@@ -17,11 +21,12 @@ class AsyncLoader extends StatelessWidget {
           } else if (snapshot.connectionState == ConnectionState.done) {
             if (snapshot.hasData) {
               print("Data received: ${snapshot.data}");
+              var meetingId="";
               // Navigate to the next screen once data is received
               WidgetsBinding.instance.addPostFrameCallback((_) {
                 Navigator.of(context).pushReplacement(
                   MaterialPageRoute(
-                    builder: (context) =>VideoCall(data: "njnk",)
+                    builder: (context) =>JoinScreen(username: username,meetingId: meetingId,)
                     // VideoCall(data: snapshot.data!),
                   ),
                 );

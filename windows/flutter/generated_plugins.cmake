@@ -9,6 +9,9 @@ list(APPEND FLUTTER_PLUGIN_LIST
   firebase_core
   flutter_webrtc
   permission_handler_windows
+  screen_retriever
+  videosdk
+  window_manager
 )
 
 list(APPEND FLUTTER_FFI_PLUGIN_LIST

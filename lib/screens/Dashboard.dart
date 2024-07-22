@@ -2,14 +2,18 @@ import 'dart:async';
 
 import 'package:aapka_vakeel/Utilities/strings.dart';
 import 'package:aapka_vakeel/model/user.dart';
+import 'package:aapka_vakeel/others/shared_pref.dart';
 import 'package:aapka_vakeel/screens/OTPScreen.dart';
 import 'package:aapka_vakeel/screens/affidavitScreen.dart';
 import 'package:aapka_vakeel/screens/scbarContainer.dart';
+import 'package:aapka_vakeel/utilities/colors.dart';
 import 'package:aapka_vakeel/utilities/custom_button.dart';
 import 'package:aapka_vakeel/utilities/custom_text.dart';
 import 'package:aapka_vakeel/utilities/my_appbar.dart';
+import 'package:aapka_vakeel/utilities/my_textfield.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
@@ -30,6 +34,7 @@ class _DashboardState extends State<Dashboard> {
 
   //scroll widget variables
    final PageController _pageController = PageController();
+   TextEditingController ipController= TextEditingController();
   int _currentPage = 0;
   Timer? _timer;
   bool _isVisible = false;
