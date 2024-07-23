@@ -6,6 +6,7 @@ import 'package:aapka_vakeel/screens/AdvocateRegisterScreen.dart';
 import 'package:aapka_vakeel/screens/Dashboard.dart';
 import 'package:aapka_vakeel/screens/DashboardScreen.dart';
 import 'package:aapka_vakeel/screens/IntroScreen.dart';
+import 'package:aapka_vakeel/screens/asyncLoader.dart';
 import 'package:aapka_vakeel/screens/notaryScreen.dart';
 import 'package:aapka_vakeel/screens/phoneNumber_page.dart';
 import 'package:aapka_vakeel/screens/CatgoryScreen.dart';
@@ -98,6 +99,7 @@ class MyApp extends StatelessWidget {
          Map<String, dynamic> userMap = jsonDecode(userString);
     UserClass user = UserClass.fromJson(userMap);
           return  Dashboard(userclass: userClass);
+          // return AsyncLoader(username: "abc",meetingId: "123");
         },
       ),
     );

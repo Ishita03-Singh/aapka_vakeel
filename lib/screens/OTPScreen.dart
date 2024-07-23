@@ -111,14 +111,15 @@ class _OTPScreenState extends State<OTPScreen> {
                                   onChanged: (value) {
                                     if (value.isNotEmpty && index < 5) {
                                       _focusNodes[index].unfocus();
-                                      FocusScope.of(context).nextFocus();
-                                      // FocusScope.of(context)
-                                      //     .requestFocus(_focusNodes[index + 1]);
+                                      // FocusScope.of(context).nextFocus();
+                                       FocusScope.of(context)
+                                          .requestFocus(_focusNodes[index + 1]);
                                     } else if (value.isEmpty && index > 0) {
                                       _focusNodes[index].unfocus();
-                                      // FocusScope.of(context)
-                                      //     .requestFocus(_focusNodes[index - 1]);
-                                      FocusScope.of(context).previousFocus();
+                                      FocusScope.of(context)
+                                          .requestFocus(_focusNodes[index - 1]);
+                                          // KeyboardLockMode.numLock;
+                                      // FocusScope.of(context).previousFocus();
 
                                     }
                                   },
