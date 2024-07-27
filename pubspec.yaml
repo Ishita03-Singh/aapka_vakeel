@@ -59,6 +59,7 @@ dependencies:
   uuid:
   provider:
   camera:
+  razorpay_flutter:
 
 dev_dependencies:
   flutter_test:
