@@ -99,7 +99,7 @@ class _NotaryScreenState extends State<NotaryScreen> {
                   ),
                 ),
                 SizedBox(height: 8),
-                CustomText.cancelBtnText("*Pan Card/Passport/Voter ID"),
+                CustomText.cancelBtnText("Pan Card/Passport/Voter ID"),
                 SizedBox(height: 8),
                   Center(
                     child: Container(
@@ -132,10 +132,10 @@ class _NotaryScreenState extends State<NotaryScreen> {
             CustomMessenger.defaultMessenger(context, "Please select adhar");
             return false;
            }
-            if( otherId == null){
-            CustomMessenger.defaultMessenger(context, "Please select other Id as well");
-            return false;
-           }
+          //   if( otherId == null){
+          //   CustomMessenger.defaultMessenger(context, "Please select other Id as well");
+          //   return false;
+          //  }
            else{
             //upload files to cloud  
   Navigator.push(
