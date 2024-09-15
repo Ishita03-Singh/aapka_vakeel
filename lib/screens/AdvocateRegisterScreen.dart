@@ -80,7 +80,7 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
             return false;
            }
 
-           await FirebaseFirestore.instance.collection('users').doc(widget.userCredential.user!.uid).set({
+           await FirebaseFirestore.instance.collection('advocates').doc(widget.userCredential.user!.uid).set({
           'phoneNumber':widget.userCredential.user!.phoneNumber,
           'firstName': firstNameController.text,
           'lastName': lastNameController.text,

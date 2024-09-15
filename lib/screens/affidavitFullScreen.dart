@@ -101,33 +101,46 @@ Future<void> _initializeAsync() async {
                    ))
               ],),
               ),
-              Container(
-                height: MediaQuery.of(context).size.height/1.55,
-                color: Colors.green,
-                child: filePath == null|| filePath==""
-                          ? Center(child: CircularProgressIndicator())
-                          : PDFView(
-                            // nightMode: true,
-                              filePath: filePath!,
-                              // nightMode: true,
-                              onError: (error) {
-                                print(error);
-                              },
-                              onViewCreated: (controller) {
-                                print(controller.getCurrentPage());
-                              },
-                              onRender: (pages) {
-                                print(pages);
-                              },
-                            ),
-              )
-              ,customButton.smalltaskButton("Stamp Paper", (){
+              SingleChildScrollView(
+                child: Container(
+                          height: MediaQuery.of(context).size.height/1.50,
+
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: Container(
+                        
+                          // color: Colors.green,
+                          child: filePath == null|| filePath==""
+                                    ? Center(child: CircularProgressIndicator())
+                                    : PDFView(
+                                      // nightMode: true,
+                                        filePath: filePath!,
+                                        // nightMode: true,
+                                        onError: (error) {
+                                          print(error);
+                                        },
+                                        onViewCreated: (controller) {
+                                          print(controller.getCurrentPage());
+                                        },
+                                        onRender: (pages) {
+                                          print(pages);
+                                        },
+                                      ),
+                        ),
+                      ),
+                      customButton.smalltaskButton("Stamp Paper", (){
     Navigator.push(
                         context,
                         PageTransition(
                             child: NotaryScreen(filePath: filePath,),
                             type: PageTransitionType.rightToLeft));
               })
+                    ],
+                  ),
+                ),
+              )
+              
 
         ],),
       ),

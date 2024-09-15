@@ -1,4 +1,4 @@
-package com.example.aapka_vakeel
+package com.aapkavakeel.aapka_vakeel
 
 import io.flutter.embedding.android.FlutterActivity
 

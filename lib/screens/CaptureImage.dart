@@ -2,6 +2,7 @@ import 'package:aapka_vakeel/model/user.dart';
 import 'package:aapka_vakeel/others/shared_pref.dart';
 import 'package:aapka_vakeel/screens/Dashboard.dart';
 import 'package:aapka_vakeel/screens/DashboardScreen.dart';
+import 'package:aapka_vakeel/screens/advocate/AdvocateDashboard.dart';
 import 'package:aapka_vakeel/screens/phoneNumber_page.dart';
 import 'package:aapka_vakeel/utilities/colors.dart';
 import 'package:aapka_vakeel/utilities/custom_button.dart';
@@ -116,7 +117,7 @@ class _PreviewImageState extends State<PreviewImage> {
               Navigator.push(
                   context,
                   PageTransition(
-                      child: Dashboard(user: widget.user,userclass: userClass,),
+                      child: AdvocateDashboard(user: widget.user,userclass: userClass,),
                       type: PageTransitionType.rightToLeft));
             }),
             Padding(padding: EdgeInsets.all(4)),

@@ -1,4 +1,4 @@
-<manifest package="com.example.aapka_vakeel"
+<manifest package="com.appkavakeel.aapka_vakeel"
 xmlns:android="http://schemas.android.com/apk/res/android">
 <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
@@ -29,7 +29,7 @@ xmlns:android="http://schemas.android.com/apk/res/android">
   <uses-permission android:name="android.permission.RECEIVE_SMS"/>
   <!-- <uses-permission android:name="android.permission.RECEIVE_SMS"/> -->
 <uses-permission android:name="android.permission.READ_SMS"/>
-
+xp
 <uses-feature android:name="android.hardware.camera"/>
     <application
         android:label="Aapka Vakeel"

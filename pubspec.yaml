@@ -58,6 +58,7 @@ dependencies:
     path: /Users/ishitasingh/Desktop/aapka_vakeel/videosdk/video_call
   uuid:
   provider:
+  firebase_messaging:
   camera:
   razorpay_flutter:
 

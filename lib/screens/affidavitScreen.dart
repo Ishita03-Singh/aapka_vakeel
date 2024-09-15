@@ -1,6 +1,4 @@
 import 'dart:async';
-import 'dart:ffi';
-
 import 'package:aapka_vakeel/HTTP/serverhttpHelper.dart';
 import 'package:aapka_vakeel/screens/affidavitFullScreen.dart';
 import 'package:aapka_vakeel/screens/scbarContainer.dart';

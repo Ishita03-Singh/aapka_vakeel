@@ -1,11 +1,13 @@
 import 'dart:convert';
 
 import 'package:aapka_vakeel/model/user.dart';
+import 'package:aapka_vakeel/others/pushNotificationService.dart';
 import 'package:aapka_vakeel/others/shared_pref.dart';
 import 'package:aapka_vakeel/screens/AdvocateRegisterScreen.dart';
 import 'package:aapka_vakeel/screens/Dashboard.dart';
 import 'package:aapka_vakeel/screens/DashboardScreen.dart';
 import 'package:aapka_vakeel/screens/IntroScreen.dart';
+import 'package:aapka_vakeel/screens/advocate/AdvocateDashboard.dart';
 import 'package:aapka_vakeel/screens/asyncLoader.dart';
 import 'package:aapka_vakeel/screens/notaryScreen.dart';
 import 'package:aapka_vakeel/screens/paymentGateway.dart';
@@ -20,6 +22,7 @@ import 'package:camera/camera.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:country_picker/country_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:page_transition/page_transition.dart';
@@ -34,23 +37,30 @@ void main() async {
     options: FirebaseOptions(
     apiKey: 'AIzaSyAELVWJ4VVYcnb_1FBpVY4GPBtXWVtsu0M',
     appId: 'id',
-    messagingSenderId: 'sendid',
+    messagingSenderId: '809583715808',
     projectId: 'appkavakeel',
     storageBucket: 'appkavakeel.appspot.com',
   ));
+    final fcmToken = await FirebaseMessaging.instance.getToken();
+  await FirebaseMessaging.instance.setAutoInitEnabled(true);
    FirebaseFirestore.instance.settings = const Settings(
     persistenceEnabled: true,
     cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED,
   );
+ 
+  // FirebaseMessaging.onBackgroundMessage(PushNotificationService.backgroundHandler);
   await AppColor.setCurrentTheme();
-  runApp(const MyApp());
+  runApp( MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  // final PushNotificationService _notificationService = PushNotificationService();
+
+   MyApp({super.key});
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    //  PushNotificationService.initialize();
     SystemUiOverlayStyle(
         // Status bar color
         statusBarColor: AppColor.bgColor,
@@ -95,14 +105,16 @@ class MyApp extends StatelessWidget {
           // create: (context) => VideoCallProvider(),
           // child: VideoCallSetupScreen(),
           // );
-          return StampPaper();
-          // return IntroPage();
+          // return StampPaper();
+          return IntroPage();
           }
          //  User user= jsonDecode(userString);
          Map<String, dynamic> userMap = jsonDecode(userString);
          UserClass user = UserClass.fromJson(userMap);
-         // return  Dashboard(userclass: userClass);
-         return StampPaper();
+         if(user.barRegistrationNo!="")
+         return AdvocateDashboard(userclass: userClass);
+         return  Dashboard(userclass: userClass);
+        //  return StampPaper();
          // return AsyncLoader(username: "abc",meetingId: "123");
         },
       ),
