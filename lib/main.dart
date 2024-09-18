@@ -33,16 +33,25 @@ import 'screens/firebasedemo.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  
+  
   await Firebase.initializeApp(
     options: FirebaseOptions(
-    apiKey: 'AIzaSyAELVWJ4VVYcnb_1FBpVY4GPBtXWVtsu0M',
-    appId: 'id',
-    messagingSenderId: '809583715808',
-    projectId: 'appkavakeel',
-    storageBucket: 'appkavakeel.appspot.com',
+      // apiKey: 'AIzaSyAELVWJ4VVYcnb_1FBpVY4GPBtXWVtsu0M',
+      // appId: 'id',
+      // messagingSenderId: '809583715808',
+      // projectId: 'appkavakeel',
+      // storageBucket: 'appkavakeel.appspot.com',
+      apiKey: "AIzaSyBJntYd6x55mMJ41I3e-zmDqrIvXTWdzyk",
+  authDomain: "appkavakeel-66df5.firebaseapp.com",
+  projectId: "appkavakeel-66df5",
+  storageBucket: "appkavakeel-66df5.appspot.com",
+  messagingSenderId: "361879211179",
+  appId: "1:361879211179:web:f2a913289cda8cc0c3bbee",
+  measurementId: "G-CV0KKNLDLS"
   ));
-    final fcmToken = await FirebaseMessaging.instance.getToken();
-  await FirebaseMessaging.instance.setAutoInitEnabled(true);
+    // final fcmToken = await FirebaseMessaging.instance.getToken();
+  // await FirebaseMessaging.instance.setAutoInitEnabled(true);
    FirebaseFirestore.instance.settings = const Settings(
     persistenceEnabled: true,
     cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED,
