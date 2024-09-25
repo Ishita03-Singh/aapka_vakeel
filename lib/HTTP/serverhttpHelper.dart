@@ -7,9 +7,9 @@ import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 class Serverhttphelper{
   
-  static String ip="192.168.1.46";
+  // static String ip="192.168.1.46";
   static Future<List<String>> getAffidavitFileList() async {
-    // String ip=  await MySharedPreferences.instance.getIP();
+    String ip=  await MySharedPreferences.instance.getIP();
     var _fileContent=[];
     List<String> _filenames = [];
      final response =  await http.get(Uri.parse('http://${ip}:8080/getAffidavitFiles'));
@@ -27,9 +27,10 @@ class Serverhttphelper{
 
   static Future<List<String>> getAgreementFileList() async {
       // String ip=  await MySharedPreferences.instance.getIP();
-    var _fileContent=[];
+    try{
+ var _fileContent=[];
     List<String> _filenames = [];
-     final response = await http.get(Uri.parse('http://${ip}:8080/getAgreementFiles'));
+     final response = await http.get(Uri.parse('http://192.168.1.34:8080/getAgreementFiles'));
 
     if (response.statusCode == 200) {
       _filenames = List<String>.from(json.decode(response.body));   
@@ -39,11 +40,19 @@ class Serverhttphelper{
       
     }
     return _filenames;
+    }
+    
+    catch (e, stackTrace) {
+    // Handle the error and log it if necessary
+    print('Error: $e');
+    print('Stack trace: $stackTrace');
+  }
+  return [];
 
   }
 
    static Future<String> getAffidavitFile(String filename,String dirname) async {
-      // String ip=  await MySharedPreferences.instance.getIP();
+      String ip=  await MySharedPreferences.instance.getIP();
     var _fileContent;
      Uri uri = Uri.parse('http://$ip:8080/file')
     .replace(queryParameters: {
@@ -85,7 +94,7 @@ class Serverhttphelper{
 
 
      static Future<List<String>> getAgreementFile(String filename) async {
-        // String ip=  await MySharedPreferences.instance.getIP();
+        String ip=  await MySharedPreferences.instance.getIP();
     var _fileContent;
     // List<String> _filenames = [];
     Uri uri = Uri.parse('http://$ip:8080/file')

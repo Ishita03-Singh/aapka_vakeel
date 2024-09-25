@@ -189,33 +189,37 @@ class _DashboardState extends State<Dashboard> {
                    Row( mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                     Expanded(child:
-                    getDashboardwidger(StrLiteral.affidavit,"Affidavit/Agreement","Lorem Ipsum is simply dummy "),
+                    getDashboardwidger(StrLiteral.affidavit,"Affidavit/Agreement","Lorem Ipsum is simply dummy ",(){Navigator.push(
+                        context,
+                        PageTransition(
+                            child: AffidavitScreen(),
+                            type: PageTransitionType.rightToLeft));}),
                     ),
                     SizedBox(width: 20,),
                     Expanded(child:
-                    getDashboardwidger(StrLiteral.consultation,"Legal Consultation","Lorem Ipsum is simply dummy "),
+                    getDashboardwidger(StrLiteral.consultation,"Legal Consultation","Lorem Ipsum is simply dummy ",(){}),
                     )
                    ],)
                    , SizedBox(height: 20,),
                    Row( mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                     Expanded(child:
-                    getDashboardwidger(StrLiteral.challan,"Fill Challan","Lorem Ipsum is simply dummy "),
+                    getDashboardwidger(StrLiteral.challan,"Fill Challan","Lorem Ipsum is simply dummy ",(){}),
                     ),
                     SizedBox(width: 20,),
                     Expanded(child:
-                    getDashboardwidger(StrLiteral.stampPaper,"Stamp Paper","Lorem Ipsum is simply dummy "),
+                    getDashboardwidger(StrLiteral.stampPaper,"Stamp Paper","Lorem Ipsum is simply dummy ",(){}),
                     )
                    ],),
                     SizedBox(height: 20,),
                    Row( mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                     Expanded(child:
-                    getDashboardwidger(StrLiteral.GST,"GST","Lorem Ipsum is simply dummy "),
+                    getDashboardwidger(StrLiteral.GST,"GST","Lorem Ipsum is simply dummy ",(){}),
                     ),
                     SizedBox(width: 20,),
                     Expanded(child:
-                    getDashboardwidger(StrLiteral.tradeMark,"Trademark","Lorem Ipsum is simply dummy "),
+                    getDashboardwidger(StrLiteral.tradeMark,"Trademark","Lorem Ipsum is simply dummy ",(){}),
                     )
                    ],),
                    SizedBox(height: 20),
@@ -235,15 +239,12 @@ class _DashboardState extends State<Dashboard> {
 
 
 
-  getDashboardwidger(String img, String headText, String infoText ){
+  getDashboardwidger(String img, String headText, String infoText,Function callFun ){
    return GestureDetector(
     onTap: () {
       // AffidavitScreen
-      Navigator.push(
-                        context,
-                        PageTransition(
-                            child: AffidavitScreen(),
-                            type: PageTransitionType.rightToLeft));
+      callFun();
+      
     },
      child: Container(
       decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(20)),

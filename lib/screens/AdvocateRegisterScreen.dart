@@ -16,8 +16,10 @@ import 'package:aapka_vakeel/utilities/strings.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
+import 'dart:html' as html;
 
 class UserRegistrationForm extends StatefulWidget {
   bool isAdvocate = false;
@@ -122,7 +124,31 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
   
 
   Future<void> _pickFile() async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles(
+    if(kIsWeb){
+ html.FileUploadInputElement uploadInput = html.FileUploadInputElement();
+  uploadInput.accept = '.pdf'; // Allow only PDF files
+  uploadInput.click(); // Trigger the file picker
+
+  uploadInput.onChange.listen((e) {
+    final files = uploadInput.files;
+    if (files != null && files.isNotEmpty) {
+      final file = files.first;
+        _selectedFile = File(file.name);
+      final reader = html.FileReader();
+      reader.readAsArrayBuffer(file);
+
+      reader.onLoadEnd.listen((e) {
+        setState(() {
+          Uint8List fileBytes = reader.result as Uint8List;
+            _selectedFile = File(file.name);
+          // You can now use `fileBytes` as the PDF file data
+        });
+      });
+    }
+  });
+    }
+    else{
+FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
       allowedExtensions: ['pdf'],
     );
@@ -134,6 +160,8 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
     } else {
       // User canceled the picker
     }
+    }
+    
   }
 
   @override
