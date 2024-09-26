@@ -5,6 +5,7 @@ import 'package:aapka_vakeel/model/user.dart';
 import 'package:aapka_vakeel/others/shared_pref.dart';
 import 'package:aapka_vakeel/screens/OTPScreen.dart';
 import 'package:aapka_vakeel/screens/affidavitScreen.dart';
+import 'package:aapka_vakeel/screens/chatGPT/chatGPT.dart';
 import 'package:aapka_vakeel/screens/scbarContainer.dart';
 import 'package:aapka_vakeel/utilities/colors.dart';
 import 'package:aapka_vakeel/utilities/custom_button.dart';
@@ -183,13 +184,30 @@ class _DashboardState extends State<Dashboard> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                  CustomText.headText("Welcome!"),
-                  CustomText.infoText("How can we be of help?"),
+                    Row( mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                  Column(crossAxisAlignment: CrossAxisAlignment.start,
+                  children: 
+                  [ CustomText.headText("Welcome!"),
+                  CustomText.infoText("How can we be of help?"),],
+                  ),
+                  GestureDetector(
+                    onTap: (){
+                      Navigator.push(
+                        context,
+                        PageTransition(
+                            child: ChatPage(),
+                            type: PageTransitionType.rightToLeft));
+                    },
+                    child: Image.asset(StrLiteral.AIBot,width: 30,),
+                  )
+                    ],)
+                ,
                    SizedBox(height: 10,),
                    Row( mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                     Expanded(child:
-                    getDashboardwidger(StrLiteral.affidavit,"Affidavit/Agreement","Lorem Ipsum is simply dummy ",(){Navigator.push(
+                    getDashboardwidger(StrLiteral.affidavit,"Affidavit/Agreement","Get expert lawyer's signed Affidavit in minutes ",(){Navigator.push(
                         context,
                         PageTransition(
                             child: AffidavitScreen(),
@@ -197,29 +215,29 @@ class _DashboardState extends State<Dashboard> {
                     ),
                     SizedBox(width: 20,),
                     Expanded(child:
-                    getDashboardwidger(StrLiteral.consultation,"Legal Consultation","Lorem Ipsum is simply dummy ",(){}),
+                    getDashboardwidger(StrLiteral.consultation,"Legal Consultation","Expert legal consultation is now just one call away",(){}),
                     )
                    ],)
                    , SizedBox(height: 20,),
                    Row( mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                     Expanded(child:
-                    getDashboardwidger(StrLiteral.challan,"Fill Challan","Lorem Ipsum is simply dummy ",(){}),
+                    getDashboardwidger(StrLiteral.challan,"Fill Challan","Fill challan in three easy steps ",(){}),
                     ),
                     SizedBox(width: 20,),
                     Expanded(child:
-                    getDashboardwidger(StrLiteral.stampPaper,"Stamp Paper","Lorem Ipsum is simply dummy ",(){}),
+                    getDashboardwidger(StrLiteral.stampPaper,"Stamp Paper","Get lawyer signed Stamp papers. ",(){}),
                     )
                    ],),
                     SizedBox(height: 20,),
                    Row( mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                     Expanded(child:
-                    getDashboardwidger(StrLiteral.GST,"GST","Lorem Ipsum is simply dummy ",(){}),
+                    getDashboardwidger(StrLiteral.GST,"GST","get queries related to gst solved at ease",(){}),
                     ),
                     SizedBox(width: 20,),
                     Expanded(child:
-                    getDashboardwidger(StrLiteral.tradeMark,"Trademark","Lorem Ipsum is simply dummy ",(){}),
+                    getDashboardwidger(StrLiteral.tradeMark,"Trademark","Get trademark and other facilities in simple steps",(){}),
                     )
                    ],),
                    SizedBox(height: 20),
@@ -246,32 +264,36 @@ class _DashboardState extends State<Dashboard> {
       callFun();
       
     },
-     child: Container(
-      decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(20)),
-      border: Border.all(color: Color(0xFF333333).withOpacity(0.2),width: 1),
-      color: Colors.white,
-      boxShadow: [BoxShadow(
-                    color: Color(0xFF333333).withOpacity(0.2),
-                    spreadRadius: 3,
-                    blurRadius: 4,
-                    offset: Offset(0, 3), // changes position of shadow
-                  ),] 
-      ),
-      child: Column(
-        children: [
-        ClipRRect(
-          borderRadius: BorderRadius.only(topLeft: Radius.circular(20),topRight: Radius.circular(20)), 
-          child: Image.asset(img,fit: BoxFit.fill,height: 140,)),
-        Container(
-          padding: EdgeInsets.all(8),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-            CustomText.smallheadText(headText),
-            CustomText.extraSmallinfoText(infoText,isCenter: false),
-          ],),
-        )
-      ],),
+     child: Expanded(
+       child: Container(
+        
+        decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(20),),
+        border: Border.all(color: Color(0xFF333333).withOpacity(0.2),width: 1),
+        color: Colors.white,
+        boxShadow: [BoxShadow(
+                      color: Color(0xFF333333).withOpacity(0.2),
+                      spreadRadius: 3,
+                      blurRadius: 4,
+                      offset: Offset(0, 3), // changes position of shadow
+                    ),] 
+        ),
+        child: Column(
+          children: [
+          ClipRRect(
+            borderRadius: BorderRadius.only(topLeft: Radius.circular(20),topRight: Radius.circular(20)), 
+            child: Image.asset(img,fit: BoxFit.cover,height: 140,width: MediaQuery.of(context).size.width/2-30,)),
+          Container(
+           width: MediaQuery.of(context).size.width/2-30,
+            padding: EdgeInsets.all(8),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+              CustomText.smallheadText(headText),
+              CustomText.extraSmallinfoText(infoText,isCenter: false),
+            ],),
+          )
+        ],),
+       ),
      ),
    );
   }

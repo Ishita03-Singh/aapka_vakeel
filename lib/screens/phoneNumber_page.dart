@@ -53,7 +53,7 @@ class _PhoneNumPageState extends State<PhoneNumPage> {
                       widget.first ? "Lets get started" : "Welcome Back!"),
                   // Padding(padding: EdgeInsets.all(12)),
                   CustomText.infoText(
-                      "Lorem Ipsum is simply dummy text of the  printing and typesetting industry. Lorem Ipsm has been dummy text ever since the 1500s"),
+                      "Embrace the future of law with Aapka Vakeel. Our innovative application combines technology with legal expertise to deliver unparalleled service."),
                   Padding(padding: EdgeInsets.only(top: 12)),
                   Container(
                     width: MediaQuery.of(context).size.width,

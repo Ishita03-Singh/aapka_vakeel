@@ -30,6 +30,8 @@ class StrLiteral {
   static const String profile= 'assets/images/profile.png';
   static const String upload= 'assets/images/upload.png';
  static const String videoCall= 'assets/images/videoCall.png';
+  static const String AIBot= 'assets/images/Chatbot.png';
+
 
 
   // static const String LottiePath = 'assets/images/Blue.json';

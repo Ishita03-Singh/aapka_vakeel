@@ -339,7 +339,7 @@ List<String> affidavitList= [];
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
               CustomText.smallheadText(scrollWidgetContent[index]["type"]),
-              Image.asset(scrollWidgetContent[index]["imgPath"]),
+              Image.asset(scrollWidgetContent[index]["imgPath"],height: MediaQuery.of(context).size.height/2,),
               CustomText.headText(scrollWidgetContent[index]["headText"]),
               SizedBox(height: 10),
               if(scrollWidgetContent[index]["infoText"]!="")
