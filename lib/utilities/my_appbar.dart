@@ -5,12 +5,12 @@ import 'package:aapka_vakeel/utilities/strings.dart';
 import 'package:flutter/material.dart';
 
 class MyAppBar {
-  static appbar(context) {
+  static appbar(context,{String head= StrLiteral.appName,}) {
     return AppBar(
       titleSpacing: 16,
       title: Align(
           alignment: Alignment.centerLeft,
-          child: CustomText.appNameText(StrLiteral.appName)),
+          child: CustomText.appNameText(head)),
       backgroundColor: AppColor.bgColor,
       actions: [
         customButton.iconButton(

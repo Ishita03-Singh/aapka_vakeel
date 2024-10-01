@@ -18,6 +18,7 @@ class StrLiteral {
   static const String aiDrafts='assets/images/AIDrafts.png';
   static const String lawyerDrafts='assets/images/LawyerDrafts.png';
   static const String wait='assets/images/wait.png';
+   static const String blueTick='assets/images/blueTick.png';
 
   
 

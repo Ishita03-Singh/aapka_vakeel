@@ -6,6 +6,7 @@ import 'package:aapka_vakeel/others/shared_pref.dart';
 import 'package:aapka_vakeel/screens/OTPScreen.dart';
 import 'package:aapka_vakeel/screens/affidavitScreen.dart';
 import 'package:aapka_vakeel/screens/chatGPT/chatGPT.dart';
+import 'package:aapka_vakeel/screens/consultation/consultation.dart';
 import 'package:aapka_vakeel/screens/scbarContainer.dart';
 import 'package:aapka_vakeel/utilities/colors.dart';
 import 'package:aapka_vakeel/utilities/custom_button.dart';
@@ -127,7 +128,7 @@ class _DashboardState extends State<Dashboard> {
               ),
               child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly,
              children: [
-              Expanded(
+              Container(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -206,7 +207,7 @@ class _DashboardState extends State<Dashboard> {
                    SizedBox(height: 10,),
                    Row( mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                    Expanded(child:
+                    Container(child:
                     getDashboardwidger(StrLiteral.affidavit,"Affidavit/Agreement","Get expert lawyer's signed Affidavit in minutes ",(){Navigator.push(
                         context,
                         PageTransition(
@@ -214,29 +215,35 @@ class _DashboardState extends State<Dashboard> {
                             type: PageTransitionType.rightToLeft));}),
                     ),
                     SizedBox(width: 20,),
-                    Expanded(child:
-                    getDashboardwidger(StrLiteral.consultation,"Legal Consultation","Expert legal consultation is now just one call away",(){}),
+                    Container(child:
+                    getDashboardwidger(StrLiteral.consultation,"Legal Consultation","Expert legal consultation is now just one call away",(){
+                      Navigator.push(
+                        context,
+                        PageTransition(
+                            child: ConsultLawyer(),
+                            type: PageTransitionType.rightToLeft));
+                    }),
                     )
                    ],)
                    , SizedBox(height: 20,),
                    Row( mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                    Expanded(child:
+                    Container(child:
                     getDashboardwidger(StrLiteral.challan,"Fill Challan","Fill challan in three easy steps ",(){}),
                     ),
                     SizedBox(width: 20,),
-                    Expanded(child:
+                    Container(child:
                     getDashboardwidger(StrLiteral.stampPaper,"Stamp Paper","Get lawyer signed Stamp papers. ",(){}),
                     )
                    ],),
                     SizedBox(height: 20,),
                    Row( mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                    Expanded(child:
+                    Container(child:
                     getDashboardwidger(StrLiteral.GST,"GST","get queries related to gst solved at ease",(){}),
                     ),
                     SizedBox(width: 20,),
-                    Expanded(child:
+                    Container(child:
                     getDashboardwidger(StrLiteral.tradeMark,"Trademark","Get trademark and other facilities in simple steps",(){}),
                     )
                    ],),
@@ -264,7 +271,7 @@ class _DashboardState extends State<Dashboard> {
       callFun();
       
     },
-     child: Expanded(
+     child: Container(
        child: Container(
         
         decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(20),),

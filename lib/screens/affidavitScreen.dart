@@ -21,18 +21,13 @@ class _AffidavitScreenState extends State<AffidavitScreen> {
   // List<String> _allItems = ['Apple', 'Banana', 'Cherry', 'Date', 'Elderberry'];
   List<String> affidavitList = [];
   List<String> agreementList = [];
-
   bool isAffidavitPage=true;
   List<String> _filteredItems=[];
-
-
 
   @override
   void initState() {
     super.initState();
     _initializeAsync();
-    
-   
   }
 
 Future<void> _initializeAsync() async {
@@ -77,7 +72,6 @@ Future<void> _initializeAsync() async {
                       affidavitList= await Serverhttphelper.getAffidavitFileList();
                       setState(() {
                       isAffidavitPage=true;
-          
                       });
                     },
                     child: Container(
@@ -218,9 +212,7 @@ Future<void> _initializeAsync() async {
                     return  draftListContainer(agreementList[index]);
                      },
                  ),
-              ),
-             
-             
+              ), 
             ],
           ),
     );
