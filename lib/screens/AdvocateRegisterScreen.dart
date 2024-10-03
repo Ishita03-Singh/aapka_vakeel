@@ -41,6 +41,10 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
   TextEditingController StateController = new TextEditingController();
   TextEditingController CityController = new TextEditingController();
   TextEditingController PinCodeController = new TextEditingController();
+    TextEditingController IntroController = new TextEditingController();
+      TextEditingController ChargeController = new TextEditingController();
+        TextEditingController ExperienceController = new TextEditingController();
+          TextEditingController SkillsController = new TextEditingController();
   TextEditingController BarRegistrationNoController =
       new TextEditingController();
   TextEditingController BarRegistrationCertificateController =
@@ -95,6 +99,10 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
           // 'pinCode':PinCodeController.text,
           'barRegistrationNo':BarRegistrationNoController.text,
           'barRegistrationCertificate':_selectedFile!.path.split('/').last,
+           'introduction':IntroController.text,
+           'experience':ExperienceController.text,
+           'charges':ChargeController.text,
+           'skills':SkillsController.text
         });
         }
         userClass.uid=widget.userCredential.user!.uid;
@@ -104,6 +112,10 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
         userClass.barRegistrationNo= BarRegistrationNoController.text??"";
         userClass.barRegistrationCertificate=BarRegistrationCertificateController.text??"";
         userClass.phoneNumber= widget.userCredential.user!.phoneNumber!;
+        userClass.introduction=IntroController.text??"";
+        userClass.experience=ExperienceController.text??"";
+        userClass.charges=ChargeController.text??"";
+        userClass.skills=SkillsController.text??"";
         
         
         // Navigate to another page or show success message
@@ -186,6 +198,18 @@ FilePickerResult? result = await FilePicker.platform.pickFiles(
                 giveInputField("State", StateController, true,TextInputType.text),
                 giveInputField("City", CityController, true,TextInputType.text),
                 giveInputField("Pin code", PinCodeController, true,TextInputType.phone),
+                if (widget.isAdvocate)
+                  giveInputField("Please give a short introduction",
+                      IntroController, true,TextInputType.text),
+                      if (widget.isAdvocate)
+                  giveInputField("Experience",
+                      ExperienceController, true,TextInputType.text),
+                      if (widget.isAdvocate)
+                  giveInputField("Skills",
+                      SkillsController, true,TextInputType.text),
+                      if (widget.isAdvocate)
+                  giveInputField("Charges per minute",
+                      ChargeController, true,TextInputType.text),
                 if (widget.isAdvocate)
                   giveInputField("Bar registration number",
                       BarRegistrationNoController, true,TextInputType.text),

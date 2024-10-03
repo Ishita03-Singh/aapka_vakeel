@@ -1,5 +1,8 @@
 import 'package:aapka_vakeel/HTTP/serverhttpHelper.dart';
+import 'package:aapka_vakeel/model/AdvocateCall.dart';
 import 'package:aapka_vakeel/model/advocate.dart';
+import 'package:aapka_vakeel/model/user.dart';
+import 'package:aapka_vakeel/screens/consultation/advocateDetail.dart';
 import 'package:aapka_vakeel/utilities/colors.dart';
 import 'package:aapka_vakeel/utilities/custom_button.dart';
 import 'package:aapka_vakeel/utilities/custom_text.dart';
@@ -9,6 +12,7 @@ import 'package:aapka_vakeel/utilities/strings.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 
 class ConsultLawyer extends StatefulWidget {
   const ConsultLawyer({super.key});
@@ -20,8 +24,8 @@ class ConsultLawyer extends StatefulWidget {
 class _ConsultLawyerState extends State<ConsultLawyer> {
    
   TextEditingController _searchController = TextEditingController();
-  List<Advocate> _filteredItems=[];
-  List<Advocate> advocateList = [];
+  List<UserClass> _filteredItems=[];
+  List<UserClass> advocateList = [];
     final CollectionReference advocatesCollection =
       FirebaseFirestore.instance.collection('advocates');
 
@@ -36,7 +40,7 @@ class _ConsultLawyerState extends State<ConsultLawyer> {
  @override
   void initState() {
     super.initState();
-    _initializeAsync(); 
+    // _initializeAsync(); 
   }
 
   @override
@@ -46,28 +50,28 @@ class _ConsultLawyerState extends State<ConsultLawyer> {
   }
 
 
-Future<void> _initializeAsync() async {
-  List<Advocate> advocateList=await Serverhttphelper.getAdvocateList();
-    setState(() {
-      advocateList = advocateList;
-    });
-     _filteredItems.addAll(advocateList);
-  }
+// Future<void> _initializeAsync() async {
+//   List<UserClass> advocateList=await Serverhttphelper.getAdvocateList();
+//     setState(() {
+//       advocateList = advocateList;
+//     });
+//      _filteredItems.addAll(advocateList);
+//   }
 
 
-void _filterItems(String query) {
-    List<Advocate> results = [];
-    if (query.isEmpty) {
-      results.addAll(advocateList);
-    } else {
-      results = advocateList
-          .where((item) => item.displayName.toLowerCase().contains(query.toLowerCase()))
-          .toList();
-    }
-    setState(() {
-      _filteredItems = results;
-    });
-  }
+// void _filterItems(String query) {
+//     List<UserClass> results = [];
+//     if (query.isEmpty) {
+//       results.addAll(advocateList);
+//     } else {
+//       results = advocateList
+//           .where((item) => item.displayName.toLowerCase().contains(query.toLowerCase()))
+//           .toList();
+//     }
+//     setState(() {
+//       _filteredItems = results;
+//     });
+//   }
 
   ConsultationScroll(){
     return Column(
@@ -90,7 +94,7 @@ void _filterItems(String query) {
   getSearchButton(){
   return TextField(
                 controller: _searchController,
-                onChanged: _filterItems,
+                // onChanged: _filterItems,
                 decoration: InputDecoration(
                   contentPadding: EdgeInsets.all(0),
                   labelText: 'Search..',
@@ -139,25 +143,34 @@ advoacteList(){
 }
 
   getAdvocateContainer( Map<String, dynamic> advocate){
- return Container(
-  padding: EdgeInsets.all(10),
-  decoration: BoxDecoration(
-    border: Border.all(width: 1,color: Colors.grey),
-    borderRadius: BorderRadius.all(Radius.circular(10))
-  ),
-  child: Column(
-    crossAxisAlignment: CrossAxisAlignment.stretch,
-    children: [
-      //top layer
-      getTopLayer(advocate),
-      SizedBox(height: 10),
-      getMiddleLayer(advocate),
-         SizedBox(height: 10),
-         getBottomLayer(advocate),
-
-
-  ],),
-  );
+ return GestureDetector(
+  onTap:(){
+      Navigator.push(
+                        context,
+                        PageTransition(
+                            child: AdvocateDetail(advocate:advocate),
+                            type: PageTransitionType.rightToLeft));
+  },
+   child: Container(
+    padding: EdgeInsets.all(10),
+    decoration: BoxDecoration(
+      border: Border.all(width: 1,color: Colors.grey),
+      borderRadius: BorderRadius.all(Radius.circular(10))
+    ),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        //top layer
+        getTopLayer(advocate),
+        SizedBox(height: 10),
+        getMiddleLayer(advocate),
+           SizedBox(height: 10),
+           getBottomLayer(advocate),
+   
+   
+    ],),
+    ),
+ );
   }
 
 
@@ -170,13 +183,18 @@ getBottomLayer(Map<String,dynamic> advocate){
         CustomChip.statusText(advocate["address"],false),
       ],)
       ,SizedBox(height: 5),
-      CustomText.RegularDarkText("Call charges: Rs. 30/min")
+      CustomText.RegularDarkText("Call charges: Rs. ${advocate["charges"]}/min")
       ,SizedBox(height: 5),
       Row(
         children: [
         Expanded(child: 
         GestureDetector(
-          onTap: (){},
+          onTap: (){
+            //scheduleCall
+
+            var advocateCall= new AdvocateCall(uid: userClass.uid, userName: userClass.displayName, phoneNumber: userClass.phoneNumber, callTime: DateTime.now().toString(), advocateName: advocate['firstName']+" "+ advocate['lastName'], advoacteId: advocate['id'],isVideoCall: false);
+            userClass.advoacateCalls!.add(advocateCall);
+          },
           child:Container(
             padding:EdgeInsets.fromLTRB(20,10,20,10),
             decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -192,7 +210,12 @@ getBottomLayer(Map<String,dynamic> advocate){
         SizedBox(width: 10),
         Expanded(child: 
            GestureDetector(
-          onTap: (){},
+          onTap: (){
+
+            //schedule 
+               var advocateCall= new AdvocateCall(uid: userClass.uid, userName: userClass.displayName, phoneNumber: userClass.phoneNumber, callTime: DateTime.now().toString(), advocateName: advocate['firstName']+" "+ advocate['lastName'], advoacteId: advocate['id'],isVideoCall: false);
+            userClass.advoacateCalls!.add(advocateCall);
+          },
           child:Container(padding:EdgeInsets.fromLTRB(20,10,20,10),
             decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(10)),
             color: Colors.black),
@@ -215,12 +238,14 @@ return Container(
     children: [
     Column(crossAxisAlignment: CrossAxisAlignment.start,
     children: [
-   CustomText.smallheadText("(Cheque Bounce & Money Recovery Property & Real Estate, +5 more)"),
+   Container(
+    width: MediaQuery.of(context).size.width/2,
+    child: CustomText.smallheadText(advocate['skills'])),
    SizedBox(height: 5),
-   CustomText.infoText("7 years of Experience"),
-   CustomText.infoText("Tamil, Marathi, English, Hindi, Karnataka, Telugu")
+   CustomText.infoText("${advocate['experience']} years of Experience"),
+  //  CustomText.infoText("Tamil, Marathi, English, Hindi, Karnataka, Telugu")
     ],),
-    Icon(Icons.thumb_up_outlined,color: Colors.grey,size: 25,)
+    // Icon(Icons.thumb_up_outlined,color: Colors.grey,size: 25,)
    
   
   ],),
@@ -240,14 +265,18 @@ getTopLayer(Map<String,dynamic> advocate){
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         //name and tick
-        Row(children: [CustomText.boldDarkText(advocate['firstName']+" "+ advocate['lastName']),SizedBox(width: 5,),Image.asset(StrLiteral.blueTick)],)
-        ,CustomText.infoText("With 30 years of professional lineage as a second-generation lawyer in Ka"),
+        Row(children: [CustomText.boldDarkText(advocate['firstName']+" "+ advocate['lastName']),SizedBox(width: 5,),
+        // Image.asset(StrLiteral.blueTick)
+        ],)
+        ,Container(
+          width: MediaQuery.of(context).size.width/2,
+          child: CustomText.infoText(advocate["introduction"])),
       ],
     )],
   ),
-  Column(crossAxisAlignment: CrossAxisAlignment.end,
-  children: [  CustomChip.getRatingChip(4.8),
-  CustomText.infoText("1052 Reviews")],)
+  // Column(crossAxisAlignment: CrossAxisAlignment.end,
+  // children: [  CustomChip.getRatingChip(4.8),
+  // CustomText.infoText("1052 Reviews")],)
 
 ],);
 }

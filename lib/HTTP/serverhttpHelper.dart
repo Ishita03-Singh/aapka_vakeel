@@ -185,8 +185,6 @@ return _downloadUrl;
     return "";
   }
 
-static Future<List<Advocate>> getAdvocateList() async {
-  return await [Advocate(uid: "sh", email: 'hsjx', phoneNumber: "bsh", displayName: "Vrinda Sharma", address: "addreess", isAdvocate: true)];
-}
+
 
 }

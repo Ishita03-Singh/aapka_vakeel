@@ -1,3 +1,5 @@
+import 'AdvocateCall.dart';
+
 class UserClass {
   String uid;
   String email;
@@ -6,7 +8,14 @@ class UserClass {
   String  address;
   String? barRegistrationNo;
   String? barRegistrationCertificate;
+  String?experience;
+  String? skills;
+  String? charges;
+  String?introduction;
+  List<AdvocateCall>? advoacateCalls = [];
+  //store this model in  local storage also and update list in user according to local storafe
   bool isAdvocate;
+
   UserClass({
     required this.uid,
     required this.email,
@@ -15,7 +24,12 @@ class UserClass {
     required this.address,
     this.barRegistrationNo,
     this.barRegistrationCertificate,
-    required this.isAdvocate
+    this.introduction,
+    this.charges,
+    this.experience,
+    this.skills,
+    required this.isAdvocate,
+   
   });
 
   // Convert a User object to a Map object
@@ -28,6 +42,10 @@ class UserClass {
         'barRegistrationNo':barRegistrationNo??"",
         'barRegistrationCertificate': barRegistrationCertificate??"",
         'isAdvocate':isAdvocate,
+        'introduction':introduction,
+        'charges':charges,
+        'skills':skills,
+        'experience':experience,
 
       };
 
@@ -41,8 +59,17 @@ class UserClass {
       barRegistrationNo: json['barRegistrationNo']??"",
       barRegistrationCertificate: json['barRegistrationCertificate']??"",
       address: json['address'],
-      isAdvocate:  json['isAdvocate']
+      isAdvocate:  json['isAdvocate'],
+      introduction:json ['introduction'],
+      charges:json['charges'],
+      skills: json['skills'],
+      experience:json['experience']
     );
   }
+
+
+
+
+
 }
 UserClass userClass= UserClass(uid: "", email: "", phoneNumber: "", displayName: "", address: "", isAdvocate: true);

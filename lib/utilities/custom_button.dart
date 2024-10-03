@@ -206,6 +206,24 @@ class CustomButton {
       child: child,
     );
   }
+
+ static  IconTextOutlineButton(String text,IconData icon, Function() fun){
+return GestureDetector(onTap: fun,
+child: Container(
+  padding: EdgeInsets.fromLTRB(10, 6, 10, 6),
+decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(20)),
+border: Border.all(color: Colors.black)),
+ child: Row(
+  mainAxisAlignment: MainAxisAlignment.center,
+  children: [
+   Icon(icon,color: Colors.black,size: 25),
+   CustomText.RegularDarkText(text)
+  ],
+ ),
+
+),);
+  }
+  
 }
 
 CustomButton customButton = CustomButton();
