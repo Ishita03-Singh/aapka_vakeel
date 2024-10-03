@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:aapka_vakeel/HTTP/serverhttpHelper.dart';
 import 'package:aapka_vakeel/screens/affidavitFullScreen.dart';
+import 'package:aapka_vakeel/screens/chatGPT/chatGPT.dart';
 import 'package:aapka_vakeel/screens/scbarContainer.dart';
 import 'package:aapka_vakeel/utilities/custom_button.dart';
 import 'package:aapka_vakeel/utilities/custom_text.dart';
@@ -378,7 +379,7 @@ List<String> affidavitList= [];
                Navigator.push(
                     context,
                     PageTransition(
-                        child: AffidavitFullScreen(fileName:widget.fileName,isAffidavitPage:widget.isAffidavitPage),
+                        child: ChatScreen(prompt:"Generate a affidavit for name change"),
                         type: PageTransitionType.rightToLeft));
           }),
         ],),

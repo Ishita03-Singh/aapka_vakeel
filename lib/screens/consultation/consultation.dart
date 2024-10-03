@@ -24,14 +24,15 @@ class ConsultLawyer extends StatefulWidget {
 class _ConsultLawyerState extends State<ConsultLawyer> {
    
   TextEditingController _searchController = TextEditingController();
-  List<UserClass> _filteredItems=[];
-  List<UserClass> advocateList = [];
+  // List<UserClass> _filteredItems=[];
+  // List<UserClass> advocateList = [];
     final CollectionReference advocatesCollection =
       FirebaseFirestore.instance.collection('advocates');
 
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
+      appBar:  MyAppBar.appbar(context,head:"Talk To a Lawyer"),
        body: ConsultationScroll(),
     );
   }
@@ -76,7 +77,7 @@ class _ConsultLawyerState extends State<ConsultLawyer> {
   ConsultationScroll(){
     return Column(
       children: [
-          MyAppBar.appbar(context,head:"Talk To a Lawyer"),
+          // MyAppBar.appbar(context,head:"Talk To a Lawyer"),
           Padding(
             padding:  EdgeInsets.fromLTRB(20, 50, 20, 20),
             child: Column(  

@@ -1,5 +1,7 @@
-import 'dart:convert';
+// import 'dart:convert';
 import 'package:http/http.dart' as http;
+
+import 'dart:convert';
 
 class ApiService {
   final String code = ''; // Replace with your OpenAI API key
@@ -21,17 +23,22 @@ class ApiService {
       }),
     );
 
-    if (response.statusCode == 200) {
-      final jsonResponse = jsonDecode(response.body);
-      return jsonResponse['choices'][0]['message']['content'];
-    } else {
-      print('Error: ${response.statusCode}, Body: ${response.body}');
-      throw Exception('Failed to load response');
-    }
+//     if (response.statusCode == 200) {
+//       final jsonResponse = jsonDecode(response.body);
+//       return jsonResponse['choices'][0]['message']['content'];
+//     } else {
+//       print('Error: ${response.statusCode}, Body: ${response.body}');
+//       throw Exception('Failed to load response');
+//     }
+//   } catch (e) {
+//     print('Caught an exception: $e');
+//     rethrow; // or handle it accordingly
+//   }
+// }
   } catch (e) {
     print('Caught an exception: $e');
-    rethrow; // or handle it accordingly
-  }
-}
+     rethrow; // or handle it accordingly
+   }
 
+}
 }

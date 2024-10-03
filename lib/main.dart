@@ -49,8 +49,15 @@ void main() async {
     // final fcmToken = await FirebaseMessaging.instance.getToken();
   // await FirebaseMessaging.instance.setAutoInitEnabled(true);
    FirebaseFirestore.instance.settings = const Settings(
-    persistenceEnabled: true,
-    cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED,
+      persistenceEnabled: true, // optional
+  sslEnabled: true, // optional
+  cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED, // optional
+  ignoreUndefinedProperties: false, // optional
+  // Set long polling timeout (minimum 5 seconds)
+  webExperimentalLongPollingOptions: WebExperimentalLongPollingOptions(
+    timeoutDuration: Duration(seconds: 10),
+  ),  // Set to at least 5 seconds (you can increase if needed)
+  webExperimentalForceLongPolling: true,  // Enable long polling
   );
  
   // FirebaseMessaging.onBackgroundMessage(PushNotificationService.backgroundHandler);

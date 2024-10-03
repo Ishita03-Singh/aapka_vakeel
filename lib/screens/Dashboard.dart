@@ -197,7 +197,7 @@ class _DashboardState extends State<Dashboard> {
                       Navigator.push(
                         context,
                         PageTransition(
-                            child: ChatPage(),
+                            child: ChatScreen(),
                             type: PageTransitionType.rightToLeft));
                     },
                     child: Image.asset(StrLiteral.AIBot,width: 30,),
