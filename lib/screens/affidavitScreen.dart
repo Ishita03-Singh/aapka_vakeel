@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:aapka_vakeel/HTTP/serverhttpHelper.dart';
 import 'package:aapka_vakeel/screens/affidavitFullScreen.dart';
 import 'package:aapka_vakeel/screens/chatGPT/chatGPT.dart';
+import 'package:aapka_vakeel/screens/notaryScreen.dart';
 import 'package:aapka_vakeel/screens/scbarContainer.dart';
 import 'package:aapka_vakeel/utilities/custom_button.dart';
 import 'package:aapka_vakeel/utilities/custom_text.dart';
@@ -127,7 +128,7 @@ Future<void> _initializeAsync() async {
    
   affidavitContainer(){
     return Container(
-      height: MediaQuery.of(context).size.height-250,
+      height: MediaQuery.of(context).size.height-200,
       padding: EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -157,7 +158,7 @@ Future<void> _initializeAsync() async {
               // ),
               IconButton(onPressed: (){}, icon: Icon(Icons.menu)),
                  Container(
-                   height: MediaQuery.of(context).size.height-400,
+                   height: MediaQuery.of(context).size.height-320,
                    width: MediaQuery.of(context).size.width,
                    child: ListView.builder(
                     itemCount: affidavitList.length,
@@ -175,7 +176,7 @@ Future<void> _initializeAsync() async {
 
   agreementContainer(){
      return Container(
-      height: MediaQuery.of(context).size.height-250,
+      height: MediaQuery.of(context).size.height-200,
       padding: EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -205,7 +206,7 @@ Future<void> _initializeAsync() async {
               // ),
               IconButton(onPressed: (){}, icon: Icon(Icons.menu)),
               Container(
-                   height: MediaQuery.of(context).size.height-400,
+                   height: MediaQuery.of(context).size.height-320,
                    width: MediaQuery.of(context).size.width,
                 child: ListView.builder(
                     itemCount: agreementList.length,
@@ -367,11 +368,15 @@ List<String> affidavitList= [];
                           ),
           ],),
           SizedBox(height: 12),
-          customButton.taskButton("Continue with Lawyer", (){
+          customButton.taskButton("Continue with Lawyer", ()async{
+
+            String dir= widget.isAffidavitPage?"Affidavit":"Agreements";
+            String draftfile=await Serverhttphelper.fetchFileUrl(widget.fileName,dir);
+
             Navigator.pushReplacement(
                     context,
                     PageTransition(
-                        child: AffidavitFullScreen(fileName:widget.fileName,isAffidavitPage:widget.isAffidavitPage),
+                        child: NotaryScreen(filePath:draftfile),
                         type: PageTransitionType.rightToLeft));
           }),
           SizedBox(height: 12),

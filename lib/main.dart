@@ -118,7 +118,7 @@ class MyApp extends StatelessWidget {
           // child: VideoCallSetupScreen(),
           // );
           // return StampPaper();
-          return Dashboard();
+          return IntroPage();
           }
          //  User user= jsonDecode(userString);
          Map<String, dynamic> userMap = jsonDecode(userString);
