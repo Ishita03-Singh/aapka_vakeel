@@ -129,6 +129,7 @@ class _DashboardState extends State<Dashboard> {
               child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly,
              children: [
               Container(
+                width: MediaQuery.of(context).size.width/2-80,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -192,16 +193,27 @@ class _DashboardState extends State<Dashboard> {
                   [ CustomText.headText("Welcome!"),
                   CustomText.infoText("How can we be of help?"),],
                   ),
-                  GestureDetector(
-                    onTap: (){
-                      Navigator.push(
-                        context,
-                        PageTransition(
-                            child: ChatScreen(),
-                            type: PageTransitionType.rightToLeft));
-                    },
-                    child: Image.asset(StrLiteral.AIBot,width: 30,),
-                  )
+                      Row(
+                        children: [
+
+                           GestureDetector(
+                            onTap: (){},
+                            child: Image.asset(StrLiteral.wallet,width: 30,),
+                                            ),
+
+                                            SizedBox(width: 10),
+                          GestureDetector(
+                            onTap: (){
+                              Navigator.push(
+                                context,
+                                PageTransition(
+                                    child: ChatScreen(),
+                                    type: PageTransitionType.rightToLeft));
+                            },
+                            child: Image.asset(StrLiteral.AIBot,width: 30,),
+                                            ),
+                        ],
+                      )
                     ],)
                 ,
                    SizedBox(height: 10,),
@@ -272,6 +284,7 @@ class _DashboardState extends State<Dashboard> {
       
     },
      child: Container(
+        height: MediaQuery.of(context).size.height/3.5,
        child: Container(
         
         decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(20),),

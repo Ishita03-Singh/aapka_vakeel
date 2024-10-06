@@ -30,11 +30,14 @@ class StrLiteral {
   static const String note= 'assets/images/note.png';
   static const String profile= 'assets/images/profile.png';
   static const String upload= 'assets/images/upload.png';
- static const String videoCall= 'assets/images/videoCall.png';
+  static const String videoCall= 'assets/images/videoCall.png';
   static const String AIBot= 'assets/images/Chatbot.png';
+  static const String wallet= 'assets/images/wallet.png';
 
 
 
-  // static const String LottiePath = 'assets/images/Blue.json';
+
+  // static const String LottiePath = 'assets/images
+
   static const String appName = "Aapka Vakeel";
 }

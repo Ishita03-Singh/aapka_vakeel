@@ -38,7 +38,7 @@ class _ChatScreenState extends State<ChatScreen> {
     _getAIResponse(text);
   }
 Future<String> getGeminiResponse(String inputText) async {
-  const String api = ''; // Replace with your actual API
+  const String api = 'AIzaSyC2euOa3jvPZh5pWFVQJC5-xz2aL_zoGG0'; // Replace with your actual API
   const String endpointUrl = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${api}'; // Replace with your actual endpoint
 
   final response = await http.post(

@@ -29,34 +29,33 @@ class _SettingsState extends State<Settings> {
         padding: EdgeInsets.all(20),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-
-
           SizedBox(height: 30),
-           TextField(
-                decoration: MyTextField.outlinedTextField(""),
-                keyboardType: TextInputType.text,
-                controller: ipController,
-                // readOnly: true,
-                //  validator: (value) {
-                //     if (value == null || value.isEmpty) {
-                //       return 'Please enter your name';
-                //     }
-                //     return null;
-                //   },
-                enabled: true,
-                enableInteractiveSelection: false,
-                cursorColor: AppColor.primaryTextColor,
-                style: TextStyle(
-                    color: AppColor.primaryTextColor,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w400)),
-                    SizedBox(height: 20,),
-                    customButton.taskButton("save ip",(){
-                      MySharedPreferences.instance.setIp(ipController.text);
-                     Navigator.pop(context);
-                    }),
-                    SizedBox(height: 20),
+          //  TextField(
+          //       decoration: MyTextField.outlinedTextField(""),
+          //       keyboardType: TextInputType.text,
+          //       controller: ipController,
+          //       // readOnly: true,
+          //       //  validator: (value) {
+          //       //     if (value == null || value.isEmpty) {
+          //       //       return 'Please enter your name';
+          //       //     }
+          //       //     return null;
+          //       //   },
+          //       enabled: true,
+          //       enableInteractiveSelection: false,
+          //       cursorColor: AppColor.primaryTextColor,
+          //       style: TextStyle(
+          //           color: AppColor.primaryTextColor,
+          //           fontSize: 16,
+          //           fontWeight: FontWeight.w400)),
+          //           SizedBox(height: 20,),
+          //           customButton.taskButton("save ip",(){
+          //             MySharedPreferences.instance.setIp(ipController.text);
+          //            Navigator.pop(context);
+          //           }),
+          //           SizedBox(height: 20),
 
            CustomText.RegularDarkText("Your Scheduled Calls"),
 
