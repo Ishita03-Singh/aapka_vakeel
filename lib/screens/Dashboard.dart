@@ -211,7 +211,7 @@ class _DashboardState extends State<Dashboard> {
                                     child: ChatScreen(),
                                     type: PageTransitionType.rightToLeft));
                             },
-                            child: Image.asset(StrLiteral.AIBot,width: 30,),
+                            child: Image.asset(StrLiteral.bot,width: 30,),
                                             ),
                         ],
                       )

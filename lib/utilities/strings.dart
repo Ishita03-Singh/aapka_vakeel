@@ -33,6 +33,7 @@ class StrLiteral {
   static const String videoCall= 'assets/images/videoCall.png';
   static const String AIBot= 'assets/images/Chatbot.png';
   static const String wallet= 'assets/images/wallet.png';
+  static const String bot= 'assets/images/bot.png';
 
 
 
