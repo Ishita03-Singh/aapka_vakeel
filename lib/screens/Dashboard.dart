@@ -8,6 +8,7 @@ import 'package:aapka_vakeel/screens/affidavitScreen.dart';
 import 'package:aapka_vakeel/screens/chatGPT/chatGPT.dart';
 import 'package:aapka_vakeel/screens/consultation/consultation.dart';
 import 'package:aapka_vakeel/screens/scbarContainer.dart';
+import 'package:aapka_vakeel/screens/stampPaper.dart';
 import 'package:aapka_vakeel/utilities/colors.dart';
 import 'package:aapka_vakeel/utilities/custom_button.dart';
 import 'package:aapka_vakeel/utilities/custom_text.dart';
@@ -245,7 +246,13 @@ class _DashboardState extends State<Dashboard> {
                     ),
                     SizedBox(width: 20,),
                     Container(child:
-                    getDashboardwidger(StrLiteral.stampPaper,"Stamp Paper","Get lawyer signed Stamp papers. ",(){}),
+                    getDashboardwidger(StrLiteral.stampPaper,"Stamp Paper","",(){
+                       Navigator.push(
+                        context,
+                        PageTransition(
+                            child: StampPaper(),
+                            type: PageTransitionType.rightToLeft));
+                    }),
                     )
                    ],),
                     SizedBox(height: 20,),
@@ -283,8 +290,8 @@ class _DashboardState extends State<Dashboard> {
       callFun();
       
     },
-     child: Container(
-        height: MediaQuery.of(context).size.height/3.5,
+     child: Expanded(
+        // height: MediaQuery.of(context).size.height/3.5,
        child: Container(
         
         decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(20),),

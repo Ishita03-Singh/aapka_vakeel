@@ -390,7 +390,7 @@ FilePickerResult? result = await FilePicker.platform.pickFiles(
               // readOnly: true,
                validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter your name';
+                    return 'Please enter ${HeadText}';
                   }
                   return null;
                 },
