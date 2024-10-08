@@ -284,14 +284,16 @@ class _DashboardState extends State<Dashboard> {
 
 
   getDashboardwidger(String img, String headText, String infoText,Function callFun ){
+    var width=MediaQuery.of(context).size.width;
+    var height =MediaQuery.of(context).size.height;
    return GestureDetector(
     onTap: () {
       // AffidavitScreen
       callFun();
       
     },
-     child: Expanded(
-        // height: MediaQuery.of(context).size.height/3.5,
+     child: Container(
+        height: width>=height?MediaQuery.of(context).size.height/4:MediaQuery.of(context).size.height/3,
        child: Container(
         
         decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(20),),
