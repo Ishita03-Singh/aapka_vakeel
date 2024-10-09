@@ -133,37 +133,75 @@ class Serverhttphelper{
 
   // }
 
-  static Future<void> uploadFile(pickedFile) async {
-  // Picking an image (or you can use File picker)
-  // final picker = ImagePicker();
-  // final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+//   static Future<void> uploadFile(filePath ,String folder) async {
+//   // Picking an image (or you can use File picker)
+//   // final picker = ImagePicker();
+//   // final pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
-  if (pickedFile != null) {
-    File file = File(pickedFile.path);
+//   // if (pickedFile != null) {
+//     File file = File(filePath);
 
-    try {
-      // Uploading file to Firebase Storage
-      String fileName = 'uploads/${DateTime.now()}.png';
-      FirebaseStorage storage = FirebaseStorage.instance;
-      Reference ref = storage.ref().child(fileName);
-      UploadTask uploadTask = ref.putFile(file);
+//     try {
+//       // Uploading file to Firebase Storage
+//       // String fileName = 'uploads/${DateTime.now()}.png';
+//       FirebaseStorage storage = FirebaseStorage.instance;
+//       Reference ref = storage.ref().child(folder);
+//       UploadTask uploadTask = ref.putFile(file);
 
-      // Waiting for the upload to complete
-      await uploadTask.whenComplete(() {
-        print('File uploaded!');
-      });
+//       // Waiting for the upload to complete
+//       await uploadTask.whenComplete(() {
+//         print('File uploaded!');
+//       });
 
-      // Getting the download URL of the uploaded file
-      String downloadUrl = await ref.getDownloadURL();
-      print('File URL: $downloadUrl');
-    } catch (e) {
-      print('Error uploading file: $e');
-    }
-  } else {
-    print('No file selected.');
-  }
-}
+//       // Getting the download URL of the uploaded file
+//       String downloadUrl = await ref.getDownloadURL();
+//       print('File URL: $downloadUrl');
+//     } catch (e) {
+//       print('Error uploading file: $e');
+//     }
+//   // } 
+//   // else {
+//   //   print('No file selected.');
+//   // }
+// }
 
+
+//  static Future<void> uploadFileWeb(file,String folder) async {
+//     // Create an input element for file selection
+//     // html.FileUploadInputElement uploadInput = html.FileUploadInputElement();
+//     // uploadInput.accept = 'image/*'; // To select images only
+//     // uploadInput.click(); // Open file picker dialog
+
+//     // uploadInput.onChange.listen((e) async {
+//       final files = file;
+//       if (files != null && files.isNotEmpty) {
+//         final html.File file = files; // Select the first file
+
+//         // Create a reference to Firebase Storage
+//         FirebaseStorage storage = FirebaseStorage.instance;
+//         Reference ref = storage.ref().child(folder+file.name);
+
+//         try {
+//           // Upload the file
+//           UploadTask uploadTask = ref.putBlob(file);
+
+//           // Wait for the upload to complete
+//           await uploadTask.whenComplete(() {
+//             print('File uploaded!');
+//           });
+
+//           // Get the download URL
+//           String downloadUrl = await ref.getDownloadURL();
+//           print('File URL: $downloadUrl');
+//         } catch (e) {
+//           print('Error uploading file: $e');
+//         }
+//       } else {
+//         print('No file selected.');
+//       }
+//     // }
+//     // );
+//   }
 
 static Future<String> fetchFileUrl(String filename,String dirname) async {
     try {
@@ -185,6 +223,72 @@ return _downloadUrl;
     return "";
   }
 
+// static Future<void> uploadFile(String filePath) async {
+//   // final picker = ImagePicker();
+//   // final pickedFile = await picker.getImage(source: ImageSource.gallery);
+
+//   // if (pickedFile != null) {
+//     File file = File(filePath);
+//     try {
+//       // Create a reference to a folder in Firebase Storage
+//       String folderPath = 'advocateBarCertificates/'; // Folder in Firebase Storage
+//       String fileName = 'my_uploaded_file.png'; // Or dynamically use file name
+
+//       // Create reference to storage location
+//       Reference storageRef = FirebaseStorage.instance.ref().child('$folderPath$fileName');
+
+//       // Upload the file
+//       UploadTask uploadTask = storageRef.putFile(file);
+
+//       // Monitor the upload status
+//       uploadTask.whenComplete(() async {
+//         String downloadUrl = await storageRef.getDownloadURL();
+//         print('File uploaded successfully! Download URL: $downloadUrl');
+//       }).catchError((error) {
+//         print('Error uploading file: $error');
+//       });
+//     } catch (e) {
+//       print('Error occurred while uploading the file: $e');
+//     }
+//   }
+// }
+
+  // Web file upload logic
+
+  static Future<void> uploadFileWeb(html.File file,String folder)async {
+  return  _uploadFileWeb(file,folder);
+  }
+  static Future<void> _uploadFileWeb(html.File file,String folder) async {
+   
+
+    // html.FileUploadInputElement uploadInput = html.FileUploadInputElement();
+    // uploadInput.accept = 'pdf/*';  // Accept images only
+    // uploadInput.click();  // Open file picker dialog
+
+    // uploadInput.onChange.listen((e) async {
+    //   final files = uploadInput.files;
+    //   if (files != null && files.isNotEmpty) {
+    //     final html.File file = files[0];  // Select the first file
+
+        try {
+          FirebaseStorage storage = FirebaseStorage.instance;
+
+             String filePath = '/$folder/${file.name}'; // Replace with your file path
+          Reference ref = storage.ref().child(filePath);
+          UploadTask uploadTask = ref.putBlob(file);
+
+          await uploadTask.whenComplete(() {
+            print('File uploaded successfully on web!');
+          });
+
+          String downloadUrl = await ref.getDownloadURL();
+          print('File download URL on web: $downloadUrl');
+        } catch (e) {
+          print('Error uploading file on web: $e');
+        }
+      // }
+    // });
+  }
 
 
 }

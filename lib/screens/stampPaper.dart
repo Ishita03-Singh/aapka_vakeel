@@ -3,6 +3,7 @@ import 'package:aapka_vakeel/screens/paymentGateway.dart';
 import 'package:aapka_vakeel/utilities/colors.dart';
 import 'package:aapka_vakeel/utilities/custom_button.dart';
 import 'package:aapka_vakeel/utilities/custom_text.dart';
+import 'package:aapka_vakeel/utilities/my_appbar.dart';
 import 'package:aapka_vakeel/utilities/my_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
@@ -21,13 +22,14 @@ class _StampPaperState extends State<StampPaper> {
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
+      appBar: MyAppBar.appbar(context,head: 'E-Stamp Paper'),
       body: SingleChildScrollView(
         child: Container(
         padding: EdgeInsets.fromLTRB(12, 40, 12, 12),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-          CustomText.headText("E-Stamp Paper"),
+          // CustomText.headText("E-Stamp Paper"),
           SizedBox(height: 8),
           Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,

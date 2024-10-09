@@ -223,6 +223,22 @@ border: Border.all(color: Colors.black)),
 
 ),);
   }
+
+
+  textButton(String text, Function() onPressed) => TextButton(
+      style: TextButton.styleFrom(
+          padding: const EdgeInsets.all(16),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+          // foregroundColor: AppColor.tertiaryColor,
+          // backgroundColor: Colors.black,
+          // minimumSize: const Size(100, 30),
+          elevation: 0,
+          // shadowColor: AppColor.secondaryColor
+          ),
+      onPressed: onPressed,
+      child: CustomText.cancelBtnText(text));
   
 }
 

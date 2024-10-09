@@ -9,6 +9,7 @@ import 'package:aapka_vakeel/screens/chatGPT/chatGPT.dart';
 import 'package:aapka_vakeel/screens/consultation/consultation.dart';
 import 'package:aapka_vakeel/screens/scbarContainer.dart';
 import 'package:aapka_vakeel/screens/stampPaper.dart';
+import 'package:aapka_vakeel/screens/trademark/trademark.dart';
 import 'package:aapka_vakeel/utilities/colors.dart';
 import 'package:aapka_vakeel/utilities/custom_button.dart';
 import 'package:aapka_vakeel/utilities/custom_text.dart';
@@ -263,7 +264,13 @@ class _DashboardState extends State<Dashboard> {
                     ),
                     SizedBox(width: 20,),
                     Container(child:
-                    getDashboardwidger(StrLiteral.tradeMark,"Trademark","Get trademark and other facilities in simple steps",(){}),
+                    getDashboardwidger(StrLiteral.tradeMark,"Trademark","Get trademark and other facilities in simple steps",(){
+                      Navigator.push(
+                        context,
+                        PageTransition(
+                            child: Trademark(),
+                            type: PageTransitionType.rightToLeft));
+                    }),
                     )
                    ],),
                    SizedBox(height: 20),

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:aapka_vakeel/HTTP/serverhttpHelper.dart';
 import 'package:aapka_vakeel/model/user.dart';
 import 'package:aapka_vakeel/others/shared_pref.dart';
 import 'package:aapka_vakeel/screens/CaptureImage.dart';
@@ -52,6 +53,7 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
   Gender? _selectedGender;
   File? _selectedFile;
   final _formKey = GlobalKey<FormState>();
+  html.File barCertificateFile= html.File([], "");
 
   Future<bool> _register() async {
     if (_formKey.currentState!.validate()) {
@@ -86,6 +88,10 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
             return false;
            }
 
+
+          await Serverhttphelper.uploadFileWeb(barCertificateFile,"advocateBarCertificates");
+
+
            await FirebaseFirestore.instance.collection('advocates').doc(widget.userCredential.user!.uid).set({
           'phoneNumber':widget.userCredential.user!.phoneNumber,
           'firstName': firstNameController.text,
@@ -98,7 +104,7 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
           // 'city':CityController.text,
           // 'pinCode':PinCodeController.text,
           'barRegistrationNo':BarRegistrationNoController.text,
-          'barRegistrationCertificate':_selectedFile!.path.split('/').last,
+          'barRegistrationCertificate':barCertificateFile.name,
            'introduction':IntroController.text,
            'experience':ExperienceController.text,
            'charges':ChargeController.text,
@@ -138,12 +144,13 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
   Future<void> _pickFile() async {
     if(kIsWeb){
  html.FileUploadInputElement uploadInput = html.FileUploadInputElement();
-  uploadInput.accept = '.pdf'; // Allow only PDF files
+  uploadInput.accept = 'pdf/*'; // Allow only PDF files
   uploadInput.click(); // Trigger the file picker
 
   uploadInput.onChange.listen((e) {
     final files = uploadInput.files;
     if (files != null && files.isNotEmpty) {
+      barCertificateFile= files[0];
       final file = files.first;
         _selectedFile = File(file.name);
       final reader = html.FileReader();
