@@ -24,8 +24,8 @@ class ConsultLawyer extends StatefulWidget {
 class _ConsultLawyerState extends State<ConsultLawyer> {
    
   TextEditingController _searchController = TextEditingController();
-  // List<UserClass> _filteredItems=[];
-  // List<UserClass> advocateList = [];
+  List<DocumentSnapshot> _filteredItems=[];
+  List<DocumentSnapshot> advocateList = [];
     final CollectionReference advocatesCollection =
       FirebaseFirestore.instance.collection('advocates');
 
@@ -37,13 +37,51 @@ class _ConsultLawyerState extends State<ConsultLawyer> {
     );
   }
 
-
  @override
   void initState() {
     super.initState();
-    // _initializeAsync(); 
+    _initializeAsync();
   }
 
+void _initializeAsync() {
+  // Listen to Firestore's snapshot stream
+  advocatesCollection.snapshots().listen((snapshot) {
+    if (snapshot != null) {
+      final List<DocumentSnapshot> docs = snapshot.docs;
+
+      // Update the state without using StreamBuilder
+      setState(() {
+        advocateList = docs;
+        _filteredItems = advocateList;
+      });
+    }
+  });
+
+  // Add the search controller listener once
+  _searchController.addListener(_filterList);
+}
+// _initializeAsync(){
+//   StreamBuilder<QuerySnapshot>(
+//       stream: advocatesCollection.snapshots(), // Listen to real-time changes
+//       builder: (context, snapshot) {
+//         if (snapshot.hasError) {
+//           return Center(child: Text('Error: ${snapshot.error}'));
+//         }
+
+//         if (snapshot.connectionState == ConnectionState.waiting) {
+//           return Center(child: CircularProgressIndicator());
+//         }
+
+//         // If data is available, display the list of advocates
+//         final List<DocumentSnapshot> docs = snapshot.data!.docs;
+//         setState(() {
+//            advocateList=docs;
+//         });
+//         _filteredItems=advocateList;
+//          _searchController.addListener(_filterList);
+//          return Container();
+//       });
+// }
   @override
   void dispose() {
     _searchController.dispose();
@@ -51,14 +89,23 @@ class _ConsultLawyerState extends State<ConsultLawyer> {
   }
 
 
-// Future<void> _initializeAsync() async {
-//   List<UserClass> advocateList=await Serverhttphelper.getAdvocateList();
-//     setState(() {
-//       advocateList = advocateList;
-//     });
-//      _filteredItems.addAll(advocateList);
-//   }
 
+
+  getAdvoactes(){
+
+  }
+
+void _filterList() {
+    String query = _searchController.text.toLowerCase();
+    setState(() {
+      _filteredItems = advocateList.where((item) {
+       var advocate = item.data() as Map<String, dynamic>;
+       String fullName = (advocate['firstName'] + " " + advocate['lastName']).toLowerCase();
+      return fullName.contains(query);
+    }).toList();
+      print(_filteredItems);
+    });
+  }
 
 // void _filterItems(String query) {
 //     List<UserClass> results = [];
@@ -112,35 +159,42 @@ class _ConsultLawyerState extends State<ConsultLawyer> {
 
 
 advoacteList(){
-   return StreamBuilder<QuerySnapshot>(
-      stream: advocatesCollection.snapshots(), // Listen to real-time changes
-      builder: (context, snapshot) {
-        if (snapshot.hasError) {
-          return Center(child: Text('Error: ${snapshot.error}'));
-        }
+  //  return StreamBuilder<QuerySnapshot>(
+  //     stream: advocatesCollection.snapshots(), // Listen to real-time changes
+  //     builder: (context, snapshot) {
+  //       if (snapshot.hasError) {
+  //         return Center(child: Text('Error: ${snapshot.error}'));
+  //       }
 
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
-        }
+  //       if (snapshot.connectionState == ConnectionState.waiting) {
+  //         return Center(child: CircularProgressIndicator());
+  //       }
 
-        // If data is available, display the list of advocates
-        final List<DocumentSnapshot> docs = snapshot.data!.docs;
+  //       // If data is available, display the list of advocates
+  //       final List<DocumentSnapshot> docs = snapshot.data!.docs;
+       
+  //       // setState(() {
+  //          advocateList=docs;
+  //       // });
+  //       _filteredItems=advocateList;
+  //        _searchController.addListener(_filterList);
+                    
 
         return Container(
           padding: EdgeInsets.only(top: 20),
           width: MediaQuery.of(context).size.width-40,
           height: MediaQuery.of(context).size.height-200,
           child: ListView.builder(
-            itemCount: docs.length,
+            itemCount: _filteredItems.length,
             itemBuilder: (context, index) {
-              var advocate = docs[index].data() as Map<String, dynamic>;
+              var advocate = _filteredItems[index].data() as Map<String, dynamic>;
               return getAdvocateContainer(advocate);
 
             },
           ),
         );
-      },
-    );
+      // },
+    // );
 }
 
   getAdvocateContainer( Map<String, dynamic> advocate){

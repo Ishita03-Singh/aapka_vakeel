@@ -171,6 +171,19 @@ class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        shape: CircleBorder(),
+        elevation: 10,
+        backgroundColor: Colors.white,
+        onPressed: (){
+       
+                              Navigator.push(
+                                context,
+                                PageTransition(
+                                    child: ChatScreen(),
+                                    type: PageTransitionType.rightToLeft));
+                            },
+                            child:  Image.asset(StrLiteral.bot,width: 30,),),
       body: scrollContainer(),
       bottomNavigationBar: ScBar(),
     );
@@ -204,16 +217,7 @@ class _DashboardState extends State<Dashboard> {
                                             ),
 
                                             SizedBox(width: 10),
-                          GestureDetector(
-                            onTap: (){
-                              Navigator.push(
-                                context,
-                                PageTransition(
-                                    child: ChatScreen(),
-                                    type: PageTransitionType.rightToLeft));
-                            },
-                            child: Image.asset(StrLiteral.bot,width: 30,),
-                                            ),
+                          
                         ],
                       )
                     ],)
@@ -247,7 +251,7 @@ class _DashboardState extends State<Dashboard> {
                     ),
                     SizedBox(width: 20,),
                     Container(child:
-                    getDashboardwidger(StrLiteral.stampPaper,"Stamp Paper","",(){
+                    getDashboardwidger(StrLiteral.stampPaper,"Stamp Paper","Get your stamp paper within minutes",(){
                        Navigator.push(
                         context,
                         PageTransition(

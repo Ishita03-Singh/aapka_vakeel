@@ -33,23 +33,30 @@ class _AffidavitScreenState extends State<AffidavitScreen> {
   }
 
 Future<void> _initializeAsync() async {
-  List<String> affidavitlist=await Serverhttphelper.getAffidavitFileList();
+  // List<String> affidavitlist=await Serverhttphelper.getAffidavitFileList();
+    affidavitList= await Serverhttphelper.getAffidavitFileList();
     setState(() {
-      affidavitlist = affidavitlist;
+      isAffidavitPage=true;
     });
-     _filteredItems.addAll(affidavitList);
+     _filteredItems= affidavitList;
+     _searchController.addListener(_affidavitFilterItems);
   }
-  void _filterItems(String query) {
-    List<String> results = [];
-    if (query.isEmpty) {
-      results.addAll(affidavitList);
-    } else {
-      results = affidavitList
-          .where((item) => item.toLowerCase().contains(query.toLowerCase()))
-          .toList();
-    }
+  void _affidavitFilterItems() {
+     String query = _searchController.text.toLowerCase();
+    
     setState(() {
-      _filteredItems = results;
+      _filteredItems = affidavitList.where((item) {
+        return item.toLowerCase().contains(query);
+      }).toList();
+    });
+  }
+   void _agreementFilterItems() {
+     String query = _searchController.text.toLowerCase();
+    
+    setState(() {
+      _filteredItems = agreementList.where((item) {
+        return item.toLowerCase().contains(query);
+      }).toList();
     });
   }
 
@@ -74,6 +81,9 @@ Future<void> _initializeAsync() async {
                       affidavitList= await Serverhttphelper.getAffidavitFileList();
                       setState(() {
                       isAffidavitPage=true;
+                      _filteredItems=affidavitList;
+                      _searchController.removeListener(_agreementFilterItems);
+                      _searchController.addListener(_affidavitFilterItems);
                       });
                     },
                     child: Container(
@@ -90,6 +100,9 @@ Future<void> _initializeAsync() async {
                         agreementList= await Serverhttphelper.getAgreementFileList();
                         setState(() {
                           isAffidavitPage=false;
+                          _filteredItems=agreementList;
+                           _searchController.removeListener(_affidavitFilterItems);
+                          _searchController.addListener(_agreementFilterItems);
                         });
                       },
                       child: Container(
@@ -135,7 +148,7 @@ Future<void> _initializeAsync() async {
             children: [
               TextField(
                 controller: _searchController,
-                onChanged: _filterItems,
+                // onChanged: _filterItems,
                 decoration: InputDecoration(
                   contentPadding: EdgeInsets.all(0),
                   labelText: 'Search..',
@@ -161,9 +174,9 @@ Future<void> _initializeAsync() async {
                    height: MediaQuery.of(context).size.height-320,
                    width: MediaQuery.of(context).size.width,
                    child: ListView.builder(
-                    itemCount: affidavitList.length,
+                    itemCount: _filteredItems.length,
                     itemBuilder: (context, index) {
-                    return  draftListContainer(affidavitList[index]);
+                    return  draftListContainer(_filteredItems[index]);
                      },
                                   ),
                  ),
@@ -183,7 +196,7 @@ Future<void> _initializeAsync() async {
             children: [
               TextField(
                 controller: _searchController,
-                onChanged: _filterItems,
+                // onChanged: _filterItems,
                 decoration: InputDecoration(
                   contentPadding: EdgeInsets.all(0),
                   labelText: 'Search..',
@@ -209,9 +222,9 @@ Future<void> _initializeAsync() async {
                    height: MediaQuery.of(context).size.height-320,
                    width: MediaQuery.of(context).size.width,
                 child: ListView.builder(
-                    itemCount: agreementList.length,
+                    itemCount: _filteredItems.length,
                     itemBuilder: (context, index) {
-                    return  draftListContainer(agreementList[index]);
+                    return  draftListContainer(_filteredItems[index]);
                      },
                  ),
               ), 
@@ -314,6 +327,7 @@ List<String> affidavitList= [];
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
+      appBar: MyAppBar.appbar(context,head: ""),
       body: Container(
         padding: EdgeInsets.fromLTRB(20,40,20,20),
         child: Column(
@@ -384,7 +398,7 @@ List<String> affidavitList= [];
                Navigator.push(
                     context,
                     PageTransition(
-                        child: ChatScreen(prompt:"Generate a affidavit for name change"),
+                        child: ChatScreen(prompt:"Generate a ${widget.isAffidavitPage?"affidavit":"agreement"} for ${widget.fileName.split('.')[0]}"),
                         type: PageTransitionType.rightToLeft));
           }),
         ],),
