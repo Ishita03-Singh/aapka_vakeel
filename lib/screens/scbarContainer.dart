@@ -16,8 +16,8 @@ class ScBar extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Image.asset(StrLiteral.home_filled,width:28),
-            Image.asset(StrLiteral.note,width:28),
-            Image.asset(StrLiteral.advocate,width:30),
+            // Image.asset(StrLiteral.note,width:28),
+            // Image.asset(StrLiteral.advocate,width:30),
             GestureDetector(
               onTap: (){
                  Navigator.push(

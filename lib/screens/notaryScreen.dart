@@ -15,8 +15,7 @@ import 'package:page_transition/page_transition.dart';
 import 'dart:html' as html;
 
 class NotaryScreen extends StatefulWidget {
-  String filePath;
-   NotaryScreen({super.key,required this.filePath});
+   NotaryScreen({super.key,});
 
   @override
   State<NotaryScreen> createState() => _NotaryScreenState();

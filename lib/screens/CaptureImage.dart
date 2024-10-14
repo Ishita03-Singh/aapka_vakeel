@@ -16,6 +16,8 @@ import 'package:page_transition/page_transition.dart';
 import 'package:image_picker/image_picker.dart';
 
 import 'dart:html' as html;
+
+import '../HTTP/serverhttpHelper.dart';
 class CaptureImage extends StatefulWidget {
   User user;
    CaptureImage({super.key,required this.user});
@@ -26,6 +28,7 @@ class CaptureImage extends StatefulWidget {
 
 class _CaptureImageState extends State<CaptureImage> {
   File? _image;
+   html.File advocateImage= html.File([], "");
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +78,7 @@ class _CaptureImageState extends State<CaptureImage> {
                             Navigator.push(
                                 context,
                                 PageTransition(
-                                    child: PreviewImage(image: _image,user: widget.user,),
+                                    child: PreviewImage(image: _image,user: widget.user,advocateImage: advocateImage,),
                                     type: PageTransitionType.rightToLeft));
               }
             } 
@@ -97,6 +100,7 @@ class _CaptureImageState extends State<CaptureImage> {
   uploadInput.onChange.listen((e) {
     final files = uploadInput.files;
     if (files != null && files.isNotEmpty) {
+      advocateImage=files[0];
       final file = files.first;
 
       // Read the selected file as data
@@ -114,6 +118,7 @@ class _CaptureImageState extends State<CaptureImage> {
             context,
             PageTransition(
               child: PreviewImage(
+                advocateImage:advocateImage,
                 image: imageData, // Pass image data
                 user: widget.user,
               ),
@@ -129,15 +134,19 @@ class _CaptureImageState extends State<CaptureImage> {
 
 
 class PreviewImage extends StatefulWidget {
+  html.File advocateImage= html.File([], "");
   User user;
   var image;
-  PreviewImage({super.key, required this.image,required this.user});
+  PreviewImage({super.key, required this.image,required this.user, required this.advocateImage });
 
   @override
   State<PreviewImage> createState() => _PreviewImageState();
 }
 
 class _PreviewImageState extends State<PreviewImage> {
+
+    
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -171,7 +180,10 @@ class _PreviewImageState extends State<PreviewImage> {
              
             }),
             Padding(padding: EdgeInsets.all(4)),
-            customButton.taskButton("Save", () {
+            customButton.taskButton("Save", () async{
+            await Serverhttphelper.uploadFileWeb(widget.advocateImage,"AdvocateImages");
+
+
               MySharedPreferences.instance.setISLoggedIn(userClass);
               Navigator.push(
                   context,
@@ -197,6 +209,7 @@ class _PreviewImageState extends State<PreviewImage> {
   uploadInput.onChange.listen((e) {
     final files = uploadInput.files;
     if (files != null && files.isNotEmpty) {
+      widget.advocateImage= files[0];
       final file = files.first;
       // Read the selected file as data
       final reader = html.FileReader();

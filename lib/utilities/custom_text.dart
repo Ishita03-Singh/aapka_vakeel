@@ -12,6 +12,10 @@ class CustomText {
       style: TextStyle(
           fontSize: 24, color: color, fontWeight: FontWeight.w900));
 
+  static Text colorText(String text,{Color color=const Color.fromARGB(255, 2, 35, 62)}) => Text(text,
+      style: TextStyle(
+          fontSize: 18, color: color, fontWeight: FontWeight.w900));
+
   static Text boldinfoText(String text) => Text(text,
       style: TextStyle(
           fontSize: 18, color: Color(0xFF9C9999), fontWeight: FontWeight.w900));

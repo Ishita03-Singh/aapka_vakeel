@@ -8,6 +8,7 @@ import 'package:aapka_vakeel/screens/Dashboard.dart';
 import 'package:aapka_vakeel/screens/DashboardScreen.dart';
 import 'package:aapka_vakeel/screens/IntroScreen.dart';
 import 'package:aapka_vakeel/screens/advocate/AdvocateDashboard.dart';
+import 'package:aapka_vakeel/screens/affidavitScreen.dart';
 import 'package:aapka_vakeel/screens/asyncLoader.dart';
 import 'package:aapka_vakeel/screens/notaryScreen.dart';
 import 'package:aapka_vakeel/screens/paymentGateway.dart';
@@ -37,7 +38,7 @@ void main() async {
   
   await Firebase.initializeApp(
     options: FirebaseOptions(
-   apiKey: "AIzaSyBJntYd6x55mMJ41I3e-zmDqrIvXTWdzyk",
+  apiKey: "AIzaSyBJntYd6x55mMJ41I3e-zmDqrIvXTWdzyk",
   authDomain: "appkavakeel-66df5.firebaseapp.com",
   projectId: "appkavakeel-66df5",
   storageBucket: "appkavakeel-66df5.appspot.com",
@@ -119,6 +120,7 @@ class MyApp extends StatelessWidget {
           // );
           // return StampPaper();
           return IntroPage();
+          // return AdvocateAffidavitDetails(fileName: "Make a Will", isAffidavitPage: true,DocumentDetails: "");
           }
          //  User user= jsonDecode(userString);
          Map<String, dynamic> userMap = jsonDecode(userString);

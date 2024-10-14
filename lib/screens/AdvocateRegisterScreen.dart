@@ -144,7 +144,7 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
   Future<void> _pickFile() async {
     if(kIsWeb){
  html.FileUploadInputElement uploadInput = html.FileUploadInputElement();
-  uploadInput.accept = 'pdf/*'; // Allow only PDF files
+  uploadInput.accept = 'application/pdf,image/*'; // Allow only PDF files
   uploadInput.click(); // Trigger the file picker
 
   uploadInput.onChange.listen((e) {

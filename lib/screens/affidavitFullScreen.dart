@@ -140,11 +140,11 @@ Future<void> _openPdf(String url) async {
                         ),
                       ),
                       customButton.smalltaskButton("Stamp Paper", (){
-    Navigator.push(
-                        context,
-                        PageTransition(
-                            child: NotaryScreen(filePath: filePath,),
-                            type: PageTransitionType.rightToLeft));
+    // Navigator.push(
+                        // context,
+                        // PageTransition(
+                        //     child: NotaryScreen(filePath: filePath,),
+                        //     type: PageTransitionType.rightToLeft));
               })
                     ],
                   ),

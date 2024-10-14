@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:aapka_vakeel/HTTP/serverhttpHelper.dart';
+import 'package:aapka_vakeel/model/user.dart';
 import 'package:aapka_vakeel/screens/affidavitFullScreen.dart';
 import 'package:aapka_vakeel/screens/chatGPT/chatGPT.dart';
 import 'package:aapka_vakeel/screens/notaryScreen.dart';
@@ -10,6 +11,10 @@ import 'package:aapka_vakeel/utilities/my_appbar.dart';
 import 'package:aapka_vakeel/utilities/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:video_call/video_call.dart';
+
+import '../utilities/colors.dart';
+import '../utilities/my_textfield.dart';
 
 class AffidavitScreen extends StatefulWidget {
   const AffidavitScreen({super.key});
@@ -245,10 +250,11 @@ Future<void> _initializeAsync() async {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [CustomText.RegularDarkText(text,fontSize: 16),
       customButton.smalltaskButton("Details", (){
+        //getDetailPage
         Navigator.push(
                         context,
                         PageTransition(
-                            child: ContractLoader(fileName:text,isAffidavitPage: isAffidavitPage,),
+                            child: AffidavitDetail(fileName:text,isAffidavitPage: isAffidavitPage,),
                             type: PageTransitionType.rightToLeft));
       })
       ],),
@@ -256,10 +262,136 @@ Future<void> _initializeAsync() async {
   }
 }
 
+class AffidavitDetail extends StatefulWidget {
+  String fileName;
+  bool isAffidavitPage;
+  AffidavitDetail({super.key,required this.fileName, required this.isAffidavitPage});
+
+  @override
+  State<AffidavitDetail> createState() => _AffidavitDetailState();
+}
+
+class _AffidavitDetailState extends State<AffidavitDetail> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: MyAppBar.appbar(context,head: ""),
+      body: SingleChildScrollView(
+        child: Container(
+          height: MediaQuery.of(context).size.height-100,
+          padding: EdgeInsets.all(12),
+          child :getSinglePartyForm()
+        ),
+      ),
+    );
+  }
+  
+
+  getSinglePartyForm(){
+  final _formKey = GlobalKey<FormState>();
+
+TextEditingController nameController= new TextEditingController();
+TextEditingController fatherNameController= new TextEditingController();
+TextEditingController addressController= new TextEditingController();
+
+return Container(
+  padding: EdgeInsets.only(top: 70),
+  child: Form(
+    key: _formKey,
+    child: 
+    Column(crossAxisAlignment: CrossAxisAlignment.stretch,
+    children: [
+        CustomText.infoText("Kindly fill the details required and proceed"),
+        SizedBox(height: 40),
+        giveInputField("Name", nameController, true,TextInputType.name),
+        giveInputField("Father Name", fatherNameController, true,TextInputType.phone),
+        giveInputField("Address", addressController, true,TextInputType.text),
+       
+          customButton.taskButton("Continue", (){
+
+         if (_formKey.currentState!.validate()) {
+          var details={
+            "Name": nameController.text,
+            "FatherName":fatherNameController.text,
+            "Address":addressController.text
+          };
+            Navigator.of(context).pushReplacement(
+                 MaterialPageRoute(
+                  builder: (context) =>ContractLoader(fileName:widget.fileName,isAffidavitPage: widget.isAffidavitPage,DocumentDetails:details)
+                  // VideoCall(data: snapshot.data!),
+                  ),
+                                                                );
+          }
+            else{
+            return false;
+            }
+          } ),
+
+                // PaymentGateway paymentGateway = new PaymentGateway(context,  {
+            //             'key': 'rzp_live_ILgsfZCZoFIKMb',
+            //             'amount': 4045,//the amount is in points like 40.45
+            //             'name': 'Acme Corp.',
+            //             'description': 'Fine T-Shirt',
+            //             'retry': {'enabled': true, 'max_count': 1},
+            //             'send_sms_hash': true,
+            //             'prefill': {'contact': '8888888888', 'email': 'test@razorpay.com'},
+            //             'external': {
+            //               'wallets': ['paytm']
+            //             }
+            //           }); 
+          ],
+  )),
+);
+  }
+
+  giveInputField(
+      String HeadText, TextEditingController controller, bool isrequired, TextInputType textInputType) {
+    return Container(
+      padding: EdgeInsets.only(bottom: 20),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              if (isrequired)
+                Text(
+                  "*",
+                  style: TextStyle(color: Colors.red),
+                ),
+              Padding(padding: EdgeInsets.all(4)),
+              CustomText.infoText(HeadText),
+            ],
+          ),
+          TextFormField(
+              decoration: MyTextField.outlinedTextField(""),
+              keyboardType: textInputType,
+              controller: controller,
+              // readOnly: true,
+               validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter ${HeadText}';
+                  }
+                  return null;
+                },
+              enabled: true,
+              enableInteractiveSelection: false,
+              cursorColor: AppColor.primaryTextColor,
+              style: TextStyle(
+                  color: AppColor.primaryTextColor,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w400)),
+        ],
+      ),
+    );
+  }
+  
+}
+
+
 class ContractLoader extends StatefulWidget {
    String fileName;
    bool isAffidavitPage;
-   ContractLoader({super.key,required this.fileName,required this.isAffidavitPage});
+   var DocumentDetails;
+   ContractLoader({super.key,required this.fileName,required this.isAffidavitPage,required this.DocumentDetails});
 
   @override
   State<ContractLoader> createState() => _ContractLoaderState();
@@ -386,12 +518,15 @@ List<String> affidavitList= [];
 
             String dir= widget.isAffidavitPage?"Affidavit":"Agreements";
             String draftfile=await Serverhttphelper.fetchFileUrl(widget.fileName,dir);
-
-            Navigator.pushReplacement(
+            // String fileName;
+            // bool isAffidavitPage;
+            // var DocumentDetails;
+             Navigator.pushReplacement(
                     context,
                     PageTransition(
-                        child: NotaryScreen(filePath:draftfile),
+                        child: AdvocateAffidavitDetails(fileName:widget.fileName,isAffidavitPage:widget.isAffidavitPage,DocumentDetails:widget.DocumentDetails),
                         type: PageTransitionType.rightToLeft));
+           
           }),
           SizedBox(height: 12),
           customButton.taskButton("Continue with AI", (){
@@ -404,5 +539,123 @@ List<String> affidavitList= [];
         ],),
       ),
     );
+  }
+}
+
+class AdvocateAffidavitDetails extends StatefulWidget {
+  String fileName;
+  bool isAffidavitPage;
+  var DocumentDetails;
+
+   AdvocateAffidavitDetails({super.key,required this.isAffidavitPage,required this.DocumentDetails,required this.fileName});
+
+  @override
+  State<AdvocateAffidavitDetails> createState() => _AdvocateAffidavitDetailsState();
+}
+
+class _AdvocateAffidavitDetailsState extends State<AdvocateAffidavitDetails> {
+@override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    widget.fileName=widget.fileName.split('.')[0];
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return  Scaffold(
+      appBar: MyAppBar.appbar(context,head: widget.fileName),
+      body: SingleChildScrollView(
+        child: Container(
+          height: MediaQuery.of(context).size.height-100,
+          padding: EdgeInsets.all(12),
+          child: Column( crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+              getNamePriceContainer(),
+              SizedBox(height: 30),
+              CustomText.smallheadText("Benefits"),
+              SizedBox(height: 10),
+             RichText(
+      text: TextSpan(
+        children: [
+          TextSpan(
+            text: "1. Ensures the distribution of the property\n",
+            style: TextStyle(fontWeight: FontWeight.normal, color: Colors.black),
+          ),
+          TextSpan(
+            text: "2. Provides financial security\n",
+            style: TextStyle(fontWeight: FontWeight.normal, color: Colors.black),
+          ),
+          TextSpan(
+            text: "3. Appointing guardian for minors.\n",
+            style: TextStyle(fontWeight: FontWeight.normal, color: Colors.black),
+          ),
+          TextSpan(
+            text: "4. Inventory of assets\n",
+            style: TextStyle(fontWeight: FontWeight.normal, color: Colors.black),
+          ),
+          TextSpan(
+            text: "5. Reduces legal hassles",
+            style: TextStyle(fontWeight: FontWeight.normal, color: Colors.black),
+          ),
+        ],
+      ),
+    ),   
+           
+            SizedBox(height: 10),
+              
+              CustomText.smallheadText("Description"),
+              SizedBox(height: 10),
+              
+              CustomText.infoText("A will or testament is a legal document that expresses a person's wishes as to how their property is to be distributed after their death and as to which person is to manage the property until its final distribution. A will is a legal document that coordinates the distribution of your assets after death and can appoint guardians for minor children. A will is important to have, as it allows you to")
+             
+              ],)),
+              customButton.taskButton("Join Call", (){
+            Navigator.pushReplacement(
+                    context,
+                    PageTransition(
+                        child: JoinScreen(username:userClass.displayName ,meetingId: widget.fileName+"Affidavit"+userClass.uid,),
+                        type: PageTransitionType.rightToLeft));
+              })
+             
+
+
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+  getNamePriceContainer(){
+    return Container(
+      
+      decoration: BoxDecoration(
+        color: Color(0xFFeaeeef),
+        borderRadius: BorderRadius.all(Radius.circular(10))
+      ),
+      child:Column(crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Container(
+            padding: EdgeInsets.all(20),
+            child: Column(crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CustomText.boldDarkText(widget.fileName),
+                Row(children: [Icon(Icons.scale,size: 12),SizedBox(width: 5,),CustomText.infoText("88+ users registered")],),
+                SizedBox(height: 5),
+                CustomText.colorText("Rs. 499/-")
+              ],
+            ),
+          ),
+          Container(height: 2,color: Color(0xFF9dabb3)),
+          Container(
+            padding: EdgeInsets.all(20),
+            child: CustomText.infoText("To know more about the service consult a lawyer"))
+         
+
+        ],
+
+    ));
   }
 }

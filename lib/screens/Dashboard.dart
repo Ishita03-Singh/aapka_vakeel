@@ -7,6 +7,7 @@ import 'package:aapka_vakeel/screens/OTPScreen.dart';
 import 'package:aapka_vakeel/screens/affidavitScreen.dart';
 import 'package:aapka_vakeel/screens/chatGPT/chatGPT.dart';
 import 'package:aapka_vakeel/screens/consultation/consultation.dart';
+import 'package:aapka_vakeel/screens/notaryScreen.dart';
 import 'package:aapka_vakeel/screens/scbarContainer.dart';
 import 'package:aapka_vakeel/screens/stampPaper.dart';
 import 'package:aapka_vakeel/screens/trademark/trademark.dart';
@@ -36,6 +37,8 @@ class Dashboard extends StatefulWidget {
 
 class _DashboardState extends State<Dashboard> {
 
+    OverlayEntry? _popupOverlay; // To store the overlay entry
+  bool _isPopupVisible = false;
   //scroll widget variables
    final PageController _pageController = PageController();
    TextEditingController ipController= TextEditingController();
@@ -77,6 +80,11 @@ class _DashboardState extends State<Dashboard> {
    @override
   void initState() {
     super.initState();
+     // Delay to show popup after 3 seconds
+    //  _showPopup();
+    Timer(Duration(seconds: 1),  _showPopup);
+    Timer(Duration(seconds: 8),  _hidePopup);
+
     _startAutoScroll();
   }
  void _startAutoScroll() {
@@ -165,17 +173,76 @@ class _DashboardState extends State<Dashboard> {
 
 
 
+  // Function to create the popup overlay entry
+  OverlayEntry _createPopupOverlay() {
+    return OverlayEntry(
+      builder: (context) => Positioned(
+        bottom: 150, // Position it above the floating action button
+        right: 20,
+        child: Material(
+          color: Colors.transparent,
+          child: Container(
+            padding: EdgeInsets.all(12),
+            decoration: BoxDecoration(
+               boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.5), // Shadow color with opacity
+                  spreadRadius: 5, // How much the shadow spreads
+                  blurRadius: 7,   // Softening of the shadow
+                  offset: Offset(0, 3), // X and Y offset for the shadow
+                ),
+              ],
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                IconButton(onPressed: _hidePopup, icon: Icon(Icons.close,color: Colors.grey,size: 20,)),
+                CustomText.RegularDarkText("Hi, Got any legal query? I’m happy to help."),
+              ],
+            )
+          ),
+        ),
+      ),
+    );
+  }
+
+  // Function to show the popup
+  void _showPopup() {
+    if (!_isPopupVisible) {
+      _popupOverlay = _createPopupOverlay();
+      Overlay.of(context)?.insert(_popupOverlay!);
+      setState(() {
+        _isPopupVisible = true;
+      });
+    }
+  }
+
+  // Function to hide the popup
+  void _hidePopup() {
+    if (_isPopupVisible) {
+      _popupOverlay?.remove();
+      setState(() {
+        _isPopupVisible = false;
+      });
+    }
+  }
 
 
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
+     floatingActionButton: 
+       FloatingActionButton(
         shape: CircleBorder(),
         elevation: 10,
         backgroundColor: Colors.white,
         onPressed: (){
+            setState(() {
+                 _hidePopup();
+                });
        
                               Navigator.push(
                                 context,
@@ -183,7 +250,7 @@ class _DashboardState extends State<Dashboard> {
                                     child: ChatScreen(),
                                     type: PageTransitionType.rightToLeft));
                             },
-                            child:  Image.asset(StrLiteral.bot,width: 30,),),
+                            child:  Image.asset(StrLiteral.appLogoPath,width: 40,),),
       body: scrollContainer(),
       bottomNavigationBar: ScBar(),
     );
@@ -226,7 +293,9 @@ class _DashboardState extends State<Dashboard> {
                    Row( mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                     Container(child:
-                    getDashboardwidger(StrLiteral.affidavit,"Affidavit/Agreement","Get expert lawyer's signed Affidavit in minutes ",(){Navigator.push(
+                    getDashboardwidger(StrLiteral.affidavit,"Affidavit/Agreement","Get expert lawyer's signed Affidavit in minutes ",(){
+                      _hidePopup();
+                      Navigator.push(
                         context,
                         PageTransition(
                             child: AffidavitScreen(),
@@ -235,6 +304,7 @@ class _DashboardState extends State<Dashboard> {
                     SizedBox(width: 20,),
                     Container(child:
                     getDashboardwidger(StrLiteral.consultation,"Legal Consultation","Expert legal consultation is now just one call away",(){
+                      _hidePopup();
                       Navigator.push(
                         context,
                         PageTransition(
@@ -247,11 +317,19 @@ class _DashboardState extends State<Dashboard> {
                    Row( mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                     Container(child:
-                    getDashboardwidger(StrLiteral.challan,"Fill Challan","Fill challan in three easy steps ",(){}),
+                    getDashboardwidger(StrLiteral.challan,"Notary","Notary in three easy steps ",(){
+                      _hidePopup();
+                       Navigator.push(
+                        context,
+                        PageTransition(
+                            child: NotaryScreen(),
+                            type: PageTransitionType.rightToLeft));
+                    }),
                     ),
                     SizedBox(width: 20,),
                     Container(child:
                     getDashboardwidger(StrLiteral.stampPaper,"Stamp Paper","Get your stamp paper within minutes",(){
+                      _hidePopup();
                        Navigator.push(
                         context,
                         PageTransition(
@@ -261,22 +339,22 @@ class _DashboardState extends State<Dashboard> {
                     )
                    ],),
                     SizedBox(height: 20,),
-                   Row( mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                    Container(child:
-                    getDashboardwidger(StrLiteral.GST,"GST","get queries related to gst solved at ease",(){}),
-                    ),
-                    SizedBox(width: 20,),
-                    Container(child:
-                    getDashboardwidger(StrLiteral.tradeMark,"Trademark","Get trademark and other facilities in simple steps",(){
-                      Navigator.push(
-                        context,
-                        PageTransition(
-                            child: Trademark(),
-                            type: PageTransitionType.rightToLeft));
-                    }),
-                    )
-                   ],),
+                  //  Row( mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //   children: [
+                  //   Container(child:
+                  //   getDashboardwidger(StrLiteral.GST,"GST","get queries related to gst solved at ease",(){}),
+                  //   ),
+                  //   SizedBox(width: 20,),
+                  //   Container(child:
+                  //   getDashboardwidger(StrLiteral.tradeMark,"Trademark","Get trademark and other facilities in simple steps",(){
+                  //     Navigator.push(
+                  //       context,
+                  //       PageTransition(
+                  //           child: Trademark(),
+                  //           type: PageTransitionType.rightToLeft));
+                  //   }),
+                  //   )
+                  //  ],),
                    SizedBox(height: 20),
                    getScrollWigets(),
                    SizedBox(height: 20),
