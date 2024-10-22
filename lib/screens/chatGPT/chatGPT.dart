@@ -6,6 +6,7 @@ import 'package:aapka_vakeel/utilities/my_appbar.dart';
 import 'package:aapka_vakeel/utilities/my_textfield.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'dart:html' as html;
 
 
 class ChatScreen extends StatefulWidget {
@@ -69,6 +70,26 @@ Future<String> getGeminiResponse(String inputText) async {
     setState(() {
       messages.add({'role': 'bot', 'text': response});
     });
+  }
+   Future<void> _generateWordFile() async {
+    final text = messages[1]['text']!;
+
+    // prepare
+    final bytes = utf8.encode(text);
+    final blob = html.Blob([bytes]);
+    final url = html.Url.createObjectUrlFromBlob(blob);
+    final anchor = html.document.createElement('a') as html.AnchorElement
+      ..href = url
+      ..style.display = 'none'
+      ..download = 'AIaffidavit.txt';
+    html.document.body!.children.add(anchor);
+
+    // download
+    anchor.click();
+
+    // cleanup
+    html.document.body!.children.remove(anchor);
+    html.Url.revokeObjectUrl(url);
   }
 
   @override
@@ -152,7 +173,17 @@ Future<String> getGeminiResponse(String inputText) async {
                 ],
               ),
             ),
-          ):Container(),
+          ): messages.length>1?
+            Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Container(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Expanded(child: customButton.taskButton("Export as Word file", (){
+            _generateWordFile();
+          }))])))
+          :Container(),
         ],
       ),
     );

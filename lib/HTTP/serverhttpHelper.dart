@@ -255,10 +255,10 @@ return _downloadUrl;
 
   // Web file upload logic
 
-  static Future<void> uploadFileWeb(html.File file,String folder)async {
-  return  _uploadFileWeb(file,folder);
+  static Future<void> uploadFileWeb(html.File file,String folder,String id)async {
+  return  _uploadFileWeb(file,folder,id);
   }
-  static Future<void> _uploadFileWeb(html.File file,String folder) async {
+  static Future<void> _uploadFileWeb(html.File file,String folder,String id) async {
    
 
     // html.FileUploadInputElement uploadInput = html.FileUploadInputElement();
@@ -273,7 +273,7 @@ return _downloadUrl;
         try {
           FirebaseStorage storage = FirebaseStorage.instance;
 
-             String filePath = '/$folder/${file.name}'; // Replace with your file path
+             String filePath = '/$folder/${id}.jpg'; // Replace with your file path
           Reference ref = storage.ref().child(filePath);
           UploadTask uploadTask = ref.putBlob(file);
 

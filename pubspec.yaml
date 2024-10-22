@@ -55,6 +55,7 @@ dependencies:
   flutter_webrtc:
   permission_handler:
   firebase_storage:
+  flutter_document_writer:
   video_call:
     path: /Users/ishitasingh/Desktop/aapka_vakeel/videosdk/video_call
   uuid:

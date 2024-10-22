@@ -10,6 +10,7 @@ import 'package:aapka_vakeel/utilities/my_appbar.dart';
 import 'package:aapka_vakeel/utilities/ratingChip.dart';
 import 'package:aapka_vakeel/utilities/strings.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
@@ -157,47 +158,49 @@ void _filterList() {
 
 
 
+Widget advoacteList() {
+  return Container(
+    padding: EdgeInsets.only(top: 20),
+    width: MediaQuery.of(context).size.width - 40,
+    height: MediaQuery.of(context).size.height - 200,
+    child: ListView.builder(
+      itemCount: _filteredItems.length,
+      itemBuilder: (context, index) {
+        var advocate = _filteredItems[index].data() as Map<String, dynamic>;
 
-advoacteList(){
-  //  return StreamBuilder<QuerySnapshot>(
-  //     stream: advocatesCollection.snapshots(), // Listen to real-time changes
-  //     builder: (context, snapshot) {
-  //       if (snapshot.hasError) {
-  //         return Center(child: Text('Error: ${snapshot.error}'));
-  //       }
-
-  //       if (snapshot.connectionState == ConnectionState.waiting) {
-  //         return Center(child: CircularProgressIndicator());
-  //       }
-
-  //       // If data is available, display the list of advocates
-  //       final List<DocumentSnapshot> docs = snapshot.data!.docs;
-       
-  //       // setState(() {
-  //          advocateList=docs;
-  //       // });
-  //       _filteredItems=advocateList;
-  //        _searchController.addListener(_filterList);
-                    
-
-        return Container(
-          padding: EdgeInsets.only(top: 20),
-          width: MediaQuery.of(context).size.width-40,
-          height: MediaQuery.of(context).size.height-200,
-          child: ListView.builder(
-            itemCount: _filteredItems.length,
-            itemBuilder: (context, index) {
-              var advocate = _filteredItems[index].data() as Map<String, dynamic>;
-              return getAdvocateContainer(advocate);
-
-            },
-          ),
+        // Use FutureBuilder to fetch the image URL asynchronously
+        return FutureBuilder<String>(
+          future: getAdvocateImage(advocate), // Asynchronous image URL fetching
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting ||snapshot.hasError ) {
+               return getAdvocateContainer(advocate, ""); 
+            } else if (snapshot.hasData) {
+              String? imageUrl = snapshot.data;
+              return getAdvocateContainer(advocate, imageUrl!); 
+            } else {
+              return getAdvocateContainer(advocate, ""); 
+            }
+          },
         );
-      // },
-    // );
+      },
+    ),
+  );
 }
 
-  getAdvocateContainer( Map<String, dynamic> advocate){
+Future<String> getAdvocateImage(Map<String, dynamic> advocate) async {
+  try {
+    String phoneNumber = advocate['phoneNumber']; // Use a unique identifier like phone number or ID
+    final storageRef = FirebaseStorage.instance
+        .ref()
+        .child('AdvocateImages/$phoneNumber.jpg');
+    var url= await storageRef.getDownloadURL(); 
+    return url;// Return the download URL
+  } catch (e) {
+    throw Exception('Error fetching advocate image: $e');
+  }
+}
+
+  getAdvocateContainer( Map<String, dynamic> advocate,String imageUrl){
  return GestureDetector(
   onTap:(){
       Navigator.push(
@@ -216,7 +219,7 @@ advoacteList(){
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         //top layer
-        getTopLayer(advocate),
+        getTopLayer(advocate,imageUrl),
         SizedBox(height: 10),
         getMiddleLayer(advocate),
            SizedBox(height: 10),
@@ -306,14 +309,15 @@ return Container(
   ],),
 );
 }
-getTopLayer(Map<String,dynamic> advocate){
+getTopLayer(Map<String,dynamic> advocate,String imageUrl){
  return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
  crossAxisAlignment: CrossAxisAlignment.start,
   children: [
   Row(crossAxisAlignment: CrossAxisAlignment.start,
     children: [
+     
       CircleAvatar( radius: 30,  
-        backgroundImage:AssetImage(StrLiteral.slider3)
+        backgroundImage: imageUrl==""?AssetImage(StrLiteral.slider3)  as ImageProvider<Object> : NetworkImage(imageUrl),
         ),
     SizedBox(width: 10),
     Column(

@@ -9,6 +9,7 @@ import 'package:aapka_vakeel/utilities/custom_text.dart';
 import 'package:aapka_vakeel/utilities/cutom_message.dart';
 import 'package:aapka_vakeel/utilities/my_appbar.dart';
 import 'package:aapka_vakeel/utilities/my_textfield.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -41,6 +42,7 @@ class _OTPScreenState extends State<OTPScreen> {
       List.generate(6, (index) => TextEditingController());
   List<FocusNode> _focusNodes = List.generate(6, (index) => FocusNode());
   final FocusScopeNode _focusScopeNode = FocusScopeNode();
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   // late UserCredential userCredential;
 
   @override
@@ -181,6 +183,28 @@ class _OTPScreenState extends State<OTPScreen> {
                       //get user from firebase
 
                       // MySharedPreferences.instance.setISLoggedIn();
+
+                       print(user.uid);
+                        var userRes= await _firestore.collection('users').doc(user.uid).get();
+                        print(userRes);
+                            //  userClass.uid=user.uid;
+                            //   userClass.email=Muser["email"];
+                            //   userClass.displayName=Muser["firstName"]+Muser["lastName"];
+                            //   userClass.address=Muser["address"];
+                            //   userClass.barRegistrationNo= Muser["barRegistrationNo"]??"";
+                            //   userClass.barRegistrationCertificate=Muser["barRegistrationCertificate"] ??"";
+                            //   userClass.phoneNumber= Muser["phoneNumber"];
+                            //   userClass.introduction=Muser["introduction"]??"";
+                            //   userClass.experience=Muser["experience"]??"";
+                            //   userClass.charges=Muser["charges"]??"";
+                            //   userClass.skills=Muser["skills"]??"";
+                         
+                         
+                       
+                        // }
+                      // });
+
+                       
                       Navigator.push(
                           context,
                           MaterialPageRoute(

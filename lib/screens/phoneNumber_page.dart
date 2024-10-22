@@ -8,6 +8,7 @@ import 'package:aapka_vakeel/utilities/custom_text.dart';
 import 'package:aapka_vakeel/utilities/cutom_message.dart';
 import 'package:aapka_vakeel/utilities/my_appbar.dart';
 import 'package:aapka_vakeel/utilities/my_textfield.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -35,6 +36,8 @@ class _PhoneNumPageState extends State<PhoneNumPage> {
   TextEditingController phonenumController = TextEditingController(text: "");
   TextEditingController countryController = TextEditingController();
   bool termsCond = false;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -130,7 +133,7 @@ class _PhoneNumPageState extends State<PhoneNumPage> {
                       ],
                     ),
                   ),
-                  if (widget.first)
+                  // if (widget.first)
                     Theme(
                         data: Theme.of(context).copyWith(
                             unselectedWidgetColor: Colors.black,
@@ -169,7 +172,7 @@ class _PhoneNumPageState extends State<PhoneNumPage> {
                           context, "Please enter valid phone number");
                       return;
                     }
-                    if(!termsCond && widget.first){
+                    if(!termsCond){
                        CustomMessenger.defaultMessenger(
                           context, "Please accept our terms and conditions");
                       return;   
@@ -262,8 +265,6 @@ class _PhoneNumPageState extends State<PhoneNumPage> {
         User user = result.user!;
 
         if (user != null) {
-          print(user);
-
           Navigator.push(
               context,
               MaterialPageRoute(
