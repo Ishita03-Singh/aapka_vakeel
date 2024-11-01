@@ -6,6 +6,7 @@ import 'package:aapka_vakeel/screens/consultation/advocateDetail.dart';
 import 'package:aapka_vakeel/utilities/colors.dart';
 import 'package:aapka_vakeel/utilities/custom_button.dart';
 import 'package:aapka_vakeel/utilities/custom_text.dart';
+import 'package:aapka_vakeel/utilities/cutom_message.dart';
 import 'package:aapka_vakeel/utilities/my_appbar.dart';
 import 'package:aapka_vakeel/utilities/ratingChip.dart';
 import 'package:aapka_vakeel/utilities/strings.dart';
@@ -250,8 +251,9 @@ getBottomLayer(Map<String,dynamic> advocate){
           onTap: (){
             //scheduleCall
 
-            var advocateCall= new AdvocateCall(uid: userClass.uid, userName: userClass.displayName, phoneNumber: userClass.phoneNumber, callTime: DateTime.now().toString(), advocateName: advocate['firstName']+" "+ advocate['lastName'], advoacteId: advocate['id'],isVideoCall: false);
+            var advocateCall= new AdvocateCall(uid: userClass.uid, userName: userClass.displayName, phoneNumber: userClass.phoneNumber, callTime: DateTime.now().toString(), advocateName: advocate['firstName']+" "+ advocate['lastName'],isVideoCall: false,advoacteId: advocate['phoneNumber']);
             userClass.advoacateCalls!.add(advocateCall);
+            CustomMessenger.defaultMessenger(context, "Call Scheduled");
           },
           child:Container(
             padding:EdgeInsets.fromLTRB(20,10,20,10),
@@ -271,8 +273,9 @@ getBottomLayer(Map<String,dynamic> advocate){
           onTap: (){
 
             //schedule 
-               var advocateCall= new AdvocateCall(uid: userClass.uid, userName: userClass.displayName, phoneNumber: userClass.phoneNumber, callTime: DateTime.now().toString(), advocateName: advocate['firstName']+" "+ advocate['lastName'], advoacteId: advocate['id'],isVideoCall: false);
+               var advocateCall= new AdvocateCall(uid: userClass.uid, userName: userClass.displayName, phoneNumber: userClass.phoneNumber, callTime: DateTime.now().toString(), advocateName: advocate['firstName']+" "+ advocate['lastName'],isVideoCall: false,advoacteId: advocate['phoneNumber']);
             userClass.advoacateCalls!.add(advocateCall);
+            CustomMessenger.defaultMessenger(context, "Call Scheduled");
           },
           child:Container(padding:EdgeInsets.fromLTRB(20,10,20,10),
             decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(10)),

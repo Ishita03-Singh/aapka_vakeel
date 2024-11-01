@@ -51,7 +51,7 @@ class AdvocateCall {
   //   );
   // }
 }
-AdvocateCall advocateCall= AdvocateCall(uid: "", userName: "", phoneNumber: "", advoacteId: "", advocateName: "", callTime: "",isVideoCall: true);
+AdvocateCall advocateCall= AdvocateCall(uid: "", userName: "", phoneNumber: "", advocateName: "",advoacteId: "", callTime: "",isVideoCall: true);
 
 
 //store this model in  local storage also and update list in user according to local storafe

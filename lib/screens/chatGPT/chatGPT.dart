@@ -1,12 +1,16 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:aapka_vakeel/utilities/colors.dart';
 import 'package:aapka_vakeel/utilities/custom_button.dart';
 import 'package:aapka_vakeel/utilities/my_appbar.dart';
 import 'package:aapka_vakeel/utilities/my_textfield.dart';
+import 'package:gallery_saver/gallery_saver.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
-import 'dart:html' as html;
+import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
+// import 'dart:html' as html;
 
 
 class ChatScreen extends StatefulWidget {
@@ -72,25 +76,57 @@ Future<String> getGeminiResponse(String inputText) async {
     });
   }
    Future<void> _generateWordFile() async {
-    final text = messages[1]['text']!;
+    // final text = messages[1]['text']!;
 
-    // prepare
-    final bytes = utf8.encode(text);
-    final blob = html.Blob([bytes]);
-    final url = html.Url.createObjectUrlFromBlob(blob);
-    final anchor = html.document.createElement('a') as html.AnchorElement
-      ..href = url
-      ..style.display = 'none'
-      ..download = 'AIaffidavit.txt';
-    html.document.body!.children.add(anchor);
+    // // prepare
+    // final bytes = utf8.encode(text);
+    // final blob = html.Blob([bytes]);
+    // final url = html.Url.createObjectUrlFromBlob(blob);
+    // final anchor = html.document.createElement('a') as html.AnchorElement
+    //   ..href = url
+    //   ..style.display = 'none'
+    //   ..download = 'AIaffidavit.txt';
+    // html.document.body!.children.add(anchor);
 
-    // download
-    anchor.click();
+    // // download
+    // anchor.click();
 
-    // cleanup
-    html.document.body!.children.remove(anchor);
-    html.Url.revokeObjectUrl(url);
+    // // cleanup
+    // html.document.body!.children.remove(anchor);
+    // html.Url.revokeObjectUrl(url);
   }
+
+   Future<void> saveTextFileToDownloads() async {
+     final text = messages[1]['text']!;
+    final fileName = 'AIaffidavit.txt';
+
+  // Request storage permission for Android 10 or lower
+  // if (await Permission.storage.request().isGranted) {
+    // Get the Downloads directory
+    final directory = Directory('/storage/emulated/0/Download');
+    if (directory.existsSync()) {
+      final filePath = '${directory.path}/$fileName';
+      final file = File(filePath);
+
+      // Write the text content to the file
+      await file.writeAsString(text, encoding: utf8);
+
+      // Notify the user of the file location
+      print("File saved at $filePath");
+    } else {
+      print("Could not access the Downloads directory.");
+    }
+  // } else {
+  //   print("Storage permission is denied.");
+  // }
+}
+
+
+
+
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -180,8 +216,8 @@ Future<String> getGeminiResponse(String inputText) async {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Expanded(child: customButton.taskButton("Export as Word file", (){
-            _generateWordFile();
+                  Expanded(child: customButton.taskButton("Export as Word file", ()async {
+           await  saveTextFileToDownloads();
           }))])))
           :Container(),
         ],

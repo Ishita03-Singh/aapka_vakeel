@@ -272,12 +272,18 @@ class AffidavitDetail extends StatefulWidget {
 }
 
 class _AffidavitDetailState extends State<AffidavitDetail> {
+   final _formKey = GlobalKey<FormState>();
+
+TextEditingController nameController= new TextEditingController();
+TextEditingController fatherNameController= new TextEditingController();
+TextEditingController addressController= new TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MyAppBar.appbar(context,head: ""),
       body: SingleChildScrollView(
         child: Container(
+          color: Colors.amberAccent,
           height: MediaQuery.of(context).size.height-100,
           padding: EdgeInsets.all(12),
           child :getSinglePartyForm()
@@ -288,14 +294,10 @@ class _AffidavitDetailState extends State<AffidavitDetail> {
   
 
   getSinglePartyForm(){
-  final _formKey = GlobalKey<FormState>();
-
-TextEditingController nameController= new TextEditingController();
-TextEditingController fatherNameController= new TextEditingController();
-TextEditingController addressController= new TextEditingController();
+ 
 
 return Container(
-  padding: EdgeInsets.only(top: 70),
+  padding: EdgeInsets.only(top: 10),
   child: Form(
     key: _formKey,
     child: 
@@ -372,8 +374,8 @@ return Container(
                   }
                   return null;
                 },
-              enabled: true,
-              enableInteractiveSelection: false,
+              // enabled: true,
+              // enableInteractiveSelection: false,
               cursorColor: AppColor.primaryTextColor,
               style: TextStyle(
                   color: AppColor.primaryTextColor,
@@ -565,8 +567,11 @@ class _AdvocateAffidavitDetailsState extends State<AdvocateAffidavitDetails> {
   Widget build(BuildContext context) {
     return  Scaffold(
       appBar: MyAppBar.appbar(context,head: widget.fileName),
-      body: SingleChildScrollView(
-        child: Container(
+      body:
+      //  SingleChildScrollView(
+        // child: 
+
+        Container(
           height: MediaQuery.of(context).size.height-100,
           padding: EdgeInsets.all(12),
           child: Column( crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -625,7 +630,7 @@ class _AdvocateAffidavitDetailsState extends State<AdvocateAffidavitDetails> {
             ],
           ),
         ),
-      ),
+      // ),
     );
   }
   getNamePriceContainer(){

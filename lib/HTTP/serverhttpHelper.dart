@@ -1,4 +1,4 @@
-import 'dart:html' as html;
+// import 'dart:html' as html;
 import 'dart:io';
 
 import 'package:aapka_vakeel/model/advocate.dart';
@@ -255,10 +255,16 @@ return _downloadUrl;
 
   // Web file upload logic
 
-  static Future<void> uploadFileWeb(html.File file,String folder,String id)async {
-  return  _uploadFileWeb(file,folder,id);
+  static Future<void> uploadFileWeb(File file,String folder,String id)async {
+    if(kIsWeb){
+      return  _uploadFileWeb(file,folder,id);
+    }
+    else{
+     return uploadFileMobile(file,folder,id);
+    }
+ 
   }
-  static Future<void> _uploadFileWeb(html.File file,String folder,String id) async {
+  static Future<void> _uploadFileWeb(File file,String folder,String id) async {
    
 
     // html.FileUploadInputElement uploadInput = html.FileUploadInputElement();
@@ -289,6 +295,32 @@ return _downloadUrl;
       // }
     // });
   }
+
+static Future<void> uploadFileMobile(File file, String folder, String id) async {
+  try {
+    FirebaseStorage storage = FirebaseStorage.instance;
+    String filePath = '/$folder/${id}.jpg'; // Define your file path
+    Reference ref = storage.ref().child(filePath);
+    
+    // Check if the file exists
+    if (!file.existsSync()) {
+      print('File does not exist: ${file.path}');
+      return;
+    }
+
+    // Upload the file
+    UploadTask uploadTask = ref.putFile(file);
+    await uploadTask.whenComplete(() {
+      print('File uploaded successfully on mobile!');
+    });
+
+    // Fetch the download URL after confirming the upload is complete
+    String downloadUrl = await ref.getDownloadURL();
+    print('File download URL on mobile: $downloadUrl');
+  } catch (e) {
+    print('Error uploading file on mobile: $e');
+  }
+}
 
 
 }

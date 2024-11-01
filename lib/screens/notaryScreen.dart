@@ -6,13 +6,14 @@ import 'package:aapka_vakeel/screens/asyncLoader.dart';
 import 'package:aapka_vakeel/utilities/custom_button.dart';
 import 'package:aapka_vakeel/utilities/custom_text.dart';
 import 'package:aapka_vakeel/utilities/cutom_message.dart';
+import 'package:aapka_vakeel/utilities/my_appbar.dart';
 import 'package:aapka_vakeel/utilities/strings.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:page_transition/page_transition.dart';
-import 'dart:html' as html;
+// import 'dart:html' as html;
 
 class NotaryScreen extends StatefulWidget {
    NotaryScreen({super.key,});
@@ -27,27 +28,27 @@ class _NotaryScreenState extends State<NotaryScreen> {
 
   Future<void> _pickAdharFile() async {
     if(kIsWeb){
- html.FileUploadInputElement uploadInput = html.FileUploadInputElement();
-  uploadInput.accept = '.pdf'; // Allow only PDF files
-  uploadInput.click(); // Trigger the file picker
+//  html.FileUploadInputElement uploadInput = html.FileUploadInputElement();
+//   uploadInput.accept = '.pdf'; // Allow only PDF files
+//   uploadInput.click(); // Trigger the file picker
 
-  uploadInput.onChange.listen((e) {
-    final files = uploadInput.files;
-    if (files != null && files.isNotEmpty) {
-      final file = files.first;
-        adharCard = File(file.name);
-      final reader = html.FileReader();
-      reader.readAsArrayBuffer(file);
+//   uploadInput.onChange.listen((e) {
+//     final files = uploadInput.files;
+//     if (files != null && files.isNotEmpty) {
+//       final file = files.first;
+//         adharCard = File(file.name);
+//       final reader = html.FileReader();
+//       reader.readAsArrayBuffer(file);
 
-      reader.onLoadEnd.listen((e) {
-        setState(() {
-          Uint8List fileBytes = reader.result as Uint8List;
-            adharCard = File(file.name);
-          // You can now use `fileBytes` as the PDF file data
-        });
-      });
-    }
-  });
+//       reader.onLoadEnd.listen((e) {
+//         setState(() {
+//           Uint8List fileBytes = reader.result as Uint8List;
+//             adharCard = File(file.name);
+//           // You can now use `fileBytes` as the PDF file data
+//         });
+//       });
+//     }
+  // });
     }
     else{
   FilePickerResult? result = await FilePicker.platform.pickFiles(
@@ -68,27 +69,27 @@ class _NotaryScreenState extends State<NotaryScreen> {
 
    Future<void> _pickFile() async {
     if(kIsWeb){
-html.FileUploadInputElement uploadInput = html.FileUploadInputElement();
-  uploadInput.accept = '.pdf'; // Allow only PDF files
-  uploadInput.click(); // Trigger the file picker
+// html.FileUploadInputElement uploadInput = html.FileUploadInputElement();
+//   uploadInput.accept = '.pdf'; // Allow only PDF files
+//   uploadInput.click(); // Trigger the file picker
 
-  uploadInput.onChange.listen((e) {
-    final files = uploadInput.files;
-    if (files != null && files.isNotEmpty) {
-      final file = files.first;
-        otherId = File(file.name);
-      final reader = html.FileReader();
-      reader.readAsArrayBuffer(file);
+//   uploadInput.onChange.listen((e) {
+//     final files = uploadInput.files;
+//     if (files != null && files.isNotEmpty) {
+//       final file = files.first;
+//         otherId = File(file.name);
+//       final reader = html.FileReader();
+//       reader.readAsArrayBuffer(file);
 
-      reader.onLoadEnd.listen((e) {
-        setState(() {
-          Uint8List fileBytes = reader.result as Uint8List;
-            otherId = File(file.name);
-          // You can now use `fileBytes` as the PDF file data
-        });
-      });
-    }
-  });
+//       reader.onLoadEnd.listen((e) {
+//         setState(() {
+//           Uint8List fileBytes = reader.result as Uint8List;
+//             otherId = File(file.name);
+//           // You can now use `fileBytes` as the PDF file data
+//         });
+//       });
+//     }
+//   });
     }
     else{
   FilePickerResult? result = await FilePicker.platform.pickFiles(
@@ -111,19 +112,19 @@ html.FileUploadInputElement uploadInput = html.FileUploadInputElement();
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
-      // appBar: AppBar(),
+      appBar:MyAppBar.appbar(context,head:"Notary" ),
       body: Container(
-        padding: EdgeInsets.fromLTRB(12,50,12,12),
+        padding: EdgeInsets.fromLTRB(12,20,12,12),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children:[ 
             Expanded(
               child: Container(
-                padding: EdgeInsets.only(top:12),
+                padding: EdgeInsets.only(top:8),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                CustomText.headText("Notary"),
+                // CustomText.headText("Notary"),
                 SizedBox(height: 12),
                 CustomText.boldinfoText("Upload Documents"),
                 SizedBox(height: 12),

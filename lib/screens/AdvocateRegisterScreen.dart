@@ -20,7 +20,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
-import 'dart:html' as html;
+// import 'dart:html' as html;
 
 class UserRegistrationForm extends StatefulWidget {
   bool isAdvocate = false;
@@ -53,7 +53,7 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
   Gender? _selectedGender;
   File? _selectedFile;
   final _formKey = GlobalKey<FormState>();
-  html.File barCertificateFile= html.File([], "");
+  File barCertificateFile=File("path");
 
   Future<bool> _register() async {
     if (_formKey.currentState!.validate()) {
@@ -89,9 +89,9 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
            }
 
 
-          await Serverhttphelper.uploadFileWeb(barCertificateFile,"advocateBarCertificates",userClass.phoneNumber);
+          await Serverhttphelper.uploadFileWeb(barCertificateFile,"advocateBarCertificates",widget.userCredential.user!.phoneNumber!);
 
-
+          // await Serverhttphelper.uploadFile(barCertificateFile,"advocateBarCertificates",userClass.phoneNumber);
            await FirebaseFirestore.instance.collection('advocates').doc(widget.userCredential.user!.uid).set({
           'phoneNumber':widget.userCredential.user!.phoneNumber,
           'firstName': firstNameController.text,
@@ -104,7 +104,7 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
           // 'city':CityController.text,
           // 'pinCode':PinCodeController.text,
           'barRegistrationNo':BarRegistrationNoController.text,
-          'barRegistrationCertificate':barCertificateFile.name,
+          'barRegistrationCertificate':barCertificateFile.path,
            'introduction':IntroController.text,
            'experience':ExperienceController.text,
            'charges':ChargeController.text,
@@ -143,28 +143,28 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
 
   Future<void> _pickFile() async {
     if(kIsWeb){
- html.FileUploadInputElement uploadInput = html.FileUploadInputElement();
-  uploadInput.accept = 'application/pdf,image/*'; // Allow only PDF files
-  uploadInput.click(); // Trigger the file picker
+//  html.FileUploadInputElement uploadInput = html.FileUploadInputElement();
+//   uploadInput.accept = 'application/pdf,image/*'; // Allow only PDF files
+//   uploadInput.click(); // Trigger the file picker
 
-  uploadInput.onChange.listen((e) {
-    final files = uploadInput.files;
-    if (files != null && files.isNotEmpty) {
-      barCertificateFile= files[0];
-      final file = files.first;
-        _selectedFile = File(file.name);
-      final reader = html.FileReader();
-      reader.readAsArrayBuffer(file);
+//   uploadInput.onChange.listen((e) {
+//     final files = uploadInput.files;
+//     if (files != null && files.isNotEmpty) {
+//       barCertificateFile= files[0];
+//       final file = files.first;
+//         _selectedFile = File(file.name);
+//       final reader = html.FileReader();
+//       reader.readAsArrayBuffer(file);
 
-      reader.onLoadEnd.listen((e) {
-        setState(() {
-          Uint8List fileBytes = reader.result as Uint8List;
-            _selectedFile = File(file.name);
-          // You can now use `fileBytes` as the PDF file data
-        });
-      });
-    }
-  });
+//       reader.onLoadEnd.listen((e) {
+//         setState(() {
+//           Uint8List fileBytes = reader.result as Uint8List;
+//             _selectedFile = File(file.name);
+//           // You can now use `fileBytes` as the PDF file data
+//         });
+//       });
+//     }
+//   });
     }
     else{
 FilePickerResult? result = await FilePicker.platform.pickFiles(
@@ -174,7 +174,9 @@ FilePickerResult? result = await FilePicker.platform.pickFiles(
 
     if (result != null) {
       setState(() {
+        
         _selectedFile = File(result.files.single.path!);
+        barCertificateFile= _selectedFile!;
       });
     } else {
       // User canceled the picker

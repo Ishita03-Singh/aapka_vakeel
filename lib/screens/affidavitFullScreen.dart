@@ -13,7 +13,7 @@ import 'package:aapka_vakeel/main.dart';
 import 'package:aapka_vakeel/utilities/custom_text.dart';
 import 'package:aapka_vakeel/utilities/my_appbar.dart';
 import 'package:flutter/material.dart';
-import 'dart:html' as html;
+// import 'dart:html' as html;
 
 class AffidavitFullScreen extends StatefulWidget {
   String fileName;
@@ -58,7 +58,7 @@ Future<void> _initializeAsync() async {
   }
 
 Future<void> _openPdf(String url) async {
-    html.window.open(url, '_blank');  // Open in a new tab
+    // html.window.open(url, '_blank');  // Open in a new tab
    
   }
   

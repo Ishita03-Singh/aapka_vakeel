@@ -1,6 +1,7 @@
 import 'package:aapka_vakeel/model/AdvocateCall.dart';
 import 'package:aapka_vakeel/model/user.dart';
 import 'package:aapka_vakeel/utilities/custom_button.dart';
+import 'package:aapka_vakeel/utilities/cutom_message.dart';
 import 'package:aapka_vakeel/utilities/my_appbar.dart';
 import 'package:flutter/material.dart';
 
@@ -212,6 +213,7 @@ class _AdvocateDetailState extends State<AdvocateDetail> {
 
             var advocateCall= new AdvocateCall(uid: userClass.uid, userName: userClass.displayName, phoneNumber: userClass.phoneNumber, callTime: DateTime.now().toString(), advocateName: widget.advocate['firstName']+" "+ widget.advocate['lastName'], advoacteId: widget.advocate['phoneNumber'],isVideoCall: false);
             userClass.advoacateCalls!.add(advocateCall);
+            CustomMessenger.defaultMessenger(context, "Call Scheduled");
           },
           child:Container(
             padding:EdgeInsets.fromLTRB(20,10,20,10),
@@ -233,6 +235,7 @@ class _AdvocateDetailState extends State<AdvocateDetail> {
 
             var advocateCall= new AdvocateCall(uid: userClass.uid, userName: userClass.displayName, phoneNumber: userClass.phoneNumber, callTime: DateTime.now().toString(), advocateName: widget.advocate['firstName']+" "+ widget.advocate['lastName'], advoacteId: widget.advocate['phoneNumber'],isVideoCall: true);
             userClass.advoacateCalls!.add(advocateCall);
+            CustomMessenger.defaultMessenger(context, "Call Scheduled");
 
           },
           child:Container(padding:EdgeInsets.fromLTRB(20,10,20,10),

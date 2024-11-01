@@ -15,7 +15,7 @@ import 'dart:io';
 import 'package:page_transition/page_transition.dart';
 import 'package:image_picker/image_picker.dart';
 
-import 'dart:html' as html;
+// import 'dart:html' as html;
 
 import '../HTTP/serverhttpHelper.dart';
 class CaptureImage extends StatefulWidget {
@@ -28,7 +28,8 @@ class CaptureImage extends StatefulWidget {
 
 class _CaptureImageState extends State<CaptureImage> {
   File? _image;
-   html.File advocateImage= html.File([], "");
+  File? advocateImage=File("path");
+  //  html.File advocateImage= html.File([], "");
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +79,7 @@ class _CaptureImageState extends State<CaptureImage> {
                             Navigator.push(
                                 context,
                                 PageTransition(
-                                    child: PreviewImage(image: _image,user: widget.user,advocateImage: advocateImage,),
+                                    child: PreviewImage(image: _image,user: widget.user,advocateImage: advocateImage!,),
                                     type: PageTransitionType.rightToLeft));
               }
             } 
@@ -91,50 +92,51 @@ class _CaptureImageState extends State<CaptureImage> {
 
   Future<void> _captureImageWeb() async {
   // Create a file picker input element for camera capture
-  html.FileUploadInputElement uploadInput = html.FileUploadInputElement();
-  uploadInput.accept = 'image/*'; // Allow only images
-  uploadInput.setAttribute('capture', 'camera'); 
-  uploadInput.click(); // Open the file picker (camera)
+  // html.FileUploal && files.isNotEmpty) {
+  //     advocateImage=files[0];
+  //     final file = files.first;
 
-  // Listen for changes (file selected)
-  uploadInput.onChange.listen((e) {
-    final files = uploadInput.files;
-    if (files != null && files.isNotEmpty) {
-      advocateImage=files[0];
-      final file = files.first;
+  //     // Read the selected file as data
+  //     final reader = html.FileReader();
+  //     reader.readAsArrayBuffer(file); // Read file as binary (Uint8List)
 
-      // Read the selected file as data
-      final reader = html.FileReader();
-      reader.readAsArrayBuffer(file); // Read file as binary (Uint8List)
+  //     reader.onLoadEnd.listen((e) {
+  //       Uint8List imageData = reader.result as Uint8List; // Get image data
+  //       setState(() {
+  //         _image = File.fromRawPath(imageData); // Save image data
+  //       });
 
-      reader.onLoadEnd.listen((e) {
-        Uint8List imageData = reader.result as Uint8List; // Get image data
-        setState(() {
-          _image = File.fromRawPath(imageData); // Save image data
-        });
+  //       if (_image != null) {
+  //         Navigator.push(
+  //           context,
+  //           PageTransition(
+  //             child: PreviewImage(
+  //               advocateImage:advocateImage,
+  //               image: imageData, // Pass image data
+  //               user: widget.user,
+  //             ),
+  //             type: dInputElement uploadInput = html.FileUploadInputElement();
+  // uploadInput.accept = 'image/*'; // Allow only images
+  // uploadInput.setAttribute('capture', 'camera'); 
+  // uploadInput.click(); // Open the file picker (camera)
 
-        if (_image != null) {
-          Navigator.push(
-            context,
-            PageTransition(
-              child: PreviewImage(
-                advocateImage:advocateImage,
-                image: imageData, // Pass image data
-                user: widget.user,
-              ),
-              type: PageTransitionType.rightToLeft,
-            ),
-          );
-        }
-      });
-    }
-  });
+  // // Listen for changes (file selected)
+  // uploadInput.onChange.listen((e) {
+  //   final files = uploadInput.files;
+  //   if (files != nulPageTransitionType.rightToLeft,
+  //           ),
+  //         );
+  //       }
+  //     });
+  //   }
+  // });
 }
 }
 
 
 class PreviewImage extends StatefulWidget {
-  html.File advocateImage= html.File([], "");
+  // html.File advocateImage= html.File([], "");
+  File advocateImage;
   User user;
   var image;
   PreviewImage({super.key, required this.image,required this.user, required this.advocateImage });
@@ -181,7 +183,7 @@ class _PreviewImageState extends State<PreviewImage> {
             }),
             Padding(padding: EdgeInsets.all(4)),
             customButton.taskButton("Save", () async{
-            await Serverhttphelper.uploadFileWeb(widget.advocateImage,"AdvocateImages",widget.user.phoneNumber!);
+            await Serverhttphelper.uploadFileWeb(widget.image,"AdvocateImages",widget.user.phoneNumber!);
 
 
               MySharedPreferences.instance.setISLoggedIn(userClass);
@@ -200,29 +202,29 @@ class _PreviewImageState extends State<PreviewImage> {
   }
   Future<void> _captureImageWeb() async {
   // Create a file picker input element for camera capture
-  html.FileUploadInputElement uploadInput = html.FileUploadInputElement();
-  uploadInput.accept = 'image/*'; // Allow only images
-  uploadInput.setAttribute('capture', 'camera'); 
-  uploadInput.click(); // Open the file picker (camera)
+  // html.FileUploadInputElement uploadInput = html.FileUploadInputElement();
+  // uploadInput.accept = 'image/*'; // Allow only images
+  // uploadInput.setAttribute('capture', 'camera'); 
+  // uploadInput.click(); // Open the file picker (camera)
 
-  // Listen for changes (file selected)
-  uploadInput.onChange.listen((e) {
-    final files = uploadInput.files;
-    if (files != null && files.isNotEmpty) {
-      widget.advocateImage= files[0];
-      final file = files.first;
-      // Read the selected file as data
-      final reader = html.FileReader();
-      reader.readAsArrayBuffer(file); // Read file as binary (Uint8List)
-      reader.onLoadEnd.listen((e) {
-        Uint8List imageData = reader.result as Uint8List; // Get image data
-        setState(() {
-         widget.image = imageData; // Save image data
-        });
+  // // Listen for changes (file selected)
+  // uploadInput.onChange.listen((e) {
+  //   final files = uploadInput.files;
+  //   if (files != null && files.isNotEmpty) {
+  //     widget.advocateImage= files[0];
+  //     final file = files.first;
+  //     // Read the selected file as data
+  //     final reader = html.FileReader();
+  //     reader.readAsArrayBuffer(file); // Read file as binary (Uint8List)
+  //     reader.onLoadEnd.listen((e) {
+  //       Uint8List imageData = reader.result as Uint8List; // Get image data
+  //       setState(() {
+  //        widget.image = imageData; // Save image data
+  //       });
 
-      });
-    }
-  });
+  //     });
+  //   }
+  // });
 }
 }
 

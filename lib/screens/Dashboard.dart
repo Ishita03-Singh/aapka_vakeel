@@ -381,8 +381,8 @@ class _DashboardState extends State<Dashboard> {
       callFun();
       
     },
-     child: Container(
-        height: width>=height?MediaQuery.of(context).size.height/4:MediaQuery.of(context).size.height/3,
+     child: Expanded(
+        // height: width>=height?MediaQuery.of(context).size.height/4:MediaQuery.of(context).size.height/3,
        child: Container(
         
         decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(20),),
