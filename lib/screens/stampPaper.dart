@@ -18,6 +18,10 @@ class StampPaper extends StatefulWidget {
 
 class _StampPaperState extends State<StampPaper> {
   bool singleParty=true;
+   // List of items for the dropdown
+  final List<String> list = ["Adoption Deed","Option 1", "Option 2", "Option 3"];
+  // Selected item
+ String dropdownValue ="Adoption Deed";
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +54,21 @@ class _StampPaperState extends State<StampPaper> {
               singleParty=false;
               });
             }),
-          
+            SizedBox(height: 10),
+         DropdownMenu<String>(
+          width: MediaQuery.of(context).size.width,
+            initialSelection: list.first,
+            onSelected: (String? value) {
+              // This is called when the user selects an item.
+              setState(() {
+                dropdownValue = value!;
+              });
+            },
+            dropdownMenuEntries: list.map<DropdownMenuEntry<String>>((String value) {
+              return DropdownMenuEntry<String>(value: value, label: value);
+            }).toList(),
+          ),
+                    
             singleParty?getSinglePartyForm(): getDoublePartyForm(),
          
             ],)
@@ -70,7 +88,7 @@ TextEditingController puropseController= new TextEditingController();
 TextEditingController amountController= new TextEditingController();
 
 return Container(
-  padding: EdgeInsets.only(top: 70),
+  padding: EdgeInsets.only(top: 30),
   child: Form(
     key: _formKey,
     child: 
@@ -127,7 +145,7 @@ TextEditingController addressController_2= new TextEditingController();
 TextEditingController puropseController_2= new TextEditingController();
 
 return Container(
-  padding: EdgeInsets.only(top: 70),
+  padding: EdgeInsets.only(top: 30),
   child: Form(
     key: _formKey,
     child: 

@@ -277,13 +277,16 @@ class _AffidavitDetailState extends State<AffidavitDetail> {
 TextEditingController nameController= new TextEditingController();
 TextEditingController fatherNameController= new TextEditingController();
 TextEditingController addressController= new TextEditingController();
+TextEditingController stateController= new TextEditingController();
+TextEditingController cityController= new TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MyAppBar.appbar(context,head: ""),
+      appBar: MyAppBar.appbar(context,head: widget.fileName.split('.')[0]),
       body: SingleChildScrollView(
         child: Container(
-          color: Colors.amberAccent,
+          // color: Colors.amberAccent,
           height: MediaQuery.of(context).size.height-100,
           padding: EdgeInsets.all(12),
           child :getSinglePartyForm()
@@ -301,48 +304,52 @@ return Container(
   child: Form(
     key: _formKey,
     child: 
-    Column(crossAxisAlignment: CrossAxisAlignment.stretch,
-    children: [
-        CustomText.infoText("Kindly fill the details required and proceed"),
-        SizedBox(height: 40),
-        giveInputField("Name", nameController, true,TextInputType.name),
-        giveInputField("Father Name", fatherNameController, true,TextInputType.phone),
-        giveInputField("Address", addressController, true,TextInputType.text),
-       
-          customButton.taskButton("Continue", (){
-
-         if (_formKey.currentState!.validate()) {
-          var details={
-            "Name": nameController.text,
-            "FatherName":fatherNameController.text,
-            "Address":addressController.text
-          };
-            Navigator.of(context).pushReplacement(
-                 MaterialPageRoute(
-                  builder: (context) =>ContractLoader(fileName:widget.fileName,isAffidavitPage: widget.isAffidavitPage,DocumentDetails:details)
-                  // VideoCall(data: snapshot.data!),
-                  ),
-                                                                );
-          }
-            else{
-            return false;
+    SingleChildScrollView(
+      child: Column(crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+          CustomText.infoText("Kindly fill the details required and proceed"),
+          SizedBox(height: 40),
+          giveInputField("Name", nameController, true,TextInputType.name),
+          giveInputField("Father Name", fatherNameController, true,TextInputType.name),
+          giveInputField("Address", addressController, true,TextInputType.text),
+          giveInputField("State", stateController, true,TextInputType.text),
+          giveInputField("City", cityController, true,TextInputType.text),
+         
+            customButton.taskButton("Continue", (){
+      
+           if (_formKey.currentState!.validate()) {
+            var details={
+              "Name": nameController.text,
+              "FatherName":fatherNameController.text,
+              "Address":addressController.text+","+cityController.text+","+stateController.text
+            };
+              Navigator.of(context).pushReplacement(
+                   MaterialPageRoute(
+                    builder: (context) =>ContractLoader(fileName:widget.fileName,isAffidavitPage: widget.isAffidavitPage,DocumentDetails:details)
+                    // VideoCall(data: snapshot.data!),
+                    ),
+                                                                  );
             }
-          } ),
-
-                // PaymentGateway paymentGateway = new PaymentGateway(context,  {
-            //             'key': 'rzp_live_ILgsfZCZoFIKMb',
-            //             'amount': 4045,//the amount is in points like 40.45
-            //             'name': 'Acme Corp.',
-            //             'description': 'Fine T-Shirt',
-            //             'retry': {'enabled': true, 'max_count': 1},
-            //             'send_sms_hash': true,
-            //             'prefill': {'contact': '8888888888', 'email': 'test@razorpay.com'},
-            //             'external': {
-            //               'wallets': ['paytm']
-            //             }
-            //           }); 
-          ],
-  )),
+              else{
+              return false;
+              }
+            } ),
+      
+                  // PaymentGateway paymentGateway = new PaymentGateway(context,  {
+              //             'key': 'rzp_live_ILgsfZCZoFIKMb',
+              //             'amount': 4045,//the amount is in points like 40.45
+              //             'name': 'Acme Corp.',
+              //             'description': 'Fine T-Shirt',
+              //             'retry': {'enabled': true, 'max_count': 1},
+              //             'send_sms_hash': true,
+              //             'prefill': {'contact': '8888888888', 'email': 'test@razorpay.com'},
+              //             'external': {
+              //               'wallets': ['paytm']
+              //             }
+              //           }); 
+            ],
+        ),
+    )),
 );
   }
 
