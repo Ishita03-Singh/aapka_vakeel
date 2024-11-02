@@ -39,6 +39,7 @@ dependencies:
   animated_splash_screen: 
   http:
   country_picker: 
+  loader_overlay:
   page_transition: 
   firebase_database:
   intl_phone_field: ^3.2.0
@@ -54,6 +55,9 @@ dependencies:
   visibility_detector:
   flutter_webrtc:
   permission_handler:
+  geolocator: ^9.0.2
+  geocoding: ^2.0.0
+
   firebase_storage:
   # flutter_document_writer:
   video_call:

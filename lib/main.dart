@@ -26,6 +26,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
@@ -43,7 +44,7 @@ void main() async {
   projectId: "appkavakeel-66df5",
   storageBucket: "appkavakeel-66df5.appspot.com",
   messagingSenderId: "361879211179",
-  appId: "1:361879211179:web:f2a913289cda8cc0c3bbee",
+  appId: "1:361879211179:android:5580e59b999ceb22c3bbee",
   measurementId: "G-CV0KKNLDLS"
       
   ));
@@ -78,59 +79,61 @@ class MyApp extends StatelessWidget {
         // Status bar color
         statusBarColor: AppColor.bgColor,
         systemNavigationBarColor: AppColor.bgColor);
-    return MaterialApp(
-      title: StrLiteral.appName,
-      debugShowCheckedModeBanner: false,
-
-      theme: ThemeData(
-          // iconTheme: IconThemeData(color: AppColor.iconColor),
-          useMaterial3: true,
-          scaffoldBackgroundColor: AppColor.bgColor,
-          textSelectionTheme: TextSelectionThemeData(
-            selectionColor: AppColor.tertiaryColor.withOpacity(0.5),
-            selectionHandleColor: AppColor.tertiaryColor,
-          ),
-          elevatedButtonTheme: ElevatedButtonThemeData(
-              style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all(AppColor.tertiaryColor),
-          )),
-          scrollbarTheme: const ScrollbarThemeData().copyWith(
-              thumbColor:
-                  MaterialStateProperty.all(AppColor.secondaryTextColor))),
-
-      home: AnimatedSplashScreen.withScreenFunction(
-        duration: 1000,
-        animationDuration: const Duration(milliseconds: 900),
-        curve: Curves.easeInSine,
-        splash: Image.asset(StrLiteral.appLogoPath),
-        splashIconSize: 250,
-        splashTransition: SplashTransition.scaleTransition,
-        pageTransitionType: PageTransitionType.rightToLeftWithFade,
-        backgroundColor: AppColor.secondaryColor,
-        screenFunction: () async {
-          String userString= await MySharedPreferences.instance.getISLoggedIn();
-          // bool isEmpty = await LocalStorageHelper.instance.isServerListEmpty();        
-          if(userString==""){
-          print(AppColor.primaryTextColor);
-          // return VideoCall(data: "hsj");
-          // final cameras = await availableCameras();
-          // return  ChangeNotifierProvider(
-          // create: (context) => VideoCallProvider(),
-          // child: VideoCallSetupScreen(),
-          // );
-          // return StampPaper();
-          return IntroPage();
-          // return AdvocateAffidavitDetails(fileName: "Make a Will", isAffidavitPage: true,DocumentDetails: "");
-          }
-         //  User user= jsonDecode(userString);
-         Map<String, dynamic> userMap = jsonDecode(userString);
-         UserClass user = UserClass.fromJson(userMap);
-         if(user.barRegistrationNo!="")
-         return AdvocateDashboard(userclass: userClass);
-         return  Dashboard(userclass: userClass);
-        //  return StampPaper();
-         // return AsyncLoader(username: "abc",meetingId: "123");
-        },
+    return GlobalLoaderOverlay(
+      child: MaterialApp(
+        title: StrLiteral.appName,
+        debugShowCheckedModeBanner: false,
+      
+        theme: ThemeData(
+            // iconTheme: IconThemeData(color: AppColor.iconColor),
+            useMaterial3: true,
+            scaffoldBackgroundColor: AppColor.bgColor,
+            textSelectionTheme: TextSelectionThemeData(
+              selectionColor: AppColor.tertiaryColor.withOpacity(0.5),
+              selectionHandleColor: AppColor.tertiaryColor,
+            ),
+            elevatedButtonTheme: ElevatedButtonThemeData(
+                style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all(AppColor.tertiaryColor),
+            )),
+            scrollbarTheme: const ScrollbarThemeData().copyWith(
+                thumbColor:
+                    MaterialStateProperty.all(AppColor.secondaryTextColor))),
+      
+        home: AnimatedSplashScreen.withScreenFunction(
+          duration: 1000,
+          animationDuration: const Duration(milliseconds: 900),
+          curve: Curves.easeInSine,
+          splash: Image.asset(StrLiteral.appLogoPath),
+          splashIconSize: 250,
+          splashTransition: SplashTransition.scaleTransition,
+          pageTransitionType: PageTransitionType.rightToLeftWithFade,
+          backgroundColor: AppColor.secondaryColor,
+          screenFunction: () async {
+            String userString= await MySharedPreferences.instance.getISLoggedIn();
+            // bool isEmpty = await LocalStorageHelper.instance.isServerListEmpty();        
+            if(userString==""){
+            print(AppColor.primaryTextColor);
+            // return VideoCall(data: "hsj");
+            // final cameras = await availableCameras();
+            // return  ChangeNotifierProvider(
+            // create: (context) => VideoCallProvider(),
+            // child: VideoCallSetupScreen(),
+            // );
+            // return StampPaper();
+            return IntroPage();
+            // return AdvocateAffidavitDetails(fileName: "Make a Will", isAffidavitPage: true,DocumentDetails: "");
+            }
+           //  User user= jsonDecode(userString);
+           Map<String, dynamic> userMap = jsonDecode(userString);
+           UserClass user = UserClass.fromJson(userMap);
+           if(user.barRegistrationNo!="")
+           return AdvocateDashboard(userclass: userClass);
+           return  Dashboard(userclass: userClass);
+          //  return StampPaper();
+           // return AsyncLoader(username: "abc",meetingId: "123");
+          },
+        ),
       ),
     );
   }

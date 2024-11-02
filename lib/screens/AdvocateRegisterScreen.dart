@@ -19,7 +19,10 @@ import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:page_transition/page_transition.dart';
+
+import '../others/locationService.dart';
 // import 'dart:html' as html;
 
 class UserRegistrationForm extends StatefulWidget {
@@ -50,6 +53,7 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
       new TextEditingController();
   TextEditingController BarRegistrationCertificateController =
       new TextEditingController();
+   bool _isLoaderVisible = false;
   Gender? _selectedGender;
   File? _selectedFile;
   final _formKey = GlobalKey<FormState>();
@@ -196,65 +200,102 @@ FilePickerResult? result = await FilePicker.platform.pickFiles(
           padding: EdgeInsets.all(8),
           child: Form(
               key: _formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                giveInputField("First name", firstNameController, true,TextInputType.name),
-                giveInputField("Last name", lastNameController, true,TextInputType.name),
-                giveInputField("Email", EmailController, false,TextInputType.emailAddress),
-                giveRadioField("Gender", GenderController, true),
-                giveInputField("Address", AddressController, true,TextInputType.streetAddress),
-                giveInputField("State", StateController, true,TextInputType.text),
-                giveInputField("City", CityController, true,TextInputType.text),
-                giveInputField("Pin code", PinCodeController, true,TextInputType.phone),
-                if (widget.isAdvocate)
-                  giveInputField("Please give a short introduction",
-                      IntroController, true,TextInputType.text),
-                      if (widget.isAdvocate)
-                  giveInputField("Experience",
-                      ExperienceController, true,TextInputType.text),
-                      if (widget.isAdvocate)
-                  giveInputField("Skills",
-                      SkillsController, true,TextInputType.text),
-                      if (widget.isAdvocate)
-                  giveInputField("Charges per minute",
-                      ChargeController, true,TextInputType.text),
-                if (widget.isAdvocate)
-                  giveInputField("Bar registration number",
-                      BarRegistrationNoController, true,TextInputType.text),
-                if (widget.isAdvocate)
-                giveFileBrowseInputField("Bar registration Certificate",
-                    BarRegistrationCertificateController, true),
-                customButton.taskButton("Save", () async{
-                  if (widget.isAdvocate) {
-                    var res= await  _register();
-                    if(res){
-                    Navigator.push(
+            child:
+            
+          // Stack(
+          //   children: [
+          //     if( isLoading)
+          //      Center(child: CircularProgressIndicator()) ,
+                Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  giveInputField("First name", firstNameController, true,TextInputType.name),
+                  giveInputField("Last name", lastNameController, true,TextInputType.name),
+                  giveInputField("Email", EmailController, false,TextInputType.emailAddress),
+                  giveRadioField("Gender", GenderController, true),
+                            
+                  customButton.cancelButton("Get location",()async{
+                 context.loaderOverlay.show();
+                setState(() {
+                  _isLoaderVisible = context.loaderOverlay.visible;
+                });
+                      try {
+                        var location = await LocationService.getCityAndState();
+                        setState(() {
+                          CityController.text = location['city'] ?? '';
+                          StateController.text = location['state'] ?? '';
+                        });
+                      } catch (e) {
+                        // setState(() {
+                        //   _city = 'Error';
+                        //   _state = 'Error';
+                        // });
+                      }
+                      finally{
+                               if (_isLoaderVisible && context.mounted) {
+                  context.loaderOverlay.hide();
+                }
+                setState(() {
+                  _isLoaderVisible = context.loaderOverlay.visible;
+                });
+                      }
+                  
+                  }),
+                  giveInputField("Address", AddressController, true,TextInputType.streetAddress),
+                  giveInputField("State", StateController, true,TextInputType.text),
+                  giveInputField("City", CityController, true,TextInputType.text),
+                  giveInputField("Pin code", PinCodeController, true,TextInputType.phone),
+                  if (widget.isAdvocate)
+                    giveInputField("Please give a short introduction",
+                        IntroController, true,TextInputType.text),
+                        if (widget.isAdvocate)
+                    giveInputField("Experience",
+                        ExperienceController, true,TextInputType.text),
+                        if (widget.isAdvocate)
+                    giveInputField("Skills",
+                        SkillsController, true,TextInputType.text),
+                        if (widget.isAdvocate)
+                    giveInputField("Charges per minute",
+                        ChargeController, true,TextInputType.text),
+                  if (widget.isAdvocate)
+                    giveInputField("Bar registration number",
+                        BarRegistrationNoController, true,TextInputType.text),
+                  if (widget.isAdvocate)
+                  giveFileBrowseInputField("Bar registration Certificate",
+                      BarRegistrationCertificateController, true),
+                  customButton.taskButton("Save", () async{
+                    if (widget.isAdvocate) {
+                      var res= await  _register();
+                      if(res){
+                      Navigator.push(
+                          context,
+                          PageTransition(
+                              child: CaptureImage(user:widget.userCredential.user! ,),
+                              type: PageTransitionType.rightToLeft));
+                      }
+                      
+                    } else {
+                      var res= await _register();
+                      if(res){
+                         MySharedPreferences.instance.setISLoggedIn(userClass);
+                         Navigator.push(
                         context,
                         PageTransition(
-                            child: CaptureImage(user:widget.userCredential.user! ,),
+                            child: Dashboard(user: widget.userCredential.user!,userclass: userClass,),
                             type: PageTransitionType.rightToLeft));
+                      }
+                      
                     }
-                    
-                  } else {
-                    var res= await _register();
-                    if(res){
-                       MySharedPreferences.instance.setISLoggedIn(userClass);
-                       Navigator.push(
-                      context,
-                      PageTransition(
-                          child: Dashboard(user: widget.userCredential.user!,userclass: userClass,),
-                          type: PageTransitionType.rightToLeft));
-                    }
-                    
-                  }
-                })
-              ],
-            ),
+                  })
+                ],
+                              ),
+         
+            // ],
+          ),
           ),
         ),
-      ),
-    );
+      );
+    // );
   }
 
   giveFileBrowseInputField(
