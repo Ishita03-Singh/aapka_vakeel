@@ -7,6 +7,7 @@ import 'package:aapka_vakeel/screens/OTPScreen.dart';
 import 'package:aapka_vakeel/screens/affidavitScreen.dart';
 import 'package:aapka_vakeel/screens/chatGPT/chatGPT.dart';
 import 'package:aapka_vakeel/screens/consultation/consultation.dart';
+import 'package:aapka_vakeel/screens/legalcases.dart';
 import 'package:aapka_vakeel/screens/notaryScreen.dart';
 import 'package:aapka_vakeel/screens/scbarContainer.dart';
 import 'package:aapka_vakeel/screens/stampPaper.dart';
@@ -144,7 +145,7 @@ class _DashboardState extends State<Dashboard> {
                   mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                 CustomText.infoText(scrollWidgetContent[index]["headText"]),
-                CustomText.RegularDarkText(scrollWidgetContent[index]["infoText"]),
+                CustomText.RegularDarkText(scrollWidgetContent[index]["infoText"],fontSize: 13),
                 SizedBox(height: 5),
                 customButton.smalltaskButton(scrollWidgetContent[index]["btnText"], (){},radius: 24) 
                              ],),
@@ -177,7 +178,7 @@ class _DashboardState extends State<Dashboard> {
   OverlayEntry _createPopupOverlay() {
     return OverlayEntry(
       builder: (context) => Positioned(
-        bottom: 150, // Position it above the floating action button
+        bottom: 130, // Position it above the floating action button
         right: 20,
         child: Material(
           color: Colors.transparent,
@@ -199,7 +200,7 @@ class _DashboardState extends State<Dashboard> {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 IconButton(onPressed: _hidePopup, icon: Icon(Icons.close,color: Colors.grey,size: 20,)),
-                CustomText.RegularDarkText("Hi, Got any legal query? I’m happy to help."),
+                CustomText.RegularDarkText("Hi, Got any legal query? I’m happy to help.",fontSize: 12),
               ],
             )
           ),
@@ -317,7 +318,7 @@ class _DashboardState extends State<Dashboard> {
                    Row( mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                     Container(child:
-                    getDashboardwidger(StrLiteral.notary,"Notary","Notary in three easy steps ",(){
+                    getDashboardwidger(StrLiteral.notary,"Notary","Notary in three easy steps\n ",(){
                       _hidePopup();
                        Navigator.push(
                         context,
@@ -358,6 +359,27 @@ class _DashboardState extends State<Dashboard> {
                    SizedBox(height: 20),
                    getScrollWigets(),
                    SizedBox(height: 20),
+                   GestureDetector(
+                    onTap: (){
+                                Navigator.push(
+                                context,
+                                PageTransition(
+                                    child: LegalCases(),
+                                    type: PageTransitionType.rightToLeft));
+                    },
+                     child: Container(
+                       padding: EdgeInsets.fromLTRB(18,18,18,6),
+                                   width: 150.0, // Width of each div
+                                   margin: EdgeInsets.all(8.0),
+                                   decoration: BoxDecoration(
+                                   border: Border.all(color: Color(0xFF333333).withOpacity(0.2)),
+                                   color: Colors.white,
+                                   borderRadius: BorderRadius.all(Radius.circular(20))
+                                   ),child: Column(
+                                     children: [CustomText.RegularDarkText("Legal cases")],
+                                   ),
+                     ),
+                   ),
                    CustomText.headText("Recent Activities",color:Color(0xFF9C9999)),
 
                 ],),

@@ -19,8 +19,10 @@ import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import '../others/locationService.dart';
 // import 'dart:html' as html;
@@ -224,6 +226,27 @@ FilePickerResult? result = await FilePicker.platform.pickFiles(
     ChargeController.text= charges[dropdownValue].toString();
   }
   
+  Future<bool> requestLocationPermission() async {
+  // Check if location permission is granted
+  var status = await Permission.location.status;
+  
+  if (status.isDenied) {
+    // Request location permission
+    status = await Permission.location.request();
+    
+    if (status.isGranted) {
+      // Permission granted, get the location
+      return true;
+    
+    } else if (status.isPermanentlyDenied) {
+      return false;
+      
+    }
+  } else if (status.isGranted) {
+    return true;
+  }
+  return false;
+}
 
   @override
   Widget build(BuildContext context) {
@@ -250,33 +273,45 @@ FilePickerResult? result = await FilePicker.platform.pickFiles(
                   giveInputField("Email", EmailController, false,TextInputType.emailAddress),
                   giveRadioField("Gender", GenderController, true),
                             
-                  customButton.cancelButton("Get location",()async{
-                 context.loaderOverlay.show();
-                setState(() {
-                  _isLoaderVisible = context.loaderOverlay.visible;
-                });
-                      try {
-                        var location = await LocationService.getCityAndState();
-                        setState(() {
-                          CityController.text = location['city'] ?? '';
-                          StateController.text = location['state'] ?? '';
-                        });
-                      } catch (e) {
-                        // setState(() {
-                        //   _city = 'Error';
-                        //   _state = 'Error';
-                        // });
-                      }
-                      finally{
-                               if (_isLoaderVisible && context.mounted) {
-                  context.loaderOverlay.hide();
-                }
-                setState(() {
-                  _isLoaderVisible = context.loaderOverlay.visible;
-                });
-                      }
-                  
-                  }),
+                customButton.cancelButton("Get location", () async {
+  bool permission = await requestLocationPermission();
+  if (permission) {
+    context.loaderOverlay.show();
+    setState(() {
+      _isLoaderVisible = context.loaderOverlay.visible;
+    });
+    
+    try {
+      // Check if location services are enabled
+      bool isLocationServiceEnabled = await Geolocator.isLocationServiceEnabled();
+      if (!isLocationServiceEnabled) {
+        CustomMessenger.defaultMessenger(context, "Location services are disabled. Please enable them.");
+        await Geolocator.openLocationSettings();
+        return; // Exit the function if location services are disabled
+      }
+      
+      var location = await LocationService.getCityAndState();
+      setState(() {
+        CityController.text = location['city'] ?? '';
+        StateController.text = location['state'] ?? '';
+      });
+    } catch (e) {
+      print("Error: $e");
+    } finally {
+      if (_isLoaderVisible && context.mounted) {
+        context.loaderOverlay.hide();
+      } else {
+        CustomMessenger.defaultMessenger(context, "Did not get Permission");
+      }
+    }
+
+    setState(() {
+      _isLoaderVisible = context.loaderOverlay.visible;
+    });
+  } else {
+    CustomMessenger.defaultMessenger(context, "Location permission not granted.");
+  }
+}),
                   giveInputField("Address", AddressController, true,TextInputType.streetAddress),
                   giveInputField("State", StateController, true,TextInputType.text),
                   giveInputField("City", CityController, true,TextInputType.text),
