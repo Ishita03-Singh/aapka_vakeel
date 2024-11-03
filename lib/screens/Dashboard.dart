@@ -317,7 +317,7 @@ class _DashboardState extends State<Dashboard> {
                    Row( mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                     Container(child:
-                    getDashboardwidger(StrLiteral.challan,"Notary","Notary in three easy steps ",(){
+                    getDashboardwidger(StrLiteral.notary,"Notary","Notary in three easy steps ",(){
                       _hidePopup();
                        Navigator.push(
                         context,

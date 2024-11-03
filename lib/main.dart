@@ -128,8 +128,8 @@ class MyApp extends StatelessWidget {
            Map<String, dynamic> userMap = jsonDecode(userString);
            UserClass user = UserClass.fromJson(userMap);
            if(user.barRegistrationNo!="")
-           return AdvocateDashboard(userclass: userClass);
-           return  Dashboard(userclass: userClass);
+           return AdvocateDashboard(userclass: user);
+           return  Dashboard(userclass: user);
           //  return StampPaper();
            // return AsyncLoader(username: "abc",meetingId: "123");
           },

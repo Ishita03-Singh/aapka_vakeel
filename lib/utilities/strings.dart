@@ -5,6 +5,7 @@ class StrLiteral {
   static const String affidavit= 'assets/images/affidavit.png';
   static const String consultation= 'assets/images/consult.png';
   static const String challan= 'assets/images/challan.png';
+  static const String notary = 'assets/images/notary.jpg';
   static const String stampPaper= 'assets/images/stamp_paper.jpeg';
   static const String lady= 'assets/images/lady.png';
   static const String tradeMark= 'assets/images/trademark.png';
@@ -34,6 +35,10 @@ class StrLiteral {
   static const String AIBot= 'assets/images/Chatbot.png';
   static const String wallet= 'assets/images/wallet.png';
   static const String bot= 'assets/images/bot.png';
+  static const String cases= 'assets/images/cases.png';
+  static const String calender= 'assets/images/calender.png';
+  static const String dailyCalls= 'assets/images/dailyCalls.png';
+  static const String clients= 'assets/images/clients.png';
 
 
 

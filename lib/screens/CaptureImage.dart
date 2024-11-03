@@ -190,7 +190,7 @@ class _PreviewImageState extends State<PreviewImage> {
               Navigator.push(
                   context,
                   PageTransition(
-                      child: AdvocateDashboard(user: widget.user,userclass: userClass,),
+                      child: AdvocateDashboard(user: widget.user,userclass: userClass,image:widget.image),
                       type: PageTransitionType.rightToLeft));
             }),
             Padding(padding: EdgeInsets.all(4)),

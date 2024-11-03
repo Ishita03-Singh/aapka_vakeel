@@ -58,6 +58,34 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
   File? _selectedFile;
   final _formKey = GlobalKey<FormState>();
   File barCertificateFile=File("path");
+   final List<String> list = ["1-2 years","2-3 years", "3-5 years", "5-7 years","7-10 years","10-15 years","15-20 Years","20-25 years","25-30 Years"];
+  // Selected item
+ String dropdownValue ="1-2 years";
+  
+  var charges={
+  "1-2 years":18,
+  "2-3 years":23, 
+  "3-5 years":29,
+  "5-7 years":49,
+  "7-10 years":59,
+  "10-15 years":79,
+  "15-20 Years":110,
+  "20-25 years":145,
+  "25-30 Years": 185
+  };
+
+
+//   .⁠ ⁠Experience of 1-2 years can not charge above Rs. 18/Minute
+// 2.⁠ ⁠Experience of 2-3 years can not charge above Rs. 23/Minute
+// 3.⁠ ⁠Experience of 3-5 years can not charge above Rs. 29/Minute
+// 4.⁠ ⁠Experience of 5-7 years can not charge above Rs. 49/Minute
+// 5.⁠ ⁠Experience of 7-10 years can not charge above Rs. 59/ Minute
+// 6.⁠ ⁠Experience of 10-15 years can not charge above Rs. 79/Minute
+// 7.⁠ ⁠Experience of 15-20 Years can not charge above Rs. 110/ Minute
+// 8.⁠ ⁠Experience of 20-25 years can not charge above Rs. 145/Minute
+// 9.⁠ ⁠Experience of 25-30 Years can not charge above  Rs. 185/Minute
+
+
 
   Future<bool> _register() async {
     if (_formKey.currentState!.validate()) {
@@ -188,6 +216,14 @@ FilePickerResult? result = await FilePicker.platform.pickFiles(
     }
     
   }
+  
+
+  @override
+  void initState() {
+    super.initState();
+    ChargeController.text= charges[dropdownValue].toString();
+  }
+  
 
   @override
   Widget build(BuildContext context) {
@@ -249,14 +285,29 @@ FilePickerResult? result = await FilePicker.platform.pickFiles(
                     giveInputField("Please give a short introduction",
                         IntroController, true,TextInputType.text),
                         if (widget.isAdvocate)
-                    giveInputField("Experience",
-                        ExperienceController, true,TextInputType.text),
+                    // giveInputField("Experience",
+                    //     ExperienceController, true,TextInputType.number),
+                    DropdownMenu<String>(
+                      width: MediaQuery.of(context).size.width,
+                        initialSelection: list.first,
+                        onSelected: (String? value) {
+                          // This is called when the user selects an item.
+                          
+                          setState(() {
+                            dropdownValue = value!;
+                            ChargeController.text= charges[dropdownValue].toString();
+                          });
+                        },
+                        dropdownMenuEntries: list.map<DropdownMenuEntry<String>>((String value) {
+                          return DropdownMenuEntry<String>(value: value, label: value);
+                        }).toList(),
+                      ),
                         if (widget.isAdvocate)
                     giveInputField("Skills",
                         SkillsController, true,TextInputType.text),
                         if (widget.isAdvocate)
                     giveInputField("Charges per minute",
-                        ChargeController, true,TextInputType.text),
+                        ChargeController, true,TextInputType.number),
                   if (widget.isAdvocate)
                     giveInputField("Bar registration number",
                         BarRegistrationNoController, true,TextInputType.text),

@@ -656,7 +656,7 @@ class _AdvocateAffidavitDetailsState extends State<AdvocateAffidavitDetails> {
                 CustomText.boldDarkText(widget.fileName),
                 Row(children: [Icon(Icons.scale,size: 12),SizedBox(width: 5,),CustomText.infoText("88+ users registered")],),
                 SizedBox(height: 5),
-                CustomText.colorText("Rs. 499/-")
+                CustomText.colorText("Rs. 199/-")
               ],
             ),
           ),

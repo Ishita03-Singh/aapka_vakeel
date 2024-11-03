@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:aapka_vakeel/Utilities/strings.dart';
 import 'package:aapka_vakeel/model/user.dart';
@@ -13,6 +14,7 @@ import 'package:aapka_vakeel/utilities/custom_text.dart';
 import 'package:aapka_vakeel/utilities/my_appbar.dart';
 import 'package:aapka_vakeel/utilities/my_textfield.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:page_transition/page_transition.dart';
@@ -21,10 +23,12 @@ import 'package:visibility_detector/visibility_detector.dart';
 class AdvocateDashboard extends StatefulWidget {
   User? user;
   UserClass? userclass;
+  File? image;
+  
   
    AdvocateDashboard({super.key, this.user,
   //  required this.userclass
-  this.userclass
+  this.userclass,this.image
    });
 
   @override
@@ -32,33 +36,47 @@ class AdvocateDashboard extends StatefulWidget {
 }
 
 class _AdvocateDashboardState extends State<AdvocateDashboard> {
-
+String imageURL="";
   
    @override
   void initState() {
     super.initState();
+    // print(widget.image!.path);
+    if(widget.image==null)
+    {
+      getAdvocateImage();
+    }
+   
   }
+
 
 
    @override
   void dispose() {
-    
     super.dispose();
   }
-  
-  
 
-
-
-
-
-
+Future<void> getAdvocateImage() async {
+  try {
+    String phoneNumber = widget.userclass!.phoneNumber; // Use a unique identifier like phone number or ID
+    final storageRef = FirebaseStorage.instance
+        .ref()
+        .child('AdvocateImages/$phoneNumber.jpg');
+    var url= await storageRef.getDownloadURL(); 
+    setState(() {
+      imageURL=url;
+    });
+  } catch (e) {
+    throw Exception('Error fetching advocate image: $e');
+  }
+}
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: MyAppBar.appbar(context),
       body: scrollContainer(),
-      bottomNavigationBar: ScBar(),
+      bottomNavigationBar: advocateScBar(),
     );
   }
 
@@ -66,61 +84,117 @@ class _AdvocateDashboardState extends State<AdvocateDashboard> {
     return SingleChildScrollView(
       child: 
          Container(
+          height: MediaQuery.of(context).size.height,
            child: Column(
              children: [
-               MyAppBar.appbar(context),
+              //  MyAppBar.appbar(context),
                Container(
                 padding: const EdgeInsets.only(left: 16, right: 16, top: 20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                  CustomText.headText("Welcome!"),
-                  CustomText.infoText("How can we be of help?"),
-                   SizedBox(height: 10),
-                  //  Row( mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //   children: [
-                  //   Expanded(child:
-                  //   getDashboardwidger(StrLiteral.affidavit,"Affidavit/Agreement","Lorem Ipsum is simply dummy "),
-                  //   ),
-                  //   SizedBox(width: 20,),
-                  //   Expanded(child:
-                  //   getDashboardwidger(StrLiteral.consultation,"Legal Consultation","Lorem Ipsum is simply dummy "),
-                  //   )
-                  //  ],)
-                  //  , SizedBox(height: 20,),
-                   Row( mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                child: Row(
+                  children:[
+                      CircleAvatar( radius: 30,  
+                      backgroundImage: widget.image==null?NetworkImage(imageURL):FileImage(File(widget.image!.path))  as ImageProvider<Object> ,
+                      ),
+                      SizedBox(width: 10),
+                   Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                    Expanded(child:
-                    getDashboardwidger(StrLiteral.challan,"Fill Challan","Lorem Ipsum is simply dummy "),
-                    ),
-                    SizedBox(width: 20,),
-                    Expanded(child:
-                    getDashboardwidger(StrLiteral.stampPaper,"Stamp Paper","Lorem Ipsum is simply dummy "),
-                    )
-                   ],),
-                    SizedBox(height: 20,),
-                   Row( mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                    Expanded(child:
-                    getDashboardwidger(StrLiteral.GST,"GST","Lorem Ipsum is simply dummy "),
-                    ),
-                    SizedBox(width: 20,),
-                    Expanded(child:
-                    getDashboardwidger(StrLiteral.tradeMark,"Trademark","Lorem Ipsum is simply dummy "),
-                    )
-                   ],),
-                   SizedBox(height: 20),
-                  
-                  
-
-                ],),
+                    CustomText.appNameText("Welcome Back!"),
+                    CustomText.headText(widget.userclass!.displayName),
+                  ],),
+                  ]
+                ),
                        ),
+
+                       //todays appointment
+                Container(
+                  padding: EdgeInsets.all(22),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CustomText.RegularDarkText("Today’s Appointment"),
+                      SizedBox(height: 5),
+                      Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          getBlueContainer("Document Services","0"),
+                          SizedBox(width: 10),
+                          getBlueContainer("Slot Booking","0"),
+                           SizedBox(width: 10),
+                          getBlueContainer("Today’s Earnings","0"),
+                            
+                        ],
+                      )
+                      
+                    ],
+                  ),
+                ),
+                //Personal Desk
+                Container(
+                  padding: EdgeInsets.all(22),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CustomText.RegularDarkText("Personal Desk"),
+                      SizedBox(height: 5),
+                      Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          getCardContainer("My Cases",StrLiteral.cases),
+                          SizedBox(width: 10),
+                           getCardContainer("Daily Calls List",StrLiteral.dailyCalls),
+                          SizedBox(width: 10),
+                            getCardContainer("Appointments",StrLiteral.calender),
+                          SizedBox(width: 10),
+                            getCardContainer("My Clients",StrLiteral.clients),
+                          SizedBox(width: 10),
+                            
+                        ],
+                      )
+                      
+                    ],
+                  ),
+                )
              ],
            ),
          )
     );
+
   }
 
+  getCardContainer(String text,String image){
+    return Card(
+      color: Colors.white,
+      elevation: 10,
+      child:Container(
+        padding: EdgeInsets.all(12),
+        child: (
+          Row(children: [
+          Image.asset(image,width: 40),
+          SizedBox(width: 20),
+          CustomText.RegularDarkText(text)
+         
+        ],)),
+      )
+    );
+  }
+getBlueContainer(String text,String number){
+  return Expanded(
+    child: Container(
+      padding: EdgeInsets.all(22),
+      decoration: BoxDecoration(
+        color: Colors.black,
+        borderRadius: BorderRadius.all(Radius.circular(12))
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          CustomText.colorText(text.split(" ")[0],color: Colors.white),
+          CustomText.colorText(text.split(" ")[1],color:Colors.white),
+          CustomText.taskBtnText(number)
+        ],
+      ),
+    ),
+  );
+}
 
 
 
