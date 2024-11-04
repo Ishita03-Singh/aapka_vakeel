@@ -146,13 +146,18 @@ class _PhoneNumPageState extends State<PhoneNumPage> {
                             title: Row(
                               children: [
                                 CustomText.infoText("I agree to the "),
-                                Text("terms and conditions",
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                        fontSize: 14,
-                                        decoration: TextDecoration.underline,
-                                        color: AppColor.primaryTextColor,
-                                        fontWeight: FontWeight.w400)),
+                                GestureDetector(
+                                  onTap: (){
+                                    MyAppBar.launchURL('http://aapkavakeel.com/#/terms');
+                                  },
+                                  child: Text("terms and conditions",
+                                      textAlign: TextAlign.left,
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          decoration: TextDecoration.underline,
+                                          color: AppColor.primaryTextColor,
+                                          fontWeight: FontWeight.w400)),
+                                ),
                               ],
                             ),
 

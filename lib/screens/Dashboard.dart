@@ -356,9 +356,7 @@ class _DashboardState extends State<Dashboard> {
                   //   }),
                   //   )
                   //  ],),
-                   SizedBox(height: 20),
-                   getScrollWigets(),
-                   SizedBox(height: 20),
+                  SizedBox(height: 20),
                    GestureDetector(
                     onTap: (){
                                 Navigator.push(
@@ -380,6 +378,9 @@ class _DashboardState extends State<Dashboard> {
                                    ),
                      ),
                    ),
+                   SizedBox(height: 20),
+                   getScrollWigets(),
+                   
                    CustomText.headText("Recent Activities",color:Color(0xFF9C9999)),
 
                 ],),

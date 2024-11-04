@@ -187,8 +187,8 @@ getBlueContainer(String text,String number){
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          CustomText.colorText(text.split(" ")[0],color: Colors.white),
-          CustomText.colorText(text.split(" ")[1],color:Colors.white),
+          CustomText.taskBtnText(text.split(" ")[0],fontsize: 15),
+          CustomText.taskBtnText(text.split(" ")[1]),
           CustomText.taskBtnText(number)
         ],
       ),

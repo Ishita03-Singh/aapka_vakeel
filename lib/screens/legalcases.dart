@@ -1,4 +1,5 @@
 import 'package:aapka_vakeel/main.dart';
+import 'package:aapka_vakeel/utilities/custom_text.dart';
 import 'package:aapka_vakeel/utilities/my_appbar.dart';
 import 'package:flutter/material.dart';
 
@@ -38,40 +39,50 @@ class _LegalCasesState extends State<LegalCases>
         child: 
         Row(children: [
          Expanded(child: 
-              DropdownMenu<String>(
-                      width: MediaQuery.of(context).size.width,
-                        initialSelection: list.first,
-                        onSelected: (String? value) {
-                          // This is called when the user selects an item.
-                          
-                          setState(() {
-                            dropdownValue = value!;
-                        
-                          });
-                        },
-                        dropdownMenuEntries: list.map<DropdownMenuEntry<String>>((String value) {
-                          return DropdownMenuEntry<String>(value: value, label: value);
-                        }).toList(),
-                      ),
+              Column(
+                children: [
+                  CustomText.RegularDarkText("Language"),
+                  DropdownMenu<String>(
+                          width: MediaQuery.of(context).size.width,
+                            initialSelection: list.first,
+                            onSelected: (String? value) {
+                              // This is called when the user selects an item.
+                              
+                              setState(() {
+                                dropdownValue = value!;
+                            
+                              });
+                            },
+                            dropdownMenuEntries: list.map<DropdownMenuEntry<String>>((String value) {
+                              return DropdownMenuEntry<String>(value: value, label: value);
+                            }).toList(),
+                          ),
+                ],
+              ),
          ),
          SizedBox(width: 10),
          
          Expanded(child: 
-              DropdownMenu<String>(
-                      width: MediaQuery.of(context).size.width,
-                        initialSelection: Languagelist.first,
-                        onSelected: (String? value) {
-                          // This is called when the user selects an item.
-                          
-                          setState(() {
-                            languagedropdownValue = value!;
-                        
-                          });
-                        },
-                        dropdownMenuEntries: Languagelist.map<DropdownMenuEntry<String>>((String value) {
-                          return DropdownMenuEntry<String>(value: value, label: value);
-                        }).toList(),
-                      ),
+              Column(
+                children: [
+                  CustomText.RegularDarkText("Language"),
+                  DropdownMenu<String>(
+                          width: MediaQuery.of(context).size.width,
+                            initialSelection: Languagelist.first,
+                            onSelected: (String? value) {
+                              // This is called when the user selects an item.
+                              
+                              setState(() {
+                                languagedropdownValue = value!;
+                            
+                              });
+                            },
+                            dropdownMenuEntries: Languagelist.map<DropdownMenuEntry<String>>((String value) {
+                              return DropdownMenuEntry<String>(value: value, label: value);
+                            }).toList(),
+                          ),
+                ],
+              ),
          )
         ],)
       ),

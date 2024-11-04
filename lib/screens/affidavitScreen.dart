@@ -7,12 +7,17 @@ import 'package:aapka_vakeel/screens/notaryScreen.dart';
 import 'package:aapka_vakeel/screens/scbarContainer.dart';
 import 'package:aapka_vakeel/utilities/custom_button.dart';
 import 'package:aapka_vakeel/utilities/custom_text.dart';
+import 'package:aapka_vakeel/utilities/cutom_message.dart';
 import 'package:aapka_vakeel/utilities/my_appbar.dart';
 import 'package:aapka_vakeel/utilities/strings.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:video_call/video_call.dart';
 
+import '../others/locationService.dart';
 import '../utilities/colors.dart';
 import '../utilities/my_textfield.dart';
 
@@ -279,6 +284,7 @@ TextEditingController fatherNameController= new TextEditingController();
 TextEditingController addressController= new TextEditingController();
 TextEditingController stateController= new TextEditingController();
 TextEditingController cityController= new TextEditingController();
+bool _isLoaderVisible = false;
 
   @override
   Widget build(BuildContext context) {
@@ -294,7 +300,27 @@ TextEditingController cityController= new TextEditingController();
       ),
     );
   }
+  Future<bool> requestLocationPermission() async {
+  // Check if location permission is granted
+  var status = await Permission.location.status;
   
+  if (status.isDenied) {
+    // Request location permission
+    status = await Permission.location.request();
+    
+    if (status.isGranted) {
+      // Permission granted, get the location
+      return true;
+    
+    } else if (status.isPermanentlyDenied) {
+      return false;
+      
+    }
+  } else if (status.isGranted) {
+    return true;
+  }
+  return false;
+}
 
   getSinglePartyForm(){
  
@@ -311,6 +337,45 @@ return Container(
           SizedBox(height: 40),
           giveInputField("Name", nameController, true,TextInputType.name),
           giveInputField("Father Name", fatherNameController, true,TextInputType.name),
+          customButton.cancelButton("Get location", () async {
+            bool permission = await requestLocationPermission();
+            if (permission) {
+              context.loaderOverlay.show();
+              setState(() {
+                _isLoaderVisible = context.loaderOverlay.visible;
+              });
+              
+              try {
+                // Check if location services are enabled
+                bool isLocationServiceEnabled = await Geolocator.isLocationServiceEnabled();
+                if (!isLocationServiceEnabled) {
+                  CustomMessenger.defaultMessenger(context, "Location services are disabled. Please enable them.");
+                  await Geolocator.openLocationSettings();
+                  return; // Exit the function if location services are disabled
+                }
+      
+              var location = await LocationService.getCityAndState();
+              setState(() {
+                cityController.text = location['city'] ?? '';
+                stateController.text = location['state'] ?? '';
+              });
+            } catch (e) {
+              print("Error: $e");
+            } finally {
+              if (_isLoaderVisible && context.mounted) {
+                context.loaderOverlay.hide();
+              } else {
+                CustomMessenger.defaultMessenger(context, "Did not get Permission");
+              }
+            }
+
+            setState(() {
+              _isLoaderVisible = context.loaderOverlay.visible;
+            });
+          } else {
+            CustomMessenger.defaultMessenger(context, "Location permission not granted.");
+          }
+        }),
           giveInputField("Address", addressController, true,TextInputType.text),
           giveInputField("State", stateController, true,TextInputType.text),
           giveInputField("City", cityController, true,TextInputType.text),

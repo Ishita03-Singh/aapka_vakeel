@@ -38,6 +38,7 @@ dependencies:
   flutter_launcher_icons: 
   animated_splash_screen: 
   http:
+  url_launcher:
   country_picker: 
   loader_overlay:
   page_transition: 
