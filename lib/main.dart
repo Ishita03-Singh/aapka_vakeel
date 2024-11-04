@@ -19,6 +19,7 @@ import 'package:aapka_vakeel/utilities/colors.dart';
 import 'package:aapka_vakeel/utilities/strings.dart';
 import 'package:aapka_vakeel/web/PrivacyPolicy.dart';
 import 'package:aapka_vakeel/web/TermsAndCondition.dart';
+import 'package:aapka_vakeel/web/launchPage.dart';
 import 'package:aapka_vakeel/web/webpage.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:camera/camera.dart';
@@ -113,7 +114,9 @@ class MyApp extends StatelessWidget {
               thumbColor:
                   MaterialStateProperty.all(AppColor.secondaryTextColor))),
 
-      home: Webpage(userclass: user),
+      home: 
+      // Webpage(userclass: user),
+      LaunchPage(),
       // AnimatedSplashScreen.withScreenFunction(
       //   duration: 1000,
       //   animationDuration: const Duration(milliseconds: 900),
