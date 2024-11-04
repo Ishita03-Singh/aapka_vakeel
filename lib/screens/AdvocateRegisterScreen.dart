@@ -160,7 +160,7 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
         
         // Navigate to another page or show success message
         // ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Registration successful')));
-        CustomMessenger.defaultMessenger(context, "Registration successful");
+        // CustomMessenger.defaultMessenger(context, "Registration successful");
         return true;
 
       } on FirebaseAuthException catch (e) {

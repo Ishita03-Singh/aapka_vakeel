@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:aapka_vakeel/screens/affidavitScreen.dart';
 import 'package:aapka_vakeel/utilities/colors.dart';
 import 'package:aapka_vakeel/utilities/custom_button.dart';
 import 'package:aapka_vakeel/utilities/my_appbar.dart';
@@ -8,6 +9,7 @@ import 'package:aapka_vakeel/utilities/my_textfield.dart';
 import 'package:gallery_saver/gallery_saver.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 // import 'dart:html' as html;
@@ -69,7 +71,11 @@ Future<String> getGeminiResponse(String inputText) async {
 }
   Future<void> _getAIResponse(String inputText) async {
     // Call the API (will implement in Step 4)
+    if(widget.prompt!=null)
+    context.loaderOverlay.show();
     String response = await getGeminiResponse(inputText);
+    if(widget.prompt!=null)
+    context.loaderOverlay.hide();
 
     setState(() {
       messages.add({'role': 'bot', 'text': response});
@@ -140,6 +146,11 @@ Future<String> getGeminiResponse(String inputText) async {
             child: ListView.builder(
               itemCount: messages.length,
               itemBuilder: (context, index) {
+                if( index==0&&widget.prompt!=null && widget.prompt!=""){
+                  return Container();
+
+                }else{
+                
                 final message = messages[index];
                 return ListTile(
                   title: Align(
@@ -167,6 +178,8 @@ Future<String> getGeminiResponse(String inputText) async {
                     ),
                   ),
                 );
+                  }
+                
               },
             ),
           ),

@@ -37,11 +37,12 @@ class _LegalCasesState extends State<LegalCases>
       body: Container(
         padding: EdgeInsets.all(12),
         child: 
-        Row(children: [
+        Row(
+          children: [
          Expanded(child: 
-              Column(
+              Column(crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  CustomText.RegularDarkText("Language"),
+                  CustomText.RegularDarkText("Problem type"),
                   DropdownMenu<String>(
                           width: MediaQuery.of(context).size.width,
                             initialSelection: list.first,
@@ -63,7 +64,7 @@ class _LegalCasesState extends State<LegalCases>
          SizedBox(width: 10),
          
          Expanded(child: 
-              Column(
+              Column(crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   CustomText.RegularDarkText("Language"),
                   DropdownMenu<String>(

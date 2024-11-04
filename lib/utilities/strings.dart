@@ -20,6 +20,11 @@ class StrLiteral {
   static const String lawyerDrafts='assets/images/LawyerDrafts.png';
   static const String wait='assets/images/wait.png';
    static const String blueTick='assets/images/blueTick.png';
+    static const String divorce='assets/images/divorce.jpg';
+    static const String legalCase='assets/images/legal.jpeg';
+    static const String bail='assets/images/bail.jpeg';
+
+
 
   
 

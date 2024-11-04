@@ -42,10 +42,40 @@ class _DashboardState extends State<Dashboard> {
   bool _isPopupVisible = false;
   //scroll widget variables
    final PageController _pageController = PageController();
+   final PageController _LegalCasepageController = PageController();
+
    TextEditingController ipController= TextEditingController();
   int _currentPage = 0;
   Timer? _timer;
   bool _isVisible = false;
+  //legal case
+  int _legalCaseCurrentPage = 0;
+  // Timer? _timer;
+  bool __legalCaseCurrentPageisVisible = false;
+  
+  final List<Map> scrollLegalCases = [
+    {
+      "headText":"Legal cases",
+      "infoText":"Solve your legal cases here",
+      // "btnText":"Call now",
+      "imagePath":StrLiteral.legalCase,
+      "terms":false
+    },
+     {
+      "headText":"Divorce cases",
+      "infoText":"Get guidance on divorce case",
+      // "btnText":"Call now",
+      "imagePath":StrLiteral.divorce,
+      "terms":true
+    },
+     {
+      "headText":"Bail",
+      "infoText":"Get easy guidance with bail",
+      // "btnText":"Call now",
+      "imagePath":StrLiteral.bail,
+      "terms":true
+    }
+    ];
   final List<Map> scrollWidgetContent = [
     {
       "headText":"Are you in a legal dilemma?",
@@ -87,6 +117,27 @@ class _DashboardState extends State<Dashboard> {
     Timer(Duration(seconds: 8),  _hidePopup);
 
     _startAutoScroll();
+    _startAutoScrollLegalCases();
+  }
+  void _startAutoScrollLegalCases() {
+    _timer = Timer.periodic(Duration(seconds: 2), (timer) {
+      if (__legalCaseCurrentPageisVisible) {
+        if (_legalCaseCurrentPage < 2) {
+          setState(() {
+          _legalCaseCurrentPage++;
+          });
+        } else {
+          setState(() {
+          _legalCaseCurrentPage = 0; 
+          });
+        }
+        _LegalCasepageController.animateToPage(
+          _legalCaseCurrentPage,
+          duration: Duration(milliseconds: 200),
+          curve: Curves.easeInOut,
+        );
+      }
+    });
   }
  void _startAutoScroll() {
     _timer = Timer.periodic(Duration(seconds: 2), (timer) {
@@ -115,18 +166,24 @@ class _DashboardState extends State<Dashboard> {
     super.dispose();
   }
   
-  getScrollWigets(){
+  getScrollWigets(List<Map<dynamic,dynamic>> list,{isLegalCase=true}){
       return VisibilityDetector(
-      key: Key('horizontal-scrolling-divs'),
+      key: isLegalCase?Key('horizontal-scrolling-divs-legalCase'):Key('horizontal-scrolling-divs'),
       onVisibilityChanged: (VisibilityInfo info) {
-        _isVisible = info.visibleFraction > 0;
+        if(isLegalCase){
+     __legalCaseCurrentPageisVisible = info.visibleFraction > 0;
+        }
+        else{
+           _isVisible = info.visibleFraction > 0;
+        }
+       
       },
       child: Container(
         height: 200.0, // Height of the horizontal scroll view
         child: PageView.builder(
-          controller: _pageController,
+          controller: isLegalCase? _LegalCasepageController:_pageController,
           scrollDirection: Axis.horizontal,
-          itemCount: scrollWidgetContent.length,
+          itemCount: list.length,
           itemBuilder: (context, index) {
             return Container(
               padding: EdgeInsets.fromLTRB(18,18,18,6),
@@ -144,10 +201,11 @@ class _DashboardState extends State<Dashboard> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                CustomText.infoText(scrollWidgetContent[index]["headText"]),
-                CustomText.RegularDarkText(scrollWidgetContent[index]["infoText"],fontSize: 13),
+                CustomText.infoText(list[index]["headText"]),
+                CustomText.RegularDarkText(list[index]["infoText"],fontSize: 13),
                 SizedBox(height: 5),
-                customButton.smalltaskButton(scrollWidgetContent[index]["btnText"], (){},radius: 24) 
+                if(list[index]["btnText"]!=null)
+                customButton.smalltaskButton(list[index]["btnText"], (){},radius: 24) 
                              ],),
               ),
               SizedBox(width: 8),
@@ -156,8 +214,8 @@ class _DashboardState extends State<Dashboard> {
              
                children: [
                  ClipRRect(borderRadius: BorderRadius.all(Radius.circular(20)), 
-                         child: Image.asset(scrollWidgetContent[index]["imagePath"],fit: BoxFit.fill,)),
-               if(scrollWidgetContent[index]["terms"])
+                         child: Image.asset(list[index]["imagePath"],fit: BoxFit.fill,width: isLegalCase?200: 100,)),
+               if(list[index]["terms"])
                 CustomText.extraSmallinfoText("*Terms and conditions apply")
              
                ],
@@ -318,7 +376,7 @@ class _DashboardState extends State<Dashboard> {
                    Row( mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                     Container(child:
-                    getDashboardwidger(StrLiteral.notary,"Notary","Notary in three easy steps\n ",(){
+                    getDashboardwidger(StrLiteral.notary,"Notary","Notary in three easy steps",(){
                       _hidePopup();
                        Navigator.push(
                         context,
@@ -365,21 +423,11 @@ class _DashboardState extends State<Dashboard> {
                                     child: LegalCases(),
                                     type: PageTransitionType.rightToLeft));
                     },
-                     child: Container(
-                       padding: EdgeInsets.fromLTRB(18,18,18,6),
-                                   width: 150.0, // Width of each div
-                                   margin: EdgeInsets.all(8.0),
-                                   decoration: BoxDecoration(
-                                   border: Border.all(color: Color(0xFF333333).withOpacity(0.2)),
-                                   color: Colors.white,
-                                   borderRadius: BorderRadius.all(Radius.circular(20))
-                                   ),child: Column(
-                                     children: [CustomText.RegularDarkText("Legal cases")],
-                                   ),
-                     ),
+                     child: 
+                     getScrollWigets(scrollLegalCases)
                    ),
                    SizedBox(height: 20),
-                   getScrollWigets(),
+                   getScrollWigets(scrollWidgetContent,isLegalCase: false),
                    
                    CustomText.headText("Recent Activities",color:Color(0xFF9C9999)),
 
