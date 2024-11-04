@@ -53,15 +53,15 @@ class CustomText {
   //         color: AppColor.primaryTextColor,
   //         fontWeight: FontWeight.w400));
 
-  static cancelBtnText(String text, {double fontsize = 16}) => Text(
-      textAlign: TextAlign.center,
+  static cancelBtnText(String text, {double fontsize = 16,TextAlign align=TextAlign.center}) => Text(
+      textAlign: align,
       text,
       style: TextStyle(
           fontSize: fontsize,
           color: Colors.black,
           fontWeight: FontWeight.w600));
-  static taskBtnText(String text, {double fontsize = 16}) => Text(
-      textAlign: TextAlign.center,
+  static taskBtnText(String text, {double fontsize = 16,TextAlign align=TextAlign.center}) => Text(
+      textAlign: align,
       text,
       style: TextStyle(
           fontSize: fontsize,

@@ -189,7 +189,8 @@ class _DashboardState extends State<Dashboard> {
                    Row( mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                     Expanded(child:
-                    getDashboardwidger(StrLiteral.affidavit,"Affidavit/Agreement","Lorem Ipsum is simply dummy ",(){Navigator.push(
+                    getDashboardwidger(StrLiteral.affidavit,"Affidavit/Agreement","Lorem Ipsum is simply dummy ",(){
+                      Navigator.push(
                         context,
                         PageTransition(
                             child: AffidavitScreen(),
