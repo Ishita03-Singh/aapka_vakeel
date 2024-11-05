@@ -15,15 +15,15 @@ class LaunchPage extends StatelessWidget {
         // padding: EdgeInsets.all(12),
         child: Column(
           children: [
-            Row(mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image.asset(StrLiteral.appLogoPath,width: 80),
-                SizedBox(width: 10),
-                CustomText.boldDarkText("Aapka Vakeel",fontSize: 40),
-              ],
-            ),
-            SizedBox(height: 10),
-            Container(height: 1,color: Colors.grey),
+            // Row(mainAxisAlignment: MainAxisAlignment.center,
+            //   children: [
+            //     Image.asset(StrLiteral.appLogoPath,width: 80),
+            //     SizedBox(width: 10),
+            //     CustomText.boldDarkText("Aapka Vakeel",fontSize: 40),
+            //   ],
+            // ),
+            // SizedBox(height: 10),
+            // Container(height: 1,color: Colors.grey),
             Expanded(
               child: Container(
                 padding: EdgeInsets.only(top: 100),
@@ -38,7 +38,7 @@ class LaunchPage extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             CustomText.cancelBtnText("Launching Soon!",fontsize: 35),
-                            CustomText.RegularDarkText("In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before the final copy is availabl",fontSize: 16),
+                            CustomText.RegularDarkText("Stay connected to legal experts anytime, anywhere. Experience seamless legal support from affidavits to consultations right from your phone.",fontSize: 16),
                             SizedBox(height: 100),
                             CustomText.infoText("Download app from"),
                             SizedBox(height: 10),
