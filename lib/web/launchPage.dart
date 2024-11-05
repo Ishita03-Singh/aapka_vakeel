@@ -15,7 +15,13 @@ class LaunchPage extends StatelessWidget {
         // padding: EdgeInsets.all(12),
         child: Column(
           children: [
-            CustomText.boldDarkText("Aapka Vakeel",fontSize: 40),
+            Row(mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset(StrLiteral.appLogoPath,width: 80),
+                SizedBox(width: 10),
+                CustomText.boldDarkText("Aapka Vakeel",fontSize: 40),
+              ],
+            ),
             SizedBox(height: 10),
             Container(height: 1,color: Colors.grey),
             Expanded(
