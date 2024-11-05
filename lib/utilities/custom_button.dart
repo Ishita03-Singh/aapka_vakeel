@@ -1,3 +1,4 @@
+import 'package:aapka_vakeel/utilities/strings.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import '../Utilities/button_style.dart';
@@ -206,6 +207,56 @@ class CustomButton {
       child: child,
     );
   }
+    playstoreButton() {
+      return GestureDetector(
+        onTap: (){},
+        child: Container(
+          padding: EdgeInsets.all(12),
+          decoration: BoxDecoration(
+            color: const Color.fromARGB(255, 4, 46, 82),
+            borderRadius: BorderRadius.all(Radius.circular(10))
+          ),
+          child: Row(
+            children: [
+              Image.asset(StrLiteral.googleplay,width: 30,),
+              SizedBox(width: 5),
+              Column(crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  CustomText.taskBtnText("GET IT ON",fontsize: 8),
+                  CustomText.taskBtnText("Google Play",fontsize: 13)
+                ],
+              )
+            ],
+          ),
+        ),
+      );
+    }
+    appStoreButton() {
+      return GestureDetector(
+        onTap: (){},
+        child: Container(
+           padding: EdgeInsets.all(12),
+          decoration: BoxDecoration(
+            color: const Color.fromARGB(255, 4, 46, 82),
+            borderRadius: BorderRadius.all(Radius.circular(10))
+          ),
+          child: Row(
+            children: [
+              Image.asset(StrLiteral.appstore,width: 30,),
+              SizedBox(width: 5),
+              Column(crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  CustomText.taskBtnText("Download on the",fontsize: 8),
+                  CustomText.taskBtnText("App Store",fontsize: 13)
+                ],
+              )
+            ],
+          ),
+        ),
+      );
+    }
+      
 }
+
 
 CustomButton customButton = CustomButton();
