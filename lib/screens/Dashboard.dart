@@ -214,7 +214,7 @@ class _DashboardState extends State<Dashboard> {
              
                children: [
                  ClipRRect(borderRadius: BorderRadius.all(Radius.circular(20)), 
-                         child: Image.asset(list[index]["imagePath"],fit: BoxFit.fill,width: isLegalCase?200: 100,)),
+                         child: Image.asset(list[index]["imagePath"],fit: BoxFit.fill,width: isLegalCase?MediaQuery.of(context).size.width/2.3: 100,)),
                if(list[index]["terms"])
                 CustomText.extraSmallinfoText("*Terms and conditions apply")
              
@@ -452,8 +452,8 @@ class _DashboardState extends State<Dashboard> {
       callFun();
       
     },
-     child: Expanded(
-        // height: width>=height?MediaQuery.of(context).size.height/4:MediaQuery.of(context).size.height/3,
+     child: Container(
+        height: width>=height?MediaQuery.of(context).size.height/4:MediaQuery.of(context).size.height/3,
        child: Container(
         
         decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(20),),

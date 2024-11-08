@@ -223,8 +223,8 @@ Future<String> getAdvocateImage(Map<String, dynamic> advocate) async {
         getTopLayer(advocate,imageUrl),
         SizedBox(height: 10),
         getMiddleLayer(advocate),
-           SizedBox(height: 10),
-           getBottomLayer(advocate),
+        SizedBox(height: 10),
+        getBottomLayer(advocate),
    
    
     ],),
@@ -239,7 +239,7 @@ getBottomLayer(Map<String,dynamic> advocate){
       Row(children: [
         CustomChip.statusText("Available",true),
         SizedBox(width: 20),
-        CustomChip.statusText(advocate["address"],false),
+       Container(child: CustomText.infoText(advocate["address"]),width: MediaQuery.of(context).size.width/2,),
       ],)
       ,SizedBox(height: 5),
       CustomText.RegularDarkText("Call charges: Rs. ${advocate["charges"]}/min")

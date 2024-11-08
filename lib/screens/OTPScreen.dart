@@ -83,8 +83,8 @@ class _OTPScreenState extends State<OTPScreen> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: List.generate(6, (index) {
                               return Container(
-                                width: 45,
-                                height: 55,
+                                width: MediaQuery.of(context).size.width/8,
+                                height: 60,
                                 margin: index > 0
                                     ? EdgeInsets.symmetric(horizontal: 5)
                                     : EdgeInsets.symmetric(horizontal: 0),

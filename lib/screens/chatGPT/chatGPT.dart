@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:aapka_vakeel/screens/affidavitScreen.dart';
 import 'package:aapka_vakeel/utilities/colors.dart';
 import 'package:aapka_vakeel/utilities/custom_button.dart';
+import 'package:aapka_vakeel/utilities/cutom_message.dart';
 import 'package:aapka_vakeel/utilities/my_appbar.dart';
 import 'package:aapka_vakeel/utilities/my_textfield.dart';
 import 'package:gallery_saver/gallery_saver.dart';
@@ -230,7 +231,11 @@ Future<String> getGeminiResponse(String inputText) async {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Expanded(child: customButton.taskButton("Export as Word file", ()async {
+          context.loaderOverlay.show();
            await  saveTextFileToDownloads();
+          context.loaderOverlay.hide();
+          CustomMessenger.defaultMessenger(context, "File saved.");
+
           }))])))
           :Container(),
         ],

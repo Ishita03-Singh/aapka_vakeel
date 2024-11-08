@@ -104,7 +104,7 @@ Future<void> _initializeAsync() async {
                         borderRadius: BorderRadius.all(Radius.circular(20))),
                       child: isAffidavitPage?CustomText.taskBtnText("Affidavit"):CustomText.cancelBtnText("Affidavit")),
                   )),
-                  SizedBox(width: 40),
+                  SizedBox(width: 20),
                   Expanded(child: GestureDetector(
                       onTap: ()async {
                         agreementList= await Serverhttphelper.getAgreementFileList();
@@ -186,7 +186,7 @@ Future<void> _initializeAsync() async {
                    child: ListView.builder(
                     itemCount: _filteredItems.length,
                     itemBuilder: (context, index) {
-                    return  draftListContainer(_filteredItems[index]);
+                    return  draftListContainer(_filteredItems[index].split(".")[0]);
                      },
                                   ),
                  ),
@@ -234,7 +234,7 @@ Future<void> _initializeAsync() async {
                 child: ListView.builder(
                     itemCount: _filteredItems.length,
                     itemBuilder: (context, index) {
-                    return  draftListContainer(_filteredItems[index]);
+                    return  draftListContainer(_filteredItems[index].split('.')[0]);
                      },
                  ),
               ), 
@@ -253,7 +253,8 @@ Future<void> _initializeAsync() async {
         ),
       child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [CustomText.RegularDarkText(text,fontSize: 16),
+      children: [
+      Container(child: CustomText.RegularDarkText(text,fontSize: 16),width: MediaQuery.of(context).size.width/1.8),
       customButton.smalltaskButton("Details", (){
         //getDetailPage
         Navigator.push(
