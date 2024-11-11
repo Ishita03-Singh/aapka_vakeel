@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:aapka_vakeel/Utilities/strings.dart';
 import 'package:aapka_vakeel/model/user.dart';
+import 'package:aapka_vakeel/others/Audio%20Call/home_page.dart';
+// import 'package:aapka_vakeel/others/AudioCall.dart';
 import 'package:aapka_vakeel/others/shared_pref.dart';
 import 'package:aapka_vakeel/screens/OTPScreen.dart';
 import 'package:aapka_vakeel/screens/affidavitScreen.dart';
@@ -332,6 +334,13 @@ class _DashboardState extends State<Dashboard> {
                   Column(crossAxisAlignment: CrossAxisAlignment.start,
                   children: 
                   [ CustomText.headText("Welcome!"),
+                  customButton.taskButton("Audio call",(){
+                       Navigator.push(
+                        context,
+                        PageTransition(
+                            child: HomePage(),
+                            type: PageTransitionType.rightToLeft));
+                  }),
                   CustomText.infoText("How can we be of help?"),],
                   ),
                       Row(

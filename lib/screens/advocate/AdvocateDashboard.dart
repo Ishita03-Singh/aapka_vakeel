@@ -179,7 +179,7 @@ Future<void> getAdvocateImage() async {
 getBlueContainer(String text,String number){
   return Expanded(
     child: Container(
-      padding: EdgeInsets.all(22),
+      padding: EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: Colors.black,
         borderRadius: BorderRadius.all(Radius.circular(12))
@@ -187,8 +187,8 @@ getBlueContainer(String text,String number){
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          CustomText.taskBtnText(text.split(" ")[0],fontsize: 15),
-          CustomText.taskBtnText(text.split(" ")[1]),
+          CustomText.taskBtnText(text.split(" ")[0],fontsize: 12),
+          CustomText.taskBtnText(text.split(" ")[1],fontsize: 12),
           CustomText.taskBtnText(number)
         ],
       ),
