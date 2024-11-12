@@ -20,6 +20,7 @@ import 'package:aapka_vakeel/utilities/strings.dart';
 import 'package:aapka_vakeel/web/PrivacyPolicy.dart';
 import 'package:aapka_vakeel/web/TermsAndCondition.dart';
 import 'package:aapka_vakeel/web/launchPage.dart';
+import 'package:aapka_vakeel/web/notaryAdmin.dart';
 import 'package:aapka_vakeel/web/webpage.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:camera/camera.dart';
@@ -34,6 +35,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 
 import 'screens/firebasedemo.dart';
+import 'web/affidavitAdmin.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -95,7 +97,11 @@ class MyApp extends StatelessWidget {
       // initialRoute: initialRoute,
     routes: <String, WidgetBuilder>{
       // Webpage.routeName: (_) =>Webpage(userclass: user),
-      TermsAndCondition.routeName: (_) => TermsAndCondition()
+      TermsAndCondition.routeName: (_) => TermsAndCondition(),
+      NotaryAdmin.routeName: (_) => NotaryAdmin(),
+      AffidavitAdmin.routeName: (_) => AffidavitAdmin(),
+      
+
     },
 
       theme: ThemeData(
