@@ -69,7 +69,8 @@ dependencies:
   firebase_messaging:
   camera:
   razorpay_flutter:
-  gallery_saver: ^2.0.0
+  gallery_saver: 
+  # flutter_datetime_picker:
 
 dev_dependencies:
   flutter_test:

@@ -111,7 +111,8 @@ return Container(
         customButton.cancelButton("Get Location",()async{
          var location= await getLocation();
          if(location['city']!=null){
-            addressController.text=location['city']+',' +location['state'] ?? '';
+            addressController.text=location['city']+', ' +location['state']+', '+location['pincode'] ?? '';
+            
          }
          
           }),
@@ -120,10 +121,12 @@ return Container(
         giveInputField("Amount", amountController, true,TextInputType.number),
           customButton.taskButton(" Join call", (){
 
+            
+
          if (_formKey.currentState!.validate()) {
             Navigator.of(context).pushReplacement(
                  MaterialPageRoute(
-                  builder: (context) =>JoinScreen(username: userClass.displayName,meetingId: userClass.uid+"stampaper",)
+                  builder: (context) =>JoinScreen(username: userClass.displayName,meetingId: userClass.uid+"stampaper",isJoin: false,)
                   // VideoCall(data: snapshot.data!),
                   ),
                                                                 );
@@ -215,8 +218,9 @@ return Container(
         customButton.cancelButton("Get Location",()async{
          var location= getLocation();
           if(location['city']!=null){
-            addressController.text=location['city']+',' +location['state'] ?? '';
-            addressController_2.text=location['city']+',' +location['state'] ?? '';
+            addressController.text=location['city']+', ' +location['state']+', '+location['pincode'] ?? '';
+            addressController_2.text=location['city']+', ' +location['state']+', '+location['pincode'] ?? '';
+            
          }
         
          
@@ -236,7 +240,7 @@ return Container(
             if (_formKey.currentState!.validate()) {
                Navigator.of(context).pushReplacement(
                  MaterialPageRoute(
-                  builder: (context) =>JoinScreen(username: userClass.displayName,meetingId: userClass.uid+"stampaper",)
+                  builder: (context) =>JoinScreen(username: userClass.displayName,meetingId: userClass.uid+"stampaper",isJoin: false,)
                   // VideoCall(data: snapshot.data!),
                  ));
                        

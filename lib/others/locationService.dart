@@ -48,12 +48,14 @@ class LocationService {
 
       if (placemarks.isNotEmpty) {
         Placemark place = placemarks[0];
+        
         return {
           'city': place.locality ?? '',
-          'state': place.administrativeArea ?? ''
+          'state': place.administrativeArea ?? '',
+          'pincode': place.postalCode??''
         };
       } else {
-        return {'city': 'Unknown', 'state': 'Unknown'};
+        return {'city': 'Unknown', 'state': 'Unknown','pincode':'Unknown'};
       }
     } catch (e) {
       throw Exception("Failed to get city and state: $e");

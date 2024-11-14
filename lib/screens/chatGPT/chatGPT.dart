@@ -103,7 +103,8 @@ Future<String> getGeminiResponse(String inputText) async {
     // html.Url.revokeObjectUrl(url);
   }
 
-   Future<void> saveTextFileToDownloads() async {
+   Future<String> saveTextFileToDownloads() async {
+    try{
      final text = messages[1]['text']!;
     final fileName = 'AIaffidavit.txt';
 
@@ -120,8 +121,15 @@ Future<String> getGeminiResponse(String inputText) async {
 
       // Notify the user of the file location
       print("File saved at $filePath");
+      return "File saved at $filePath";
     } else {
+      
       print("Could not access the Downloads directory.");
+       return "Could not access the Downloads directory";
+    }
+    }
+    catch(ex){
+       return "Could not access the Downloads directory";
     }
   // } else {
   //   print("Storage permission is denied.");
@@ -232,9 +240,9 @@ Future<String> getGeminiResponse(String inputText) async {
                 children: [
                   Expanded(child: customButton.taskButton("Export as Word file", ()async {
           context.loaderOverlay.show();
-           await  saveTextFileToDownloads();
+           var res= await  saveTextFileToDownloads();
           context.loaderOverlay.hide();
-          CustomMessenger.defaultMessenger(context, "File saved.");
+          CustomMessenger.defaultMessenger(context, res,);
 
           }))])))
           :Container(),

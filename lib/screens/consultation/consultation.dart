@@ -2,6 +2,7 @@ import 'package:aapka_vakeel/HTTP/serverhttpHelper.dart';
 import 'package:aapka_vakeel/model/AdvocateCall.dart';
 import 'package:aapka_vakeel/model/advocate.dart';
 import 'package:aapka_vakeel/model/user.dart';
+import 'package:aapka_vakeel/others/dateTimePicker.dart';
 import 'package:aapka_vakeel/screens/consultation/advocateDetail.dart';
 import 'package:aapka_vakeel/utilities/colors.dart';
 import 'package:aapka_vakeel/utilities/custom_button.dart';
@@ -14,6 +15,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+// import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:page_transition/page_transition.dart';
 
 class ConsultLawyer extends StatefulWidget {
@@ -248,12 +250,41 @@ getBottomLayer(Map<String,dynamic> advocate){
         children: [
         Expanded(child: 
         GestureDetector(
-          onTap: (){
-            //scheduleCall
+          onTap: ()async{
+            //scheduleCall 
+       
 
-            var advocateCall= new AdvocateCall(uid: userClass.uid, userName: userClass.displayName, phoneNumber: userClass.phoneNumber, callTime: DateTime.now().toString(), advocateName: advocate['firstName']+" "+ advocate['lastName'],isVideoCall: false,advoacteId: advocate['phoneNumber']);
+             var date =await customDateTimePicker.selectDate(context);
+             if (date == null) return; // User canceled the picker
+             var time= await customDateTimePicker.selectTime(context);
+             if (time == null) return; // User canceled the picker
+             DateTime combinedDateTime = DateTime(
+              date.year,
+              date.month,
+              date.day,
+              time.hour,
+              time.minute,
+            );
+            
+            var advocateCall= new AdvocateCall(uid: userClass.uid, userName: userClass.displayName, phoneNumber: userClass.phoneNumber, callTime: combinedDateTime.toString(), advocateName: advocate['firstName']+" "+ advocate['lastName'],isVideoCall: false,advoacteId: advocate['phoneNumber']);
             userClass.advoacateCalls!.add(advocateCall);
-            CustomMessenger.defaultMessenger(context, "Call Scheduled");
+await FirebaseFirestore.instance
+    .collection('consultation')
+    .doc(advocateCall.advoacteId)
+    .collection('sessions')
+    .doc(combinedDateTime.toString()) // replace with a unique ID, like a timestamp or UUID
+    .set({
+      'userName': advocateCall.userName,
+      'phone': userClass.phoneNumber,
+      'email': userClass.email,
+      'address': userClass.address,
+      'callTime': combinedDateTime.toString(),
+      'advocateName': advocateCall.advocateName,
+      'advocateId': advocateCall.advoacteId,
+      'isVideoCall': 'false',
+    });
+    
+            CustomMessenger.defaultMessenger(context, "Call Scheduled at "+combinedDateTime.toString());
           },
           child:Container(
             padding:EdgeInsets.fromLTRB(20,10,20,10),
@@ -270,12 +301,41 @@ getBottomLayer(Map<String,dynamic> advocate){
         SizedBox(width: 10),
         Expanded(child: 
            GestureDetector(
-          onTap: (){
+          onTap: ()async{
 
             //schedule 
-               var advocateCall= new AdvocateCall(uid: userClass.uid, userName: userClass.displayName, phoneNumber: userClass.phoneNumber, callTime: DateTime.now().toString(), advocateName: advocate['firstName']+" "+ advocate['lastName'],isVideoCall: false,advoacteId: advocate['phoneNumber']);
+
+             var date =await customDateTimePicker.selectDate(context);
+             if (date == null) return; // User canceled the picker
+             var time= await customDateTimePicker.selectTime(context);
+             if (time == null) return; // User canceled the picker
+             DateTime combinedDateTime = DateTime(
+              date.year,
+              date.month,
+              date.day,
+              time.hour,
+              time.minute,
+            );
+
+               var advocateCall= new AdvocateCall(uid: userClass.uid, userName: userClass.displayName, phoneNumber: userClass.phoneNumber, callTime: combinedDateTime.toString(), advocateName: advocate['firstName']+" "+ advocate['lastName'],isVideoCall: false,advoacteId: advocate['phoneNumber']);
             userClass.advoacateCalls!.add(advocateCall);
-            CustomMessenger.defaultMessenger(context, "Call Scheduled");
+
+            await FirebaseFirestore.instance.collection('consultation').doc(userClass.uid).set({
+          'userName':userClass.displayName,
+          'phone': userClass.phoneNumber,
+          'email': userClass.email,
+          'address':userClass.address,
+          'callTime':combinedDateTime.toString(),
+          'advocateName':advocateCall.advocateName,
+          'advocateId':advocateCall.advoacteId,
+          'isVideoCall':'true',
+
+          // 'city':CityController.text,
+          // 'pinCode':PinCodeController.text,
+        });
+
+                       CustomMessenger.defaultMessenger(context, "Call Scheduled at "+combinedDateTime.toString());
+
           },
           child:Container(padding:EdgeInsets.fromLTRB(20,10,20,10),
             decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(10)),

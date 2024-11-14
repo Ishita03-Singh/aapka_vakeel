@@ -128,7 +128,7 @@ class _TrademarkDetailState extends State<TrademarkDetail> {
           customButton.taskButton("Join Call", (){
    Navigator.of(context).pushReplacement(
                  MaterialPageRoute(
-                  builder: (context) =>JoinScreen(username: userClass.displayName,meetingId: userClass.uid+"traemark:"+widget.trademarkType)
+                  builder: (context) =>JoinScreen(username: userClass.displayName,meetingId: userClass.uid+"traemark:"+widget.trademarkType,isJoin: false,)
                   // VideoCall(data: snapshot.data!),
                  ));
           })

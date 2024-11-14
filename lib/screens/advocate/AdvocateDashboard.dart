@@ -5,6 +5,7 @@ import 'package:aapka_vakeel/Utilities/strings.dart';
 import 'package:aapka_vakeel/model/user.dart';
 import 'package:aapka_vakeel/others/shared_pref.dart';
 import 'package:aapka_vakeel/screens/OTPScreen.dart';
+import 'package:aapka_vakeel/screens/advocate/appointment.dart';
 import 'package:aapka_vakeel/screens/advocate/notaryCalls.dart';
 import 'package:aapka_vakeel/screens/affidavitScreen.dart';
 import 'package:aapka_vakeel/screens/scbarContainer.dart';
@@ -142,7 +143,17 @@ Future<void> getAdvocateImage() async {
                           SizedBox(width: 10),
                            getCardContainer("Daily Calls List",StrLiteral.dailyCalls),
                           SizedBox(width: 10),
-                            getCardContainer("Appointments",StrLiteral.calender),
+                            
+                          GestureDetector(
+                            onTap: (){
+                              // AppointmentPage
+                                 Navigator.push(
+                        context,
+                        PageTransition(
+                            child: AppointmentPage(),
+                            type: PageTransitionType.rightToLeft));
+                            },
+                            child:  getCardContainer("Appointments",StrLiteral.calender),),
                           SizedBox(width: 10),
                             getCardContainer("My Clients",StrLiteral.clients),
                           SizedBox(width: 10),
@@ -162,18 +173,19 @@ Future<void> getAdvocateImage() async {
 
   getCardContainer(String text,String image){
     return Card(
-      color: Colors.white,
-      elevation: 10,
-      child:Container(
-        padding: EdgeInsets.all(12),
-        child: (
-          Row(children: [
-          Image.asset(image,width: 40),
-          SizedBox(width: 20),
-          CustomText.RegularDarkText(text)
-         
-        ],)),
-      )
+        color: Colors.white,
+        elevation: 10,
+        child:Container(
+          padding: EdgeInsets.all(12),
+          child: (
+            Row(children: [
+            Image.asset(image,width: 40),
+            SizedBox(width: 20),
+            CustomText.RegularDarkText(text)
+           
+          ],)),
+        )
+      
     );
   }
 getBlueContainer(String text,String number){

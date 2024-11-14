@@ -8,6 +8,7 @@ import 'package:aapka_vakeel/utilities/custom_text.dart';
 import 'package:aapka_vakeel/utilities/cutom_message.dart';
 import 'package:aapka_vakeel/utilities/my_appbar.dart';
 import 'package:aapka_vakeel/utilities/strings.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -181,7 +182,7 @@ class _NotaryScreenState extends State<NotaryScreen> {
                         ],),
               ),
             ),
-          customButton.taskButton("Save", (){
+          customButton.taskButton("Save", ()async{
             if( adharCard == null){
             CustomMessenger.defaultMessenger(context, "Please select adhar");
             return false;
@@ -191,6 +192,15 @@ class _NotaryScreenState extends State<NotaryScreen> {
           //   return false;
           //  }
            else{
+          await FirebaseFirestore.instance.collection('notaryCalls').doc(userClass.uid).set({
+          'phoneNumber':userClass.phoneNumber,
+          'name': userClass.displayName,
+          'email': userClass.email,
+          'address':userClass.address
+          // 'city':CityController.text,
+          // 'pinCode':PinCodeController.text,
+        });
+
             //upload files to cloud  
   Navigator.push(
                         context,

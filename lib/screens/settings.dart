@@ -57,6 +57,9 @@ class _SettingsState extends State<Settings> {
           //           }),
           //           SizedBox(height: 20),
 
+
+          
+
            CustomText.RegularDarkText("Your Scheduled Calls"),
 
                     //scheduled calls here compare time in local data store regarding call and now time then enable
@@ -69,22 +72,32 @@ class _SettingsState extends State<Settings> {
                                   itemCount: userClass.advoacateCalls!.length,
                                   itemBuilder: (context, index) {
                                      AdvocateCall advocatecall = userClass.advoacateCalls![index];
+                                       DateTime dateTime = DateTime.parse(advocatecall.callTime);
+                                       var t=DateTime.now();
                                     return  
                                     Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                               children: [
-                                                                CustomText.RegularDarkText("Your Call with ${advocatecall.advocateName}"),
-                                                            
-                                                                DateTime.now().toString()!=advocatecall.callTime?
+                                                                Column(children: [
+                                                                    CustomText.RegularDarkText("Your Call with ${advocatecall.advocateName}"),
+                                                                ],),
+                                                                
+                                                                
+                                                                t!=dateTime?
                                                                 customButton.smalltaskButton("Join Now", (){
                                                                     Navigator.of(context).pushReplacement(
                                                                     MaterialPageRoute(
-                                                                      builder: (context) =>JoinScreen(username: userClass.displayName,meetingId: userClass.uid,)
+                                                                      builder: (context) =>JoinScreen(username: userClass.displayName,meetingId:advocatecall.advoacteId,isJoin: true,)
                                                                       // VideoCall(data: snapshot.data!),
                                                                     ),
                                                                 );
-                                                                }):customButton.cancelButton("Join at ${advocatecall.callTime}", (){})
+                                                                }):
+                                                                Column(children: [
+                                                                   CustomText.infoText("Join at ${advocatecall.callTime.split(' ')[0]}",),
+                                                                    CustomText.infoText("${advocatecall.callTime.split(' ')[1]}",)
+                                                                ],)
+                                                               
                                                               ],
                                                             ),
                                     );

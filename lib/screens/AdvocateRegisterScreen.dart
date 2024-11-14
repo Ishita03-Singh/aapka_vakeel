@@ -90,6 +90,9 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
 
 
   Future<bool> _register() async {
+
+
+    print(_selectedGender);
     if (_formKey.currentState!.validate()) {
       try {
         // UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
@@ -104,7 +107,7 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
           'firstName': firstNameController.text,
           'lastName': lastNameController.text,
           'email': EmailController.text,
-          'gender':GenderController.text,
+          'gender':_selectedGender.toString().split('.').last,
           'address':"${AddressController.text},${CityController.text},${StateController.text},${PinCodeController.text}"
           // 'city':CityController.text,
           // 'pinCode':PinCodeController.text,
@@ -131,7 +134,7 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
           'firstName': firstNameController.text,
           'lastName': lastNameController.text,
           'email': EmailController.text,
-          'gender':GenderController.text,
+          'gender':_selectedGender.toString().split('.').last,
           'address':"${AddressController.text},${CityController.text},${StateController.text},${PinCodeController.text}",
           // 'address':AddressController.text,
           // 'state':StateController.text,
@@ -149,6 +152,7 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
         userClass.email=EmailController.text;
         userClass.displayName=firstNameController.text +lastNameController.text;
         userClass.address="${AddressController.text},${CityController.text},${StateController.text},${PinCodeController.text}";
+        userClass.gender=_selectedGender.toString().split('.').last;
         userClass.barRegistrationNo= BarRegistrationNoController.text??"";
         userClass.barRegistrationCertificate=BarRegistrationCertificateController.text??"";
         userClass.phoneNumber= widget.userCredential.user!.phoneNumber!;
@@ -294,6 +298,7 @@ FilePickerResult? result = await FilePicker.platform.pickFiles(
       setState(() {
         CityController.text = location['city'] ?? '';
         StateController.text = location['state'] ?? '';
+        PinCodeController.text= location['pincode']??'';
       });
     } catch (e) {
       print("Error: $e");

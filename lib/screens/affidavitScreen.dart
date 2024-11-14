@@ -359,6 +359,7 @@ return Container(
               setState(() {
                 cityController.text = location['city'] ?? '';
                 stateController.text = location['state'] ?? '';
+                //  pincode.text= location['pincode']??'';
               });
             } catch (e) {
               print("Error: $e");
@@ -691,10 +692,13 @@ class _AdvocateAffidavitDetailsState extends State<AdvocateAffidavitDetails> {
              
               ],)),
               customButton.taskButton("Join Call", (){
+              
+
+
             Navigator.pushReplacement(
                     context,
                     PageTransition(
-                        child: JoinScreen(username:userClass.displayName ,meetingId: widget.fileName+"Affidavit"+userClass.uid,),
+                        child: JoinScreen(username:userClass.displayName ,meetingId: widget.fileName+"Affidavit"+userClass.uid,isJoin: false,),
                         type: PageTransitionType.rightToLeft));
               })
              
