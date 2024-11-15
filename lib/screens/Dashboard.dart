@@ -122,7 +122,7 @@ class _DashboardState extends State<Dashboard> {
     _startAutoScrollLegalCases();
   }
   void _startAutoScrollLegalCases() {
-    _timer = Timer.periodic(Duration(seconds: 2), (timer) {
+    _timer = Timer.periodic(Duration(seconds: 4), (timer) {
       if (__legalCaseCurrentPageisVisible) {
         if (_legalCaseCurrentPage < 2) {
           setState(() {
@@ -334,13 +334,13 @@ class _DashboardState extends State<Dashboard> {
                   Column(crossAxisAlignment: CrossAxisAlignment.start,
                   children: 
                   [ CustomText.headText("Welcome!"),
-                  customButton.taskButton("Audio call",(){
-                       Navigator.push(
-                        context,
-                        PageTransition(
-                            child: HomePage(),
-                            type: PageTransitionType.rightToLeft));
-                  }),
+                  // customButton.taskButton("Audio call",(){
+                  //      Navigator.push(
+                  //       context,
+                  //       PageTransition(
+                  //           child: HomePage(),
+                  //           type: PageTransitionType.rightToLeft));
+                  // }),
                   CustomText.infoText("How can we be of help?"),],
                   ),
                       Row(

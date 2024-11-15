@@ -10,6 +10,7 @@ import 'package:aapka_vakeel/utilities/custom_text.dart';
 import 'package:aapka_vakeel/utilities/cutom_message.dart';
 import 'package:aapka_vakeel/utilities/my_appbar.dart';
 import 'package:aapka_vakeel/utilities/strings.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:loader_overlay/loader_overlay.dart';
@@ -597,6 +598,10 @@ List<String> affidavitList= [];
             // String fileName;
             // bool isAffidavitPage;
             // var DocumentDetails;
+            
+ 
+
+
              Navigator.pushReplacement(
                     context,
                     PageTransition(
@@ -691,8 +696,25 @@ class _AdvocateAffidavitDetailsState extends State<AdvocateAffidavitDetails> {
               CustomText.infoText("A will or testament is a legal document that expresses a person's wishes as to how their property is to be distributed after their death and as to which person is to manage the property until its final distribution. A will is a legal document that coordinates the distribution of your assets after death and can appoint guardians for minor children. A will is important to have, as it allows you to")
              
               ],)),
-              customButton.taskButton("Join Call", (){
-              
+              customButton.taskButton("Join Call", ()async {
+
+
+            String dir= widget.isAffidavitPage?"Affidavit":"Agreements";
+            String draftfile=await Serverhttphelper.fetchFileUrl(widget.fileName,dir);
+            
+
+           await FirebaseFirestore.instance
+            .collection('affidavitCall')
+            .doc(userClass.uid+widget.fileName)
+            .set({
+              'userId':userClass.uid,
+              'userName':widget.DocumentDetails["Name"],
+              'fatherName':widget.DocumentDetails["FatherName"],
+              'address': widget.DocumentDetails["Address"],
+              'isAffidavit': widget.isAffidavitPage,
+              'fileName':draftfile ,
+              'callTime':DateTime.now().toString()
+            });
 
 
             Navigator.pushReplacement(

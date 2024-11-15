@@ -6,6 +6,7 @@ import 'package:aapka_vakeel/utilities/custom_text.dart';
 import 'package:aapka_vakeel/utilities/cutom_message.dart';
 import 'package:aapka_vakeel/utilities/my_appbar.dart';
 import 'package:aapka_vakeel/utilities/my_textfield.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
 import 'package:geolocator/geolocator.dart';
@@ -32,7 +33,7 @@ TextEditingController amountController= new TextEditingController();
 TextEditingController nameController_2= new TextEditingController();
 TextEditingController numberController_2= new TextEditingController();
 TextEditingController addressController_2= new TextEditingController();
-TextEditingController puropseController_2= new TextEditingController();
+// TextEditingController puropseController_2= new TextEditingController();
 
   bool singleParty=true;
    // List of items for the dropdown
@@ -119,8 +120,26 @@ return Container(
         giveInputField("Address", addressController, true,TextInputType.text),
         giveInputField("Purpose", puropseController, true,TextInputType.text),
         giveInputField("Amount", amountController, true,TextInputType.number),
-          customButton.taskButton(" Join call", (){
+          customButton.taskButton(" Join call", ()async {
 
+            
+    var res= await FirebaseFirestore.instance
+            .collection('stampPaperCall')
+            .doc(userClass.uid+"StampPaper"+dropdownValue)
+            .set({
+              'userId':userClass.uid,
+              'userName':userClass.displayName,
+              'isSingleParty':singleParty,
+              'stampType': dropdownValue,
+              'firstName': nameController.text,
+              'firstPhoneNumber': numberController.text,
+              'firstAddress':addressController.text,
+              'secondName': nameController_2.text,
+              'secondPhoneNumber':numberController_2.text ,
+              'secondAddress':addressController_2.text,
+              'purpose':puropseController.text,
+              'amount':amountController.text,
+            });
             
 
          if (_formKey.currentState!.validate()) {
@@ -233,10 +252,30 @@ return Container(
          giveInputField("Name (as on Aadhar card)", nameController_2, true,TextInputType.name),
         giveInputField("Phone number", numberController_2, true,TextInputType.phone),
         giveInputField("Address", addressController_2, true,TextInputType.text),
-        giveInputField("Purpose", puropseController_2, true,TextInputType.text),
+        // giveInputField("Purpose", puropseController_2, true,TextInputType.text),
         giveInputField("Amount", amountController, true,TextInputType.number),
         SizedBox(height: 3),
-          customButton.taskButton(" Join call", (){
+          customButton.taskButton(" Join call", () async{
+
+             var res= await FirebaseFirestore.instance
+            .collection('stampPaperCall')
+            .doc(userClass.uid+"StampPaper"+dropdownValue)
+            .set({
+              'userId':userClass.uid,
+              'userName':userClass.displayName,
+              'isSingleParty':singleParty,
+              'stampType': dropdownValue,
+              'firstName': nameController.text,
+              'firstPhoneNumber': numberController.text,
+              'firstAddress':addressController.text,
+              'secondName': nameController_2.text,
+              'secondPhoneNumber':numberController_2.text ,
+              'secondAddress':addressController_2.text,
+              'purpose':puropseController.text,
+              'amount':amountController.text,
+            });
+            
+            
             if (_formKey.currentState!.validate()) {
                Navigator.of(context).pushReplacement(
                  MaterialPageRoute(

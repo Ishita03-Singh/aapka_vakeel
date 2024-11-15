@@ -12,7 +12,7 @@ class AppointmentPage extends StatefulWidget {
 }
 
 class _AppointmentPageState extends State<AppointmentPage> {
- final String documentId = '+919958890430'; // The document ID for the consultation
+ final String documentId = userClass.phoneNumber; // The document ID for the consultation
 
   @override
   Widget build(BuildContext context) {

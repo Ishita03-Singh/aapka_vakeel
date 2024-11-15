@@ -1,3 +1,5 @@
+import 'package:aapka_vakeel/screens/Dashboard.dart';
+import 'package:aapka_vakeel/screens/UserProfile.dart';
 import 'package:aapka_vakeel/screens/settings.dart';
 import 'package:aapka_vakeel/utilities/strings.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +18,16 @@ class ScBar extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Image.asset(StrLiteral.home_filled,width:28),
+             GestureDetector(
+              onTap: (){
+                 Navigator.push(
+                        context,
+                        PageTransition(
+                            child:Dashboard(),
+                            type: PageTransitionType.rightToLeft));
+              },
+              child:Image.asset(StrLiteral.home_filled,width:28),
+             ),
             // Image.asset(StrLiteral.note,width:28),
             // Image.asset(StrLiteral.advocate,width:30),
             GestureDetector(
@@ -28,7 +39,15 @@ class ScBar extends StatelessWidget {
                             type: PageTransitionType.rightToLeft));
               },
               child: Image.asset(StrLiteral.setting,width:28)),
-            Image.asset(StrLiteral.profile,width:28),
+             GestureDetector(
+              onTap: (){
+                 Navigator.push(
+                        context,
+                        PageTransition(
+                            child:UserProfile(),
+                            type: PageTransitionType.rightToLeft));
+              },
+              child:Image.asset(StrLiteral.profile,width:28)),
 
         
         ],),
