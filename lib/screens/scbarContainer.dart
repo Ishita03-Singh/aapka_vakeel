@@ -20,11 +20,11 @@ class ScBar extends StatelessWidget {
             Image.asset(StrLiteral.advocate,width:30),
             GestureDetector(
               onTap: (){
-                 Navigator.push(
-                        context,
-                        PageTransition(
-                            child:Settings(),
-                            type: PageTransitionType.rightToLeft));
+                //  Navigator.push(
+                //         context,
+                //         PageTransition(
+                //             child:Settings(),
+                //             type: PageTransitionType.rightToLeft));
               },
               child: Image.asset(StrLiteral.setting,width:28)),
             Image.asset(StrLiteral.profile,width:28),

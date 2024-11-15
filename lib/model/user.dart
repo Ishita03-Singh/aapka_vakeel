@@ -3,6 +3,7 @@ class UserClass {
   String email;
   String phoneNumber;
   String displayName;
+  String gender;
   String  address;
   String? barRegistrationNo;
   String? barRegistrationCertificate;
@@ -11,6 +12,7 @@ class UserClass {
     required this.uid,
     required this.email,
     required this.phoneNumber,
+    required this.gender,
     required this.displayName,
     required this.address,
     this.barRegistrationNo,
@@ -23,6 +25,7 @@ class UserClass {
         'uid': uid,
         'email': email,
         'displayName': displayName,
+        'gender':gender,
         'address':address,
         'phoneNumber':phoneNumber,
         'barRegistrationNo':barRegistrationNo??"",
@@ -37,6 +40,7 @@ class UserClass {
       uid: json['uid'],
       email: json['email'],
       displayName: json['displayName'],
+      gender:json['gender'],
       phoneNumber: json['phoneNumber'],
       barRegistrationNo: json['barRegistrationNo']??"",
       barRegistrationCertificate: json['barRegistrationCertificate']??"",
@@ -45,4 +49,4 @@ class UserClass {
     );
   }
 }
-UserClass userClass= UserClass(uid: "", email: "", phoneNumber: "", displayName: "", address: "", isAdvocate: true);
+UserClass userClass= UserClass(uid: "", email: "", phoneNumber: "", displayName: "",gender:"", address: "", isAdvocate: true);
