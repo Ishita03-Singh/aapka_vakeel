@@ -34,7 +34,7 @@ class _UserProfileState extends State<UserProfile> {
     // TODO: implement initState
     super.initState();
     firstNameController.text=userClass.displayName.split(' ')[0];
-    lastNameController.text=userClass.displayName.split(' ')[0];
+    lastNameController.text=userClass.displayName.split(' ')[1];
     EmailController.text=userClass.email;
     GenderController.text=userClass.gender;
     AddressController.text=userClass.address;

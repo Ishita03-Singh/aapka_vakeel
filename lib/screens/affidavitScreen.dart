@@ -11,6 +11,7 @@ import 'package:aapka_vakeel/utilities/cutom_message.dart';
 import 'package:aapka_vakeel/utilities/my_appbar.dart';
 import 'package:aapka_vakeel/utilities/strings.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:csc_picker/csc_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:loader_overlay/loader_overlay.dart';
@@ -286,6 +287,10 @@ TextEditingController fatherNameController= new TextEditingController();
 TextEditingController addressController= new TextEditingController();
 TextEditingController stateController= new TextEditingController();
 TextEditingController cityController= new TextEditingController();
+TextEditingController CountryController= new TextEditingController();
+TextEditingController PinCodeController= new TextEditingController();
+
+
 bool _isLoaderVisible = false;
 
   @override
@@ -379,9 +384,13 @@ return Container(
             CustomMessenger.defaultMessenger(context, "Location permission not granted.");
           }
         }),
+          SizedBox(height: 8),
+          getStateCityInput(),
           giveInputField("Address", addressController, true,TextInputType.text),
-          giveInputField("State", stateController, true,TextInputType.text),
-          giveInputField("City", cityController, true,TextInputType.text),
+          giveInputField("Pin code", PinCodeController, true,TextInputType.number),
+
+          // giveInputField("State", stateController, true,TextInputType.text),
+          // giveInputField("City", cityController, true,TextInputType.text),
          
             customButton.taskButton("Continue", (){
       
@@ -389,7 +398,7 @@ return Container(
             var details={
               "Name": nameController.text,
               "FatherName":fatherNameController.text,
-              "Address":addressController.text+","+cityController.text+","+stateController.text
+              "Address":addressController.text+", "+cityController.text+", "+stateController.text+", "+CountryController.text+', '+PinCodeController.text
             };
               Navigator.of(context).pushReplacement(
                    MaterialPageRoute(
@@ -419,6 +428,78 @@ return Container(
         ),
     )),
 );
+  }
+  
+
+
+  getStateCityInput(){
+    return   CSCPicker(
+                  // disableCountry:true,
+                  defaultCountry:CscCountry.India,
+                  currentCountry: CscCountry.India.toString(),
+                  showCities: true,
+                  showStates: true,
+                   dropdownDecoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      color: Colors.white,
+                      border:
+                      Border.all(color: Colors.grey.shade300, width: 1)),
+
+                  ///Disabled Dropdown box decoration to style your dropdown selector [OPTIONAL PARAMETER]  (USE with disabled dropdownDecoration)
+                  disabledDropdownDecoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      color: Colors.grey.shade300,
+                      border:
+                      Border.all(color: Colors.grey.shade300, width: 1)),
+                  stateSearchPlaceholder: "State",
+                  citySearchPlaceholder: "City",
+                  stateDropdownLabel: "State",
+                  cityDropdownLabel: "City",
+                
+                  selectedItemStyle: TextStyle(
+                    color: Colors.black,
+                    fontSize: 14,
+                  ),
+                  dropdownHeadingStyle: TextStyle(
+                      color: Colors.black,
+                      fontSize: 17,
+                      fontWeight: FontWeight.bold),
+
+                  dropdownItemStyle: TextStyle(
+                    color: Colors.black,
+                    fontSize: 14,
+                  ),
+
+                  ///Dialog box radius [OPTIONAL PARAMETER]
+                  dropdownDialogRadius: 10.0,
+
+                  onCountryChanged: (value) {
+                    setState(() {
+                      ///store value in state variable
+                      // var t=value.split('   ');
+                      // print("part:"+t.toString()+" ");
+                      CountryController.text = value.split('    ')[1]??'';
+                      // print(countryController.text);
+                    });
+                  },
+                  ///Search bar radius [OPTIONAL PARAMETER]
+                  searchBarRadius: 10.0,
+                  onStateChanged: (value) {
+                    setState(() {
+                      ///store value in state variable
+                      stateController.text = value??'';
+                    });
+                  },
+
+                  ///triggers once city selected in dropdown
+                  onCityChanged: (value) {
+                    setState(() {
+                      ///store value in city variable
+                      cityController.text = value??'';
+                    });
+                  },
+                );
+
   }
 
   giveInputField(

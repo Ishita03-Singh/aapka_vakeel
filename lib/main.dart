@@ -120,8 +120,8 @@ class MyApp extends StatelessWidget {
             // create: (context) => VideoCallProvider(),
             // child: VideoCallSetupScreen(),
             // );
-            // return StampPaper();
-            return IntroPage();
+            return Dashboard();
+            // return IntroPage();
             // return AdvocateAffidavitDetails(fileName: "Make a Will", isAffidavitPage: true,DocumentDetails: "");
             }
            //  User user= jsonDecode(userString);

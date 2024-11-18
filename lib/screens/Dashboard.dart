@@ -385,7 +385,7 @@ class _DashboardState extends State<Dashboard> {
                    Row( mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                     Container(child:
-                    getDashboardwidger(StrLiteral.notary,"Notary","Notary in three easy steps",(){
+                    getDashboardwidger(StrLiteral.notary,"Notary","Get notary in three simple steps. Click to know more ",(){
                       _hidePopup();
                        Navigator.push(
                         context,
@@ -453,8 +453,8 @@ class _DashboardState extends State<Dashboard> {
 
 
   getDashboardwidger(String img, String headText, String infoText,Function callFun ){
-    var width=MediaQuery.of(context).size.width;
-    var height =MediaQuery.of(context).size.height;
+    // var width=MediaQuery.of(context).size.width;
+    // var height =MediaQuery.of(context).size.height;
    return GestureDetector(
     onTap: () {
       // AffidavitScreen
@@ -462,7 +462,7 @@ class _DashboardState extends State<Dashboard> {
       
     },
      child: Container(
-        height: width>=height?MediaQuery.of(context).size.height/4:MediaQuery.of(context).size.height/3,
+        // height: width>=height?MediaQuery.of(context).size.height/4:MediaQuery.of(context).size.height/4,
        child: Container(
         
         decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(20),),
@@ -482,12 +482,17 @@ class _DashboardState extends State<Dashboard> {
             child: Image.asset(img,fit: BoxFit.cover,height: 140,width: MediaQuery.of(context).size.width/2-30,)),
           Container(
            width: MediaQuery.of(context).size.width/2-30,
+          //  color: Colors.red,
             padding: EdgeInsets.all(8),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-              CustomText.smallheadText(headText),
-              CustomText.extraSmallinfoText(infoText,isCenter: false),
+              Container(
+                // color: Colors.blue,
+                child: CustomText.smallheadText(headText)),
+              Container(
+                // color: Colors.yellow,
+                child: CustomText.extraSmallinfoText(infoText,isCenter: false)),
             ],),
           )
         ],),

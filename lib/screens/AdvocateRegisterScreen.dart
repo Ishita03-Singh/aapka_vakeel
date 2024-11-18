@@ -15,6 +15,7 @@ import 'package:aapka_vakeel/utilities/my_appbar.dart';
 import 'package:aapka_vakeel/utilities/my_textfield.dart';
 import 'package:aapka_vakeel/utilities/strings.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:csc_picker/csc_picker.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
@@ -46,6 +47,7 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
   TextEditingController AddressController = new TextEditingController();
   TextEditingController StateController = new TextEditingController();
   TextEditingController CityController = new TextEditingController();
+    TextEditingController countryController = new TextEditingController();
   TextEditingController PinCodeController = new TextEditingController();
     TextEditingController IntroController = new TextEditingController();
       TextEditingController ChargeController = new TextEditingController();
@@ -108,7 +110,7 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
           'lastName': lastNameController.text,
           'email': EmailController.text,
           'gender':_selectedGender.toString().split('.').last,
-          'address':"${AddressController.text},${CityController.text},${StateController.text},${PinCodeController.text}"
+          'address':"${AddressController.text}, ${CityController.text}, ${StateController.text}, ${countryController.text}, ${PinCodeController.text}"
           // 'city':CityController.text,
           // 'pinCode':PinCodeController.text,
         });
@@ -135,7 +137,7 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
           'lastName': lastNameController.text,
           'email': EmailController.text,
           'gender':_selectedGender.toString().split('.').last,
-          'address':"${AddressController.text},${CityController.text},${StateController.text},${PinCodeController.text}",
+          'address':"${AddressController.text}, ${CityController.text}, ${StateController.text}, ${countryController.text}, ${PinCodeController.text}",
           // 'address':AddressController.text,
           // 'state':StateController.text,
           // 'city':CityController.text,
@@ -150,8 +152,8 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
         }
         userClass.uid=widget.userCredential.user!.uid;
         userClass.email=EmailController.text;
-        userClass.displayName=firstNameController.text +lastNameController.text;
-        userClass.address="${AddressController.text},${CityController.text},${StateController.text},${PinCodeController.text}";
+        userClass.displayName=firstNameController.text +" "+ lastNameController.text;
+        userClass.address="${AddressController.text}, ${CityController.text}, ${StateController.text}, ${countryController.text}, ${PinCodeController.text}";
         userClass.gender=_selectedGender.toString().split('.').last;
         userClass.barRegistrationNo= BarRegistrationNoController.text??"";
         userClass.barRegistrationCertificate=BarRegistrationCertificateController.text??"";
@@ -228,6 +230,7 @@ FilePickerResult? result = await FilePicker.platform.pickFiles(
   void initState() {
     super.initState();
     ChargeController.text= charges[dropdownValue].toString();
+    countryController.text= 'India';
   }
   
   Future<bool> requestLocationPermission() async {
@@ -317,9 +320,12 @@ FilePickerResult? result = await FilePicker.platform.pickFiles(
     CustomMessenger.defaultMessenger(context, "Location permission not granted.");
   }
 }),
+
+                 SizedBox(height: 8),
+                 getStateCityInput(),
                   giveInputField("Address", AddressController, true,TextInputType.streetAddress),
-                  giveInputField("State", StateController, true,TextInputType.text),
-                  giveInputField("City", CityController, true,TextInputType.text),
+                  // giveInputField("State", StateController, true,TextInputType.text),
+                  // giveInputField("City", CityController, true,TextInputType.text),
                   giveInputField("Pin code", PinCodeController, true,TextInputType.phone),
                   if (widget.isAdvocate)
                     giveInputField("Please give a short introduction",
@@ -545,5 +551,75 @@ FilePickerResult? result = await FilePicker.platform.pickFiles(
         ],
       ),
     );
+  }
+
+  getStateCityInput(){
+    return   CSCPicker(
+                  // disableCountry:true,
+                  defaultCountry:CscCountry.India,
+                  currentCountry: CscCountry.India.toString(),
+                  showCities: true,
+                  showStates: true,
+                   dropdownDecoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      color: Colors.white,
+                      border:
+                      Border.all(color: Colors.grey.shade300, width: 1)),
+
+                  ///Disabled Dropdown box decoration to style your dropdown selector [OPTIONAL PARAMETER]  (USE with disabled dropdownDecoration)
+                  disabledDropdownDecoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      color: Colors.grey.shade300,
+                      border:
+                      Border.all(color: Colors.grey.shade300, width: 1)),
+                  stateSearchPlaceholder: "State",
+                  citySearchPlaceholder: "City",
+                  stateDropdownLabel: "State",
+                  cityDropdownLabel: "City",
+                
+                  selectedItemStyle: TextStyle(
+                    color: Colors.black,
+                    fontSize: 14,
+                  ),
+                  dropdownHeadingStyle: TextStyle(
+                      color: Colors.black,
+                      fontSize: 17,
+                      fontWeight: FontWeight.bold),
+
+                  dropdownItemStyle: TextStyle(
+                    color: Colors.black,
+                    fontSize: 14,
+                  ),
+
+                  ///Dialog box radius [OPTIONAL PARAMETER]
+                  dropdownDialogRadius: 10.0,
+
+                  onCountryChanged: (value) {
+                    setState(() {
+                      ///store value in state variable
+                      // var t=value.split('   ');
+                      // print("part:"+t.toString()+" ");
+                      countryController.text = value.split('    ')[1]??'';
+                      // print(countryController.text);
+                    });
+                  },
+                  ///Search bar radius [OPTIONAL PARAMETER]
+                  searchBarRadius: 10.0,
+                  onStateChanged: (value) {
+                    setState(() {
+                      ///store value in state variable
+                      StateController.text = value??'';
+                    });
+                  },
+
+                  ///triggers once city selected in dropdown
+                  onCityChanged: (value) {
+                    setState(() {
+                      ///store value in city variable
+                      CityController.text = value??'';
+                    });
+                  },
+                );
+
   }
 }

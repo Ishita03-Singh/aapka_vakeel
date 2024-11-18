@@ -154,30 +154,30 @@ class _NotaryScreenState extends State<NotaryScreen> {
                   ),
                 ),
                 SizedBox(height: 8),
-                CustomText.cancelBtnText("Pan Card/Passport/Voter ID"),
-                SizedBox(height: 8),
-                  Center(
-                    child: Container(
-                    padding: EdgeInsets.all(25),
-                    width: MediaQuery.of(context).size.width/1.3,
-                     decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(4)),
-                    border: Border.all(
-                    color: Colors.grey, // Set the border color here
-                    width: 1.0, // Set the border width here
-                                    ),),
-                    child: Column(children: [
-                      Image.asset(StrLiteral.upload),
-                      CustomText.extraSmallinfoText('PDF format upto 50 MB.'),
-                    customButton.smalltaskButton(
-                    otherId != null ? 'Change' : 'Browse', (){
-                      _pickFile();
-                    }),
-                       if (otherId != null)
-                        CustomText.infoText(otherId!.path.split('/').last,
-                      isCenter: true),
-                    ],),
-                                    ),
-                  ),
+                // CustomText.cancelBtnText("Pan Card/Passport/Voter ID"),
+            //     SizedBox(height: 8),
+            //       Center(
+            //         child: Container(
+            //         padding: EdgeInsets.all(25),
+            //         width: MediaQuery.of(context).size.width/1.3,
+            //          decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(4)),
+            //         border: Border.all(
+            //         color: Colors.grey, // Set the border color here
+            //         width: 1.0, // Set the border width here
+            //                         ),),
+            //         child: Column(children: [
+            //           Image.asset(StrLiteral.upload),
+            //           CustomText.extraSmallinfoText('PDF format upto 50 MB.'),
+            //         customButton.smalltaskButton(
+            //         otherId != null ? 'Change' : 'Browse', (){
+            //           _pickFile();
+            //         }),
+            //            if (otherId != null)
+            //             CustomText.infoText(otherId!.path.split('/').last,
+            //           isCenter: true),
+            //         ],),
+            //                         ),
+            //       ),
                         
                         ],),
               ),
