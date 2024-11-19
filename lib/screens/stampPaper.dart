@@ -6,6 +6,7 @@ import 'package:aapka_vakeel/utilities/custom_text.dart';
 import 'package:aapka_vakeel/utilities/cutom_message.dart';
 import 'package:aapka_vakeel/utilities/my_appbar.dart';
 import 'package:aapka_vakeel/utilities/my_textfield.dart';
+import 'package:aapka_vakeel/utilities/validation.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
@@ -245,15 +246,15 @@ return Container(
          
 
           }),
-        giveInputField("Address", addressController, true,TextInputType.text),
+        giveInputField("Address", addressController, true,TextInputType.streetAddress),
         giveInputField("Purpose", puropseController, true,TextInputType.text),
         SizedBox(height: 5),
         CustomText.RegularDarkText("Second party details:"),
          giveInputField("Name (as on Aadhar card)", nameController_2, true,TextInputType.name),
         giveInputField("Phone number", numberController_2, true,TextInputType.phone),
-        giveInputField("Address", addressController_2, true,TextInputType.text),
+        giveInputField("Address", addressController_2, true,TextInputType.streetAddress),
         // giveInputField("Purpose", puropseController_2, true,TextInputType.text),
-        giveInputField("Amount", amountController, true,TextInputType.number),
+        giveInputField("Amount", amountController, true,TextInputType.phone),
         SizedBox(height: 3),
           customButton.taskButton(" Join call", () async{
 
@@ -331,10 +332,11 @@ return Container(
               controller: controller,
               // readOnly: true,
                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter ${HeadText}';
-                  }
-                  return null;
+                validationService.validate(value!, textInputType);
+                  // if (value == null || value.isEmpty) {
+                  //   return 'Please enter ${HeadText}';
+                  // }
+                  // return null;
                 },
               enabled: true,
               enableInteractiveSelection: false,

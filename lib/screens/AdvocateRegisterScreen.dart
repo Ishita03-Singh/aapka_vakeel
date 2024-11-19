@@ -14,6 +14,7 @@ import 'package:aapka_vakeel/utilities/cutom_message.dart';
 import 'package:aapka_vakeel/utilities/my_appbar.dart';
 import 'package:aapka_vakeel/utilities/my_textfield.dart';
 import 'package:aapka_vakeel/utilities/strings.dart';
+import 'package:aapka_vakeel/utilities/validation.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:csc_picker/csc_picker.dart';
 import 'package:file_picker/file_picker.dart';
@@ -326,7 +327,7 @@ FilePickerResult? result = await FilePicker.platform.pickFiles(
                   giveInputField("Address", AddressController, true,TextInputType.streetAddress),
                   // giveInputField("State", StateController, true,TextInputType.text),
                   // giveInputField("City", CityController, true,TextInputType.text),
-                  giveInputField("Pin code", PinCodeController, true,TextInputType.phone),
+                  giveInputField("Pin code", PinCodeController, true,TextInputType.number),
                   if (widget.isAdvocate)
                     giveInputField("Please give a short introduction",
                         IntroController, true,TextInputType.text),
@@ -513,8 +514,14 @@ FilePickerResult? result = await FilePicker.platform.pickFiles(
     );
   }
 
+
+// ValidateFun(value) {
+//                   if (value == null || value.isEmpty) {
+//                     return 'Please enter ${HeadText}';
+//                   }
+//                   return null;}
   giveInputField(
-      String HeadText, TextEditingController controller, bool isrequired, TextInputType textInputType) {
+      String HeadText, TextEditingController controller, bool isrequired, TextInputType textInputType,) {
     return Container(
       padding: EdgeInsets.only(bottom: 20),
       child: Column(
@@ -535,12 +542,10 @@ FilePickerResult? result = await FilePicker.platform.pickFiles(
               keyboardType: textInputType,
               controller: controller,
               // readOnly: true,
-               validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter ${HeadText}';
-                  }
-                  return null;
-                },
+               validator: (value){
+               validationService.validate(value!,textInputType);
+
+               },
               enabled: true,
               enableInteractiveSelection: false,
               cursorColor: AppColor.primaryTextColor,

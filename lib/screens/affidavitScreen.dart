@@ -10,6 +10,7 @@ import 'package:aapka_vakeel/utilities/custom_text.dart';
 import 'package:aapka_vakeel/utilities/cutom_message.dart';
 import 'package:aapka_vakeel/utilities/my_appbar.dart';
 import 'package:aapka_vakeel/utilities/strings.dart';
+import 'package:aapka_vakeel/utilities/validation.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:csc_picker/csc_picker.dart';
 import 'package:flutter/material.dart';
@@ -386,7 +387,7 @@ return Container(
         }),
           SizedBox(height: 8),
           getStateCityInput(),
-          giveInputField("Address", addressController, true,TextInputType.text),
+          giveInputField("Address", addressController, true,TextInputType.streetAddress),
           giveInputField("Pin code", PinCodeController, true,TextInputType.number),
 
           // giveInputField("State", stateController, true,TextInputType.text),
@@ -525,10 +526,7 @@ return Container(
               controller: controller,
               // readOnly: true,
                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter ${HeadText}';
-                  }
-                  return null;
+                 validationService.validate(value!, textInputType);
                 },
               // enabled: true,
               // enableInteractiveSelection: false,
