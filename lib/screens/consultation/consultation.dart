@@ -1,8 +1,11 @@
+import 'dart:convert';
+
 import 'package:aapka_vakeel/HTTP/serverhttpHelper.dart';
 import 'package:aapka_vakeel/model/AdvocateCall.dart';
 import 'package:aapka_vakeel/model/advocate.dart';
 import 'package:aapka_vakeel/model/user.dart';
 import 'package:aapka_vakeel/others/dateTimePicker.dart';
+import 'package:aapka_vakeel/others/shared_pref.dart';
 import 'package:aapka_vakeel/screens/consultation/advocateDetail.dart';
 import 'package:aapka_vakeel/utilities/colors.dart';
 import 'package:aapka_vakeel/utilities/custom_button.dart';
@@ -284,6 +287,7 @@ await FirebaseFirestore.instance
       'isVideoCall': 'false',
     });
     
+           await storeCallDetails();
             CustomMessenger.defaultMessenger(context, "Call Scheduled at "+combinedDateTime.toString());
           },
           child:Container(
@@ -333,6 +337,7 @@ await FirebaseFirestore.instance
           // 'city':CityController.text,
           // 'pinCode':PinCodeController.text,
         });
+       await  storeCallDetails();
 
                        CustomMessenger.defaultMessenger(context, "Call Scheduled at "+combinedDateTime.toString());
 
@@ -402,4 +407,13 @@ getTopLayer(Map<String,dynamic> advocate,String imageUrl){
 
 ],);
 }
+storeCallDetails()async{
+  List<String> storeString=[];
+  userClass.advoacateCalls!.forEach((call){
+   call.toJson();
+   storeString.add(jsonEncode(call));
+  });
+   MySharedPreferences.instance.setAdvocateCallList(storeString);
+}
+
 }

@@ -693,7 +693,7 @@ List<String> affidavitList= [];
                Navigator.push(
                     context,
                     PageTransition(
-                        child: ChatScreen(prompt:"Generate a ${widget.isAffidavitPage?"affidavit":"agreement"} for ${widget.fileName.split('.')[0]} and fill these  details, name:${widget.DocumentDetails["Name"]}, father name: ${widget.DocumentDetails["FatherName"]}, address:${widget.DocumentDetails["Address"]}"),
+                        child: ChatScreen(filename:widget.fileName ,prompt:"Generate a ${widget.isAffidavitPage?"affidavit":"agreement"} for ${widget.fileName.split('.')[0]} and fill these  details, name:${widget.DocumentDetails["Name"]}, father name: ${widget.DocumentDetails["FatherName"]}, address:${widget.DocumentDetails["Address"]}"),
                         type: PageTransitionType.rightToLeft));
           }),
         ],),

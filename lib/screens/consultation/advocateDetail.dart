@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:aapka_vakeel/model/AdvocateCall.dart';
 import 'package:aapka_vakeel/model/user.dart';
 import 'package:aapka_vakeel/utilities/custom_button.dart';
@@ -7,6 +9,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import '../../others/dateTimePicker.dart';
+import '../../others/shared_pref.dart';
 import '../../utilities/custom_text.dart';
 import '../../utilities/ratingChip.dart';
 import '../../utilities/strings.dart';
@@ -239,6 +242,7 @@ class _AdvocateDetailState extends State<AdvocateDetail> {
           // 'city':CityController.text,
           // 'pinCode':PinCodeController.text,
         });
+        await storeCallDetails();
 
             CustomMessenger.defaultMessenger(context, "Call Scheduled");
           },
@@ -287,7 +291,7 @@ class _AdvocateDetailState extends State<AdvocateDetail> {
           // 'city':CityController.text,
           // 'pinCode':PinCodeController.text,
         });
-        
+          await storeCallDetails();
             CustomMessenger.defaultMessenger(context, "Call Scheduled");
 
           },
@@ -314,4 +318,12 @@ class _AdvocateDetailState extends State<AdvocateDetail> {
    ],)
   ]);
  }
+ storeCallDetails()async{
+  List<String> storeString=[];
+  userClass.advoacateCalls!.forEach((call){
+   call.toJson();
+   storeString.add(jsonEncode(call));
+  });
+   MySharedPreferences.instance.setAdvocateCallList(storeString);
+}
 }

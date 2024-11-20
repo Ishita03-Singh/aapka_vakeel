@@ -120,12 +120,13 @@ class MyApp extends StatelessWidget {
             // create: (context) => VideoCallProvider(),
             // child: VideoCallSetupScreen(),
             // );
-            return Dashboard();
+            return IntroPage();
             // return IntroPage();
             // return AdvocateAffidavitDetails(fileName: "Make a Will", isAffidavitPage: true,DocumentDetails: "");
             }
            //  User user= jsonDecode(userString);
            Map<String, dynamic> userMap = jsonDecode(userString);
+           
             userClass = UserClass.fromJson(userMap);
            if(userClass.barRegistrationNo!="")
            return AdvocateDashboard(userclass: userClass);

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:aapka_vakeel/others/shared_pref.dart';
 import 'package:aapka_vakeel/screens/affidavitScreen.dart';
 import 'package:aapka_vakeel/utilities/colors.dart';
 import 'package:aapka_vakeel/utilities/custom_button.dart';
@@ -18,7 +19,8 @@ import 'package:permission_handler/permission_handler.dart';
 
 class ChatScreen extends StatefulWidget {
   String? prompt="";
-  ChatScreen({this.prompt});
+  String? filename="";
+  ChatScreen({this.prompt,this.filename});
   @override
   _ChatScreenState createState() => _ChatScreenState();
 }
@@ -118,6 +120,9 @@ Future<String> getGeminiResponse(String inputText) async {
 
       // Write the text content to the file
       await file.writeAsString(text, encoding: utf8);
+      var fileList= await MySharedPreferences.instance.getUserDownloadedFiles();
+      fileList.add(file.path);
+      MySharedPreferences.instance.setUserDownloadedFiles(fileList);
 
       // Notify the user of the file location
       print("File saved at $filePath");

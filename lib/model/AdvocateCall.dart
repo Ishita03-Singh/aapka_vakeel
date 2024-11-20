@@ -18,38 +18,29 @@ class AdvocateCall {
   });
 
   // Convert a User object to a Map object
-  // Map<String, dynamic> toJson() => {
-  //       'uid': uid,
-  //       'email': email,
-  //       'displayName': displayName,
-  //       'address':address,
-  //       'phoneNumber':phoneNumber,
-  //       'barRegistrationNo':barRegistrationNo??"",
-  //       'barRegistrationCertificate': barRegistrationCertificate??"",
-  //       'isAdvocate':isAdvocate,
-  // 'introduction':introduction,
-  //       'charges':charges,
-  //       'skills':skills,
-  //       'experience':experience,
-  //     };
+  Map<String, dynamic> toJson() => {
+        'uid': uid,
+        'userName': userName,
+        'phoneNumber': phoneNumber,
+        'callTime':callTime,
+        'advocateName':advocateName,
+        'advoacteId':advoacteId,
+        'isVideoCall': isVideoCall,
+      };
 
-  // // Create a User object from a Map object
-  // factory Advocate.fromJson(Map<String, dynamic> json) {
-  //   return Advocate(
-  //     uid: json['uid'],
-  //     email: json['email'],
-  //     displayName: json['displayName'],
-  //     phoneNumber: json['phoneNumber'],
-  //     barRegistrationNo: json['barRegistrationNo']??"",
-  //     barRegistrationCertificate: json['barRegistrationCertificate']??"",
-  //     address: json['address'],
-  //     isAdvocate:  json['isAdvocate'],
-  //          introduction:json ['introduction'],
-  //     charges:json['charges'],
-  //     skills: json['skills'],
-  //     experience:json['experience']
-  //   );
-  // }
+  // Create a User object from a Map object
+  factory AdvocateCall.fromJson(Map<String, dynamic> json) {
+    return AdvocateCall(
+      uid: json['uid'],
+      userName: json['userName'],
+      phoneNumber: json['phoneNumber'],
+      callTime: json['callTime'],
+      advocateName: json['advocateName']??"",
+      advoacteId: json['advoacteId']??"",
+      isVideoCall: json['isVideoCall'],
+     
+    );
+  }
 }
 AdvocateCall advocateCall= AdvocateCall(uid: "", userName: "", phoneNumber: "", advocateName: "",advoacteId: "", callTime: "",isVideoCall: true);
 

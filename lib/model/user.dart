@@ -49,7 +49,6 @@ class UserClass {
         'charges':charges,
         'skills':skills,
         'experience':experience,
-
       };
 
   // Create a User object from a Map object
