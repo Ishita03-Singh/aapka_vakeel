@@ -1,6 +1,8 @@
 
 import 'package:aapka_vakeel/model/user.dart';
+import 'package:aapka_vakeel/utilities/custom_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:video_call/video_call.dart';
 
@@ -15,6 +17,19 @@ class AffidavitAdmin extends StatefulWidget {
 }
 
 class _AffidavitAdminState extends State<AffidavitAdmin> {
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    signin();
+  }
+
+   
+   signin()async{
+ UserCredential userCredential = await FirebaseAuth.instance
+        .signInWithEmailAndPassword(email: 'dhruvlegalaid@gmail.com',password: 'Manmohan@0');
+   }
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
@@ -44,15 +59,18 @@ class _AffidavitAdminState extends State<AffidavitAdmin> {
             itemCount: consultations.length,
             itemBuilder: (context, index) {
               var consultation = consultations[index];
-              var dateTime = DateTime.parse(consultation['callTime']); // Assuming `callTime` is a field
-
+              print(consultation);
+              // var dateTime = DateTime.parse(consultation['callTime']); // Assuming `callTime` is a field
+              var dateTime =DateTime.now();
               return Card(
                 
               child: Container(
                 padding: EdgeInsets.all(10),
                 child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                  Column(children: [
+                  Column(crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                    
                     Text(consultation['userName'] ?? 'Unknown'),
                     Text( consultation['callTime'].split(' ')[0]+ " "+ '${dateTime.hour}:${dateTime.minute.toString().padLeft(2, '0')}'),
                   ],)
