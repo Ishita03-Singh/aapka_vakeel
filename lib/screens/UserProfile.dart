@@ -1,8 +1,10 @@
 import 'package:aapka_vakeel/model/user.dart';
 import 'package:aapka_vakeel/others/Audio%20Call/main.dart';
 import 'package:aapka_vakeel/screens/AdvocateRegisterScreen.dart';
+import 'package:aapka_vakeel/screens/IntroScreen.dart';
 import 'package:aapka_vakeel/utilities/colors.dart';
 import 'package:aapka_vakeel/utilities/custom_button.dart';
+import 'package:aapka_vakeel/utilities/custom_confirmation.dart';
 import 'package:aapka_vakeel/utilities/custom_text.dart';
 import 'package:aapka_vakeel/utilities/cutom_message.dart';
 import 'package:aapka_vakeel/utilities/my_appbar.dart';
@@ -10,6 +12,7 @@ import 'package:aapka_vakeel/utilities/my_textfield.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 
 class UserProfile extends StatefulWidget {
   const UserProfile({super.key});
@@ -27,6 +30,7 @@ class _UserProfileState extends State<UserProfile> {
   TextEditingController AddressController = new TextEditingController();
   TextEditingController phonenumberController = new TextEditingController();
  Gender? _selectedGender;
+ bool disabledEdit=true;
 
 
  @override
@@ -82,7 +86,7 @@ class _UserProfileState extends State<UserProfile> {
         
         userClass.uid=userClass.uid;
         userClass.email=EmailController.text;
-        userClass.displayName=firstNameController.text +lastNameController.text;
+        userClass.displayName=firstNameController.text +" "+lastNameController.text;
         userClass.address=AddressController.text;
         userClass.gender=_selectedGender.toString().split('.').last;
         userClass.phoneNumber= phonenumberController.text;
@@ -131,7 +135,13 @@ class _UserProfileState extends State<UserProfile> {
             CustomText.boldDarkText("Address"),
             giveInputField("", AddressController, true,TextInputType.streetAddress),
             
-            customButton.taskButton("Update", ()async{
+            disabledEdit?
+            customButton.taskButton("Edit", (){
+                        setState(() {
+                          disabledEdit=false;
+                        });
+                        })
+            :customButton.taskButton("Update", ()async{
                         var res= await  _register();
                         if(res){
                           CustomMessenger.defaultMessenger(context, "User Updated successfully");
@@ -146,7 +156,19 @@ class _UserProfileState extends State<UserProfile> {
                           CustomMessenger.defaultMessenger(context, "Failed to update");
             
             
-            })
+            }),
+            SizedBox(height: 10),
+            customButton.cancelButton("Logout", ()async {
+              ConfirmDialog.showLogoutConfirmationDialog(context,()async{
+                  await signOutUser();
+                      // Navigate the user to the login or home screen
+                     
+                      Navigator.pushReplacement(context,   PageTransition(
+                                    child: IntroPage(),
+                                    type: PageTransitionType.rightToLeft));
+              },"Are you sure you want to Logout?","Logout");
+                       
+                        })
             ],),
           ),
 
@@ -155,6 +177,15 @@ class _UserProfileState extends State<UserProfile> {
     );
   }
 
+
+Future<void> signOutUser() async {
+  try {
+    await FirebaseAuth.instance.signOut();
+    print('User signed out successfully');
+  } catch (e) {
+    print('Error signing out: $e');
+  }
+}
 
   giveRadioField(
       String HeadText, TextEditingController controller, bool isrequired) {
@@ -179,6 +210,7 @@ class _UserProfileState extends State<UserProfile> {
               Row(
                 children: [
                   Radio<Gender>(
+                    toggleable: !disabledEdit,
                     fillColor: MaterialStateProperty.all(Colors.black),
                     value: Gender.Male,
                     groupValue: _selectedGender,
@@ -194,6 +226,7 @@ class _UserProfileState extends State<UserProfile> {
               Row(
                 children: [
                   Radio<Gender>(
+                    toggleable: !disabledEdit,
                     fillColor: MaterialStateProperty.all(Colors.black),
                     value: Gender.Female,
                     groupValue: _selectedGender,
@@ -209,6 +242,7 @@ class _UserProfileState extends State<UserProfile> {
               Row(
                 children: [
                   Radio<Gender>(
+                    toggleable: !disabledEdit,
                     fillColor: MaterialStateProperty.all(Colors.black),
                     value: Gender.Others,
                     groupValue: _selectedGender,
@@ -247,10 +281,11 @@ class _UserProfileState extends State<UserProfile> {
             ],
           ),
           TextFormField(
+            
               decoration: MyTextField.outlinedTextField(""),
               keyboardType: textInputType,
               controller: controller,
-              // readOnly: true,
+              readOnly: disabledEdit,
                validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter ${HeadText}';

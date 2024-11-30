@@ -76,7 +76,7 @@ class _SettingsState extends State<Settings> {
   getPastDownloadsWidget(){
     return  Container(
                        padding: EdgeInsets.only(top: 20),
-                      child: ListView.builder(
+                      child: downloadedDocList.length==0?CustomText.infoText("No downloads yet"):ListView.builder(
                                   shrinkWrap: true, // Ensures ListView takes only the needed height
                                   physics: const NeverScrollableScrollPhysics(),
                                   itemCount: downloadedDocList.length,
@@ -141,7 +141,7 @@ Future<void> downloadSavedFile(File savedFile) async {
   getAdvocateCallListWidget(){
     return  Container(
                        padding: EdgeInsets.only(top: 20),
-                      child: ListView.builder(
+                      child: advocateCall!.length==0?CustomText.infoText("No calls yet"): ListView.builder(
                                   shrinkWrap: true, // Ensures ListView takes only the needed height
                                   physics: const NeverScrollableScrollPhysics(),
                                   itemCount: advocateCall!.length,
