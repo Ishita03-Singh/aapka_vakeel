@@ -55,7 +55,7 @@ android {
     }
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "com.aapkavakeel.aapka_vakeel"
+        applicationId "com.appkavakeel.aapka_vakeel"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
         minSdkVersion 31
@@ -86,4 +86,12 @@ source '../..'
 }
 
 dependencies {
+    implementation platform("com.google.firebase:firebase-bom:33.6.0")
+
+    // Add the dependency for the Firebase Authentication library
+    // When using the BoM, you don't specify versions in Firebase library dependencies
+    implementation 'com.google.firebase:firebase-auth'
 }
+
+//apply plugin: 'com.google.gms.google-services'  // At the bottom
+

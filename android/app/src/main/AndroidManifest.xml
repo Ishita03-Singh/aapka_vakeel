@@ -19,6 +19,7 @@ xmlns:android="http://schemas.android.com/apk/res/android">
   <uses-permission android:name="android.permission.WAKE_LOCK" />
   <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
   <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+  
   <!-- Needed to communicate with already-paired Bluetooth devices. (Legacy up to Android 11) -->
   <uses-permission
       android:name="android.permission.BLUETOOTH"
@@ -32,6 +33,7 @@ xmlns:android="http://schemas.android.com/apk/res/android">
   <uses-permission android:name="android.permission.RECEIVE_SMS"/>
   <!-- <uses-permission android:name="android.permission.RECEIVE_SMS"/> -->
 <uses-permission android:name="android.permission.READ_SMS"/>
+ <uses-feature android:name="android.hardware.telephony"/>
 <uses-feature android:name="android.hardware.camera"/>
     <application
         android:label="Aapka Vakeel"
