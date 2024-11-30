@@ -3,6 +3,7 @@ import 'package:aapka_vakeel/others/shared_pref.dart';
 import 'package:aapka_vakeel/screens/AdvocateRegisterScreen.dart';
 import 'package:aapka_vakeel/screens/Dashboard.dart';
 import 'package:aapka_vakeel/screens/DashboardScreen.dart';
+import 'package:aapka_vakeel/screens/advocate/AdvocateDashboard.dart';
 import 'package:aapka_vakeel/utilities/colors.dart';
 import 'package:aapka_vakeel/utilities/custom_button.dart';
 import 'package:aapka_vakeel/utilities/custom_text.dart';
@@ -185,8 +186,65 @@ class _OTPScreenState extends State<OTPScreen> {
                       // MySharedPreferences.instance.setISLoggedIn();
 
                        print(user.uid);
-                        var userRes= await _firestore.collection('users').doc(user.uid).get();
-                        print(userRes);
+                       try{
+                        var userRes=false;
+                        DocumentSnapshot userSnapshot= await _firestore.collection('users').doc(user.uid).get();
+                             if (userSnapshot.exists) {
+                              userRes=true;
+                             }
+                             else{
+                              userSnapshot= await _firestore.collection('advocates').doc(user.uid).get();
+                               if (userSnapshot.exists) {
+                                  userRes=true;
+                                }
+                                else{
+                                  userRes=false;
+                                }
+                             }
+                        // Check if the document exists
+                        if (userRes) {
+                          // Access the data
+                          Map<String, dynamic>? userData = userSnapshot.data() as Map<String, dynamic>?;
+                          print('User data: $userData');
+                             userClass.uid=user.uid;
+                              userClass.email=userData?["email"];
+                              userClass.isAdvocate=false;
+                              userClass.displayName=userData?["firstName"]+" "+userData?["lastName"];
+                              userClass.address=userData?["address"];
+                              userClass.barRegistrationNo= userData?["barRegistrationNo"]??"";
+                              userClass.barRegistrationCertificate=userData?["barRegistrationCertificate"] ??"";
+                              userClass.phoneNumber= userData?["phoneNumber"];
+                              userClass.introduction=userData?["introduction"]??"";
+                              userClass.experience=userData?["experience"]??"";
+                              userClass.charges=userData?["charges"]??"";
+                              userClass.skills=userData?["skills"]??"";
+                                 
+                                 if(userClass.isAdvocate){
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => AdvocateDashboard(
+                                                  user: user,
+                                                  userclass: userClass,
+                                                )));
+
+                                 }
+                                 else{
+                                        Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => Dashboard(
+                                                  user: user,
+                                                  userclass: userClass,
+                                                )));
+                                 }
+                     
+                     
+                        } else {
+                          print('No such document exists!');
+                          CustomMessenger.defaultMessenger(context, "No such user found");
+                        }
+
                             //  userClass.uid=user.uid;
                             //   userClass.email=Muser["email"];
                             //   userClass.displayName=Muser["firstName"]+Muser["lastName"];
@@ -199,19 +257,16 @@ class _OTPScreenState extends State<OTPScreen> {
                             //   userClass.charges=Muser["charges"]??"";
                             //   userClass.skills=Muser["skills"]??"";
                          
-                         
+                       }
+                       catch(ex){
+                        CustomMessenger.defaultMessenger(context, "Error getting user");
+                        print(ex);
+                       }
                        
                         // }
                       // });
 
-                       
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => Dashboard(
-                                    user: user,
-                                    userclass: userClass,
-                                  )));
+                      
                     }
                   } else {
                     print("Error");
