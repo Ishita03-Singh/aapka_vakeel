@@ -628,14 +628,17 @@ List<String> affidavitList= [];
           itemCount: 2,
           itemBuilder: (context, index) {
               return Container(
+               
               padding:EdgeInsets.all(20),
-              decoration: BoxDecoration(border: Border.all(color: Colors.black)),
+              decoration: BoxDecoration(
+                //  color: Colors.red,
+                border: Border.all(color: Colors.black)),
             child: Column(              
               crossAxisAlignment: CrossAxisAlignment.stretch,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
               CustomText.smallheadText(scrollWidgetContent[index]["type"]),
-              Image.asset(scrollWidgetContent[index]["imgPath"],height: MediaQuery.of(context).size.height/2,),
+              Image.asset(scrollWidgetContent[index]["imgPath"],height: MediaQuery.of(context).size.height/2.5,),
               CustomText.headText(scrollWidgetContent[index]["headText"]),
               SizedBox(height: 10),
               if(scrollWidgetContent[index]["infoText"]!="")

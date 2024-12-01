@@ -89,14 +89,16 @@ class _AdvocateDetailState extends State<AdvocateDetail> {
                          Row(children: [
                             CustomChip.statusText("Available",true),
                             SizedBox(width: 20),
-                            CustomChip.statusText(widget.advocate["address"],false),
+                            Container(width: MediaQuery.of(context).size.width/2,
+                              child: CustomText.infoText(widget.advocate["address"])),
                           ],),
                           SizedBox(height: 16)
                     ,Container(height: 1,color: Colors.grey,),
                     SizedBox(height: 20),
                     Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                    CustomText.infoText("Talk to this lawyer byscheduling a call"),
+                    Container(width: MediaQuery.of(context).size.width/2,
+                      child: CustomText.infoText("Talk to this lawyer byscheduling a call")),
                     CustomButton.IconTextOutlineButton("Schedule",Icons.calendar_month,(){
                               //scheduleCall
 
@@ -138,7 +140,7 @@ class _AdvocateDetailState extends State<AdvocateDetail> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-      CustomText.smallheadText("${widget.advocate['experience']} years of Experience"),
+      CustomText.smallheadText("${widget.advocate['experience']} of Experience"),
       SizedBox(height: 7),
       Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
