@@ -31,10 +31,16 @@ class ConsultLawyer extends StatefulWidget {
 class _ConsultLawyerState extends State<ConsultLawyer> {
    
   TextEditingController _searchController = TextEditingController();
+  TextEditingController _locationController= TextEditingController();
   List<DocumentSnapshot> _filteredItems=[];
   List<DocumentSnapshot> advocateList = [];
-    final CollectionReference advocatesCollection =
+  final CollectionReference advocatesCollection =
       FirebaseFirestore.instance.collection('advocates');
+// 
+  // String _searchQuery = userClass.address.split(',')[1];
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -59,13 +65,17 @@ void _initializeAsync() {
       // Update the state without using StreamBuilder
       setState(() {
         advocateList = docs;
+        var t=userClass.address.split(',');
+        _locationController.text=userClass.address.split(',')[1];
         _filteredItems = advocateList;
+
       });
     }
   });
 
   // Add the search controller listener once
   _searchController.addListener(_filterList);
+   _locationController.addListener(_filteredLawyers);
 }
 // _initializeAsync(){
 //   StreamBuilder<QuerySnapshot>(
@@ -113,6 +123,19 @@ void _filterList() {
       print(_filteredItems);
     });
   }
+  void _filteredLawyers() {
+    String query = _locationController.text.toLowerCase();
+    setState(() {
+      _filteredItems = advocateList.where((item) {
+       var advocate = item.data() as Map<String, dynamic>;
+       String city = advocate['address'].split(',')[1].toLowerCase();
+      return city.contains(query);
+    }).toList();
+      print(_filteredItems);
+    });
+  }
+
+
 
 // void _filterItems(String query) {
 //     List<UserClass> results = [];
@@ -129,6 +152,7 @@ void _filterList() {
 //   }
 
   ConsultationScroll(){
+    
     return Column(
       children: [
           // MyAppBar.appbar(context,head:"Talk To a Lawyer"),
@@ -137,7 +161,31 @@ void _filterList() {
             child: Column(  
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-            getSearchButton(),
+              Container(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(width: MediaQuery.of(context).size.width-200,
+                    child: getSearchButton()),
+                  // Location Field
+                  Container(width: 150,
+                    child: TextField(
+                    controller: _locationController,
+                    // onChanged: _filterItems,
+                    decoration: InputDecoration(
+                      contentPadding: EdgeInsets.all(0),
+                      labelText: "Location",
+                      prefixIcon: Icon(Icons.pin_drop_outlined),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                      ),
+                    ),
+                                    ),
+                  )
+                ],
+                            ),
+              )
+            ,
             advoacteList(),
             ],),
           )

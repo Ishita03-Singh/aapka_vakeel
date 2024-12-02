@@ -6,6 +6,7 @@ import 'package:aapka_vakeel/utilities/custom_button.dart';
 import 'package:aapka_vakeel/utilities/cutom_message.dart';
 import 'package:aapka_vakeel/utilities/my_appbar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 
 import '../../others/dateTimePicker.dart';
@@ -26,10 +27,37 @@ class _AdvocateDetailState extends State<AdvocateDetail> {
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
-     body:AdvoacteDetail(),
+     body:
+     FutureBuilder<String>(
+          future:  getAdvocateImage(widget.advocate), // Asynchronous image URL fetching
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting ||snapshot.hasError ) {
+               return AdvoacteDetail(""); 
+            } else if (snapshot.hasData) {
+              String? imageUrl = snapshot.data;
+              return AdvoacteDetail(imageUrl!); 
+            } else {
+              return AdvoacteDetail(""); 
+            }
+          },
+        ),
+     
     );
   }
-  AdvoacteDetail(){
+  Future<String> getAdvocateImage(Map<String, dynamic> advocate) async {
+  try {
+    String phoneNumber = advocate['phoneNumber']; // Use a unique identifier like phone number or ID
+    final storageRef = FirebaseStorage.instance
+        .ref()
+        .child('AdvocateImages/$phoneNumber.jpg');
+    var url= await storageRef.getDownloadURL(); 
+    return url;// Return the download URL
+  } catch (e) {
+    throw Exception('Error fetching advocate image: $e');
+  }
+}
+
+  AdvoacteDetail(String imageUrl){
     return SingleChildScrollView(
       child: Container(
         child: Column(
@@ -41,7 +69,7 @@ class _AdvocateDetailState extends State<AdvocateDetail> {
                 Column(  
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                lawyerInfo(),
+                lawyerInfo(imageUrl),
                 SizedBox(height: 15),
                 ExpAndLanguage(),
                 SizedBox(height: 15),
@@ -115,11 +143,11 @@ class _AdvocateDetailState extends State<AdvocateDetail> {
           );
   }
 
-  lawyerInfo(){
+  lawyerInfo(String imageUrl){
     return  Row(crossAxisAlignment: CrossAxisAlignment.start,
     children: [
-      CircleAvatar( radius: 50,  
-        backgroundImage:AssetImage(StrLiteral.slider3)
+     CircleAvatar( radius: 50,  
+        backgroundImage: imageUrl==""?AssetImage(StrLiteral.slider3)  as ImageProvider<Object> : NetworkImage(imageUrl),
         ),
     SizedBox(width: 20),
     Column(
