@@ -14,6 +14,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 
+import '../others/shared_pref.dart';
+
 class UserProfile extends StatefulWidget {
   const UserProfile({super.key});
 
@@ -181,6 +183,7 @@ class _UserProfileState extends State<UserProfile> {
 Future<void> signOutUser() async {
   try {
     await FirebaseAuth.instance.signOut();
+    MySharedPreferences.instance.RemoveUserLoggedIn();
     print('User signed out successfully');
   } catch (e) {
     print('Error signing out: $e');

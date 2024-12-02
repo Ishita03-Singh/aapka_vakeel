@@ -23,6 +23,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:loader_overlay/loader_overlay.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -62,6 +63,7 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
   Gender? _selectedGender;
   File? _selectedFile;
   final _formKey = GlobalKey<FormState>();
+    bool _isLoading = false;
   File barCertificateFile=File("path");
    final List<String> list = ["1-2 years","2-3 years", "3-5 years", "5-7 years","7-10 years","10-15 years","15-20 Years","20-25 years","25-30 Years"];
   // Selected item
@@ -98,6 +100,13 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
     print(_selectedGender);
     if (_formKey.currentState!.validate()) {
       try {
+        if(_selectedGender==null){
+           CustomMessenger.defaultMessenger(context, "Please select gender");
+           return false;
+           }
+         setState(() {
+                        _isLoading=true;
+                      });
         // UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
         //   email: _emailController.text,
         //   password: _passwordController.text,
@@ -118,13 +127,11 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
         }
        
         else{
-           if(_selectedGender==null){
-           CustomMessenger.defaultMessenger(context, "Please select gender");
-           return false;
-           }
+           
 
            if( _selectedFile == null){
             CustomMessenger.defaultMessenger(context, "Please select a file");
+            
             return false;
            }
 
@@ -261,137 +268,168 @@ FilePickerResult? result = await FilePicker.platform.pickFiles(
     return Scaffold(
       backgroundColor: AppColor.bgColor,
       appBar: MyAppBar.appbar(context),
-      body: SingleChildScrollView(
-        scrollDirection: Axis.vertical,
-        child: Container(
-          padding: EdgeInsets.all(8),
-          child: Form(
-              key: _formKey,
-            child:
+      body: Stack(
+        children:[ SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          child: Container(
+            padding: EdgeInsets.all(8),
+            child: Form(
+                key: _formKey,
+              child:
+              
+            // Stack(
+            //   children: [
+            //     if( isLoading)
+            //      Center(child: CircularProgressIndicator()) ,
+                  Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    giveInputField("First name", firstNameController, true,TextInputType.name),
+                    giveInputField("Last name", lastNameController, true,TextInputType.name),
+                    giveInputField("Email", EmailController, false,TextInputType.emailAddress),
+                    giveRadioField("Gender", GenderController, true),
+                              
+                  customButton.cancelButton("Get location", () async {
+          bool permission = await requestLocationPermission();
+          if (permission) {
+            context.loaderOverlay.show();
+            setState(() {
+        _isLoaderVisible = context.loaderOverlay.visible;
+            });
             
-          // Stack(
-          //   children: [
-          //     if( isLoading)
-          //      Center(child: CircularProgressIndicator()) ,
-                Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  giveInputField("First name", firstNameController, true,TextInputType.name),
-                  giveInputField("Last name", lastNameController, true,TextInputType.name),
-                  giveInputField("Email", EmailController, false,TextInputType.emailAddress),
-                  giveRadioField("Gender", GenderController, true),
+            try {
+        // Check if location services are enabled
+        bool isLocationServiceEnabled = await Geolocator.isLocationServiceEnabled();
+        if (!isLocationServiceEnabled) {
+          CustomMessenger.defaultMessenger(context, "Location services are disabled. Please enable them.");
+          await Geolocator.openLocationSettings();
+          return; // Exit the function if location services are disabled
+        }
+        
+        var location = await LocationService.getCityAndState();
+        setState(() {
+          CityController.text = location['city'] ?? '';
+          StateController.text = location['state'] ?? '';
+          PinCodeController.text= location['pincode']??'';
+        });
+            } catch (e) {
+        print("Error: $e");
+            } finally {
+        if (_isLoaderVisible && context.mounted) {
+          context.loaderOverlay.hide();
+        } else {
+          CustomMessenger.defaultMessenger(context, "Did not get Permission");
+        }
+            }
+        
+            setState(() {
+        _isLoaderVisible = context.loaderOverlay.visible;
+            });
+          } else {
+            CustomMessenger.defaultMessenger(context, "Location permission not granted.");
+          }
+        }),
+        
+                   SizedBox(height: 8),
+                   getStateCityInput(),
+                    giveInputField("Address", AddressController, true,TextInputType.streetAddress),
+                    // giveInputField("State", StateController, true,TextInputType.text),
+                    // giveInputField("City", CityController, true,TextInputType.text),
+                    giveInputField("Pin code", PinCodeController, true,TextInputType.number),
+                    if (widget.isAdvocate)
+                      giveInputField("Please give a short introduction",
+                          IntroController, true,TextInputType.text),
+                          if (widget.isAdvocate)
+                          CustomText.infoText("Experience"),
+                          if (widget.isAdvocate)
+                      // giveInputField("Experience",
+                      //     ExperienceController, true,TextInputType.number),
+                      DropdownMenu<String>(
+                        width: MediaQuery.of(context).size.width,
+                          initialSelection: list.first,
+                          onSelected: (String? value) {
+                            // This is called when the user selects an item.
                             
-                customButton.cancelButton("Get location", () async {
-  bool permission = await requestLocationPermission();
-  if (permission) {
-    context.loaderOverlay.show();
-    setState(() {
-      _isLoaderVisible = context.loaderOverlay.visible;
-    });
-    
-    try {
-      // Check if location services are enabled
-      bool isLocationServiceEnabled = await Geolocator.isLocationServiceEnabled();
-      if (!isLocationServiceEnabled) {
-        CustomMessenger.defaultMessenger(context, "Location services are disabled. Please enable them.");
-        await Geolocator.openLocationSettings();
-        return; // Exit the function if location services are disabled
-      }
-      
-      var location = await LocationService.getCityAndState();
-      setState(() {
-        CityController.text = location['city'] ?? '';
-        StateController.text = location['state'] ?? '';
-        PinCodeController.text= location['pincode']??'';
-      });
-    } catch (e) {
-      print("Error: $e");
-    } finally {
-      if (_isLoaderVisible && context.mounted) {
-        context.loaderOverlay.hide();
-      } else {
-        CustomMessenger.defaultMessenger(context, "Did not get Permission");
-      }
-    }
-
-    setState(() {
-      _isLoaderVisible = context.loaderOverlay.visible;
-    });
-  } else {
-    CustomMessenger.defaultMessenger(context, "Location permission not granted.");
-  }
-}),
-
-                 SizedBox(height: 8),
-                 getStateCityInput(),
-                  giveInputField("Address", AddressController, true,TextInputType.streetAddress),
-                  // giveInputField("State", StateController, true,TextInputType.text),
-                  // giveInputField("City", CityController, true,TextInputType.text),
-                  giveInputField("Pin code", PinCodeController, true,TextInputType.number),
-                  if (widget.isAdvocate)
-                    giveInputField("Please give a short introduction",
-                        IntroController, true,TextInputType.text),
-                        if (widget.isAdvocate)
-                    // giveInputField("Experience",
-                    //     ExperienceController, true,TextInputType.number),
-                    DropdownMenu<String>(
-                      width: MediaQuery.of(context).size.width,
-                        initialSelection: list.first,
-                        onSelected: (String? value) {
-                          // This is called when the user selects an item.
+                            setState(() {
+                              dropdownValue = value!;
+                              ChargeController.text= charges[dropdownValue].toString();
+                            });
+                          },
+                          dropdownMenuEntries: list.map<DropdownMenuEntry<String>>((String value) {
+                            return DropdownMenuEntry<String>(value: value, label: value);
+                          }).toList(),
+                        ),
+                          if (widget.isAdvocate)
+                      giveInputField("Skills",
+                          SkillsController, true,TextInputType.text),
+                          if (widget.isAdvocate)
+                        giveInputField("Charges per minute",
+                            ChargeController, true,TextInputType.number,tooltipText:charges.toString()),
+                         
+                           
                           
-                          setState(() {
-                            dropdownValue = value!;
-                            ChargeController.text= charges[dropdownValue].toString();
-                          });
-                        },
-                        dropdownMenuEntries: list.map<DropdownMenuEntry<String>>((String value) {
-                          return DropdownMenuEntry<String>(value: value, label: value);
-                        }).toList(),
-                      ),
-                        if (widget.isAdvocate)
-                    giveInputField("Skills",
-                        SkillsController, true,TextInputType.text),
-                        if (widget.isAdvocate)
-                    giveInputField("Charges per minute",
-                        ChargeController, true,TextInputType.number),
-                  if (widget.isAdvocate)
-                    giveInputField("Bar registration number",
-                        BarRegistrationNoController, true,TextInputType.text),
-                  if (widget.isAdvocate)
-                  giveFileBrowseInputField("Bar registration Certificate",
-                      BarRegistrationCertificateController, true),
-                  customButton.taskButton("Save", () async{
-                    if (widget.isAdvocate) {
-                      var res= await  _register();
-                      if(res){
-                      Navigator.push(
+                             
+                    if (widget.isAdvocate)
+                      giveInputField("Bar registration number",
+                          BarRegistrationNoController, true,TextInputType.text),
+                    if (widget.isAdvocate)
+                    giveFileBrowseInputField("Bar registration Certificate",
+                        BarRegistrationCertificateController, true),
+                    customButton.taskButton("Save", () async{
+                      if (widget.isAdvocate) {
+                       
+                        var res= await  _register();
+                        setState(() {
+                        _isLoading=false;
+                      });
+                        if(res){
+                        Navigator.push(
+                            context,
+                            PageTransition(
+                                child: CaptureImage(user:widget.userCredential.user! ,),
+                                type: PageTransitionType.rightToLeft));
+                        }
+                        
+                      } else {
+                        var res= await _register();
+                        setState(() {
+                        _isLoading=false;
+                      });
+                        if(res){
+                           MySharedPreferences.instance.setISLoggedIn(userClass);
+                           Navigator.push(
                           context,
                           PageTransition(
-                              child: CaptureImage(user:widget.userCredential.user! ,),
+                              child: Dashboard(user: widget.userCredential.user!,userclass: userClass,),
                               type: PageTransitionType.rightToLeft));
+                        }
+                        
                       }
-                      
-                    } else {
-                      var res= await _register();
-                      if(res){
-                         MySharedPreferences.instance.setISLoggedIn(userClass);
-                         Navigator.push(
-                        context,
-                        PageTransition(
-                            child: Dashboard(user: widget.userCredential.user!,userclass: userClass,),
-                            type: PageTransitionType.rightToLeft));
-                      }
-                      
-                    }
-                  })
-                ],
-                              ),
-         
-            // ],
+                    })
+                  ],
+                                ),
+           
+              // ],
+            ),
+            ),
           ),
+          if (_isLoading)
+          ModalBarrier(
+            color: Colors.grey.withOpacity(0.1),
+            dismissible: false,
           ),
-        ),
+          Center(
+            child: Visibility(
+              visible: _isLoading,
+              child: LoadingAnimationWidget.hexagonDots(
+                color: Color(0xFF9999999),
+                size: 60,
+              ),
+            ),
+          ),
+          ]
+      ),
+        
       );
     // );
   }
@@ -521,13 +559,14 @@ FilePickerResult? result = await FilePicker.platform.pickFiles(
 //                   }
 //                   return null;}
   giveInputField(
-      String HeadText, TextEditingController controller, bool isrequired, TextInputType textInputType,) {
+      String HeadText, TextEditingController controller, bool isrequired, TextInputType textInputType,{tooltipText=""}) {
     return Container(
       padding: EdgeInsets.only(bottom: 20),
       child: Column(
         children: [
-          Row(
+          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
+              Row(children: [
               if (isrequired)
                 Text(
                   "*",
@@ -535,6 +574,14 @@ FilePickerResult? result = await FilePicker.platform.pickFiles(
                 ),
               Padding(padding: EdgeInsets.all(4)),
               CustomText.infoText(HeadText),
+              ],),
+             
+              if(tooltipText!="")
+                IconButton(
+            icon: Icon(Icons.info_outline_rounded,color:Colors.grey ,size: 20,),
+            tooltip: tooltipText,
+            onPressed: () {},
+          ) //IconButton
             ],
           ),
           TextFormField(

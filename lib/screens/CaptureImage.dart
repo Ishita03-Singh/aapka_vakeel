@@ -11,6 +11,7 @@ import 'package:aapka_vakeel/utilities/my_appbar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'dart:io';
 import 'package:page_transition/page_transition.dart';
 import 'package:image_picker/image_picker.dart';
@@ -29,6 +30,7 @@ class CaptureImage extends StatefulWidget {
 class _CaptureImageState extends State<CaptureImage> {
   File? _image;
   File? advocateImage=File("path");
+
   //  html.File advocateImage= html.File([], "");
 
   @override
@@ -147,57 +149,79 @@ class PreviewImage extends StatefulWidget {
 
 class _PreviewImageState extends State<PreviewImage> {
 
-    
+      bool _isLoading=false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: AppColor.bgColor,
         appBar: MyAppBar.appbar(context),
-        body: Container(
-          padding: EdgeInsets.all(12),
-          child:
-              Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-            CustomText.headText("Preview"),
-            Container(
-                margin: EdgeInsets.all(30),
-                decoration: BoxDecoration(
-                    border: Border.all(color: Colors.black),
-                    borderRadius: BorderRadius.all(Radius.circular(7))),
-                // padding: EdgeInsets.all(40),
-                child: kIsWeb?Image.memory(widget.image!,height: 250) : Image.file(widget.image!, height: 250)),
-            customButton.taskButton("Retake", () async {
-              if(!kIsWeb)
-              {
-                var xfile = await PickImage.pickImage(ImageSource.camera);
-                 setState(() {
-                widget.image = File(xfile.path);
-              });
-              }
-              else
-              {
-                _captureImageWeb();
-              }
-              
-             
-            }),
-            Padding(padding: EdgeInsets.all(4)),
-            customButton.taskButton("Save", () async{
-            await Serverhttphelper.uploadFileWeb(widget.image,"AdvocateImages",widget.user.phoneNumber!);
-
-
-              MySharedPreferences.instance.setISLoggedIn(userClass);
-              Navigator.push(
-                  context,
-                  PageTransition(
-                      child: AdvocateDashboard(user: widget.user,userclass: userClass,image:widget.image),
-                      type: PageTransitionType.rightToLeft));
-            }),
-            Padding(padding: EdgeInsets.all(4)),
-            Padding(padding: EdgeInsets.all(4)),
-            CustomText.infoText(
-                "*Your photo will only be used for identification purposes within the app and will not be shared with third parties.")
-          ]),
+        body: Stack(
+          children:[ Container(
+            padding: EdgeInsets.all(12),
+            child:
+                Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+              CustomText.headText("Preview"),
+              Container(
+                  margin: EdgeInsets.all(30),
+                  decoration: BoxDecoration(
+                      border: Border.all(color: Colors.black),
+                      borderRadius: BorderRadius.all(Radius.circular(7))),
+                  // padding: EdgeInsets.all(40),
+                  child: kIsWeb?Image.memory(widget.image!,height: 250) : Image.file(widget.image!, height: 250)),
+              customButton.taskButton("Retake", () async {
+                if(!kIsWeb)
+                {
+                  var xfile = await PickImage.pickImage(ImageSource.camera);
+                   setState(() {
+                  widget.image = File(xfile.path);
+                });
+                }
+                else
+                {
+                  _captureImageWeb();
+                }
+                
+               
+              }),
+              Padding(padding: EdgeInsets.all(4)),
+              customButton.taskButton("Save", () async{
+                setState(() {
+                  _isLoading=true;
+                });
+              await Serverhttphelper.uploadFileWeb(widget.image,"AdvocateImages",widget.user.phoneNumber!);
+          
+           setState(() {
+                  _isLoading=false;
+                });
+                MySharedPreferences.instance.setISLoggedIn(userClass);
+                Navigator.push(
+                    context,
+                    PageTransition(
+                        child: AdvocateDashboard(user: widget.user,userclass: userClass,image:widget.image),
+                        type: PageTransitionType.rightToLeft));
+              }),
+              Padding(padding: EdgeInsets.all(4)),
+              Padding(padding: EdgeInsets.all(4)),
+              CustomText.infoText(
+                  "*Your photo will only be used for identification purposes within the app and will not be shared with third parties.")
+            ]),
+          ),
+             if (_isLoading)
+          ModalBarrier(
+            color: Colors.grey.withOpacity(0.1),
+            dismissible: false,
+          ),
+          Center(
+            child: Visibility(
+              visible: _isLoading,
+              child: LoadingAnimationWidget.hexagonDots(
+                color: Color(0xFF9999999),
+                size: 60,
+              ),
+            ),
+          ),
+          ]
         ));
   }
   Future<void> _captureImageWeb() async {

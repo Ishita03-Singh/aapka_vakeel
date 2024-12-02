@@ -28,7 +28,7 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> {
   final TextEditingController _controller = TextEditingController();
   List<Map<String, String>> messages = [];
-
+ final ScrollController _scrollController =ScrollController();
 
 
 @override
@@ -44,8 +44,11 @@ class _ChatScreenState extends State<ChatScreen> {
     setState(() {
       messages.add({'role': 'user', 'text': text});
     });
-
+    scrollToBottom();
+   
     _getAIResponse(text);
+     // Scroll to the bottom of the list
+  
   }
 Future<String> getGeminiResponse(String inputText) async {
   const String api = 'AIzaSyC2euOa3jvPZh5pWFVQJC5-xz2aL_zoGG0'; // Replace with your actual API
@@ -82,6 +85,18 @@ Future<String> getGeminiResponse(String inputText) async {
 
     setState(() {
       messages.add({'role': 'bot', 'text': response});
+    });
+    scrollToBottom();
+    
+  }
+
+  scrollToBottom(){
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+      _scrollController.animateTo(
+        _scrollController.position.maxScrollExtent,
+        duration: Duration(milliseconds: 300),
+        curve: Curves.easeOut,
+      );
     });
   }
    Future<void> _generateWordFile() async {
@@ -158,6 +173,7 @@ Future<String> getGeminiResponse(String inputText) async {
           MyAppBar.appbar(context,head:"Aapka Vakeel Bot"),
           Expanded(
             child: ListView.builder(
+              controller: _scrollController,
               itemCount: messages.length,
               itemBuilder: (context, index) {
                 if( index==0&&widget.prompt!=null && widget.prompt!=""){

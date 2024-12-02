@@ -732,83 +732,85 @@ class _AdvocateAffidavitDetailsState extends State<AdvocateAffidavitDetails> {
       //  SingleChildScrollView(
         // child: 
 
-        Container(
-          height: MediaQuery.of(context).size.height-100,
-          padding: EdgeInsets.all(12),
-          child: Column( crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-              getNamePriceContainer(),
-              SizedBox(height: 30),
-              CustomText.smallheadText("Benefits"),
-              SizedBox(height: 10),
-             RichText(
-      text: TextSpan(
-        children: [
-          TextSpan(
-            text: "1. Ensures the distribution of the property\n",
-            style: TextStyle(fontWeight: FontWeight.normal, color: Colors.black),
-          ),
-          TextSpan(
-            text: "2. Provides financial security\n",
-            style: TextStyle(fontWeight: FontWeight.normal, color: Colors.black),
-          ),
-          TextSpan(
-            text: "3. Appointing guardian for minors.\n",
-            style: TextStyle(fontWeight: FontWeight.normal, color: Colors.black),
-          ),
-          TextSpan(
-            text: "4. Inventory of assets\n",
-            style: TextStyle(fontWeight: FontWeight.normal, color: Colors.black),
-          ),
-          TextSpan(
-            text: "5. Reduces legal hassles",
-            style: TextStyle(fontWeight: FontWeight.normal, color: Colors.black),
-          ),
-        ],
-      ),
-    ),   
-           
-            SizedBox(height: 10),
-              
-              CustomText.smallheadText("Description"),
-              SizedBox(height: 10),
-              
-              CustomText.infoText("A will or testament is a legal document that expresses a person's wishes as to how their property is to be distributed after their death and as to which person is to manage the property until its final distribution. A will is a legal document that coordinates the distribution of your assets after death and can appoint guardians for minor children. A will is important to have, as it allows you to")
+        SingleChildScrollView(
+          child: Container(
+            height: MediaQuery.of(context).size.height-100,
+            padding: EdgeInsets.all(12),
+            child: Column( crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                getNamePriceContainer(),
+                SizedBox(height: 30),
+                CustomText.smallheadText("Benefits"),
+                SizedBox(height: 10),
+               RichText(
+                text: TextSpan(
+          children: [
+            TextSpan(
+              text: "1. Ensures the distribution of the property\n",
+              style: TextStyle(fontWeight: FontWeight.normal, color: Colors.black),
+            ),
+            TextSpan(
+              text: "2. Provides financial security\n",
+              style: TextStyle(fontWeight: FontWeight.normal, color: Colors.black),
+            ),
+            TextSpan(
+              text: "3. Appointing guardian for minors.\n",
+              style: TextStyle(fontWeight: FontWeight.normal, color: Colors.black),
+            ),
+            TextSpan(
+              text: "4. Inventory of assets\n",
+              style: TextStyle(fontWeight: FontWeight.normal, color: Colors.black),
+            ),
+            TextSpan(
+              text: "5. Reduces legal hassles",
+              style: TextStyle(fontWeight: FontWeight.normal, color: Colors.black),
+            ),
+          ],
+                ),
+              ),   
              
-              ],)),
-              customButton.taskButton("Join Call", ()async {
-
-
-            String dir= widget.isAffidavitPage?"Affidavit":"Agreements";
-            String draftfile=await Serverhttphelper.fetchFileUrl(widget.fileName,dir);
-            
-
-           await FirebaseFirestore.instance
-            .collection('affidavitCall')
-            .doc(userClass.uid+widget.fileName)
-            .set({
-              'userId':userClass.uid,
-              'userName':widget.DocumentDetails["Name"],
-              'fatherName':widget.DocumentDetails["FatherName"],
-              'address': widget.DocumentDetails["Address"],
-              'isAffidavit': widget.isAffidavitPage,
-              'fileName':draftfile ,
-              'callTime':DateTime.now().toString()
-            });
-
-
-            Navigator.pushReplacement(
-                    context,
-                    PageTransition(
-                        child: JoinScreen(username:userClass.displayName ,meetingId: widget.fileName+"Affidavit"+userClass.uid,isJoin: false,),
-                        type: PageTransitionType.rightToLeft));
-              })
-             
-
-
-            ],
+              SizedBox(height: 10),
+                
+                CustomText.smallheadText("Description"),
+                SizedBox(height: 10),
+                
+                CustomText.infoText("A will or testament is a legal document that expresses a person's wishes as to how their property is to be distributed after their death and as to which person is to manage the property until its final distribution. A will is a legal document that coordinates the distribution of your assets after death and can appoint guardians for minor children. A will is important to have, as it allows you to")
+               
+                ],)),
+                customButton.taskButton("Join Call", ()async {
+          
+          
+              String dir= widget.isAffidavitPage?"Affidavit":"Agreements";
+              String draftfile=await Serverhttphelper.fetchFileUrl(widget.fileName,dir);
+              
+          
+             await FirebaseFirestore.instance
+              .collection('affidavitCall')
+              .doc(userClass.uid+widget.fileName)
+              .set({
+                'userId':userClass.uid,
+                'userName':widget.DocumentDetails["Name"],
+                'fatherName':widget.DocumentDetails["FatherName"],
+                'address': widget.DocumentDetails["Address"],
+                'isAffidavit': widget.isAffidavitPage,
+                'fileName':draftfile ,
+                'callTime':DateTime.now().toString()
+              });
+          
+          
+              Navigator.pushReplacement(
+                      context,
+                      PageTransition(
+                          child: JoinScreen(username:userClass.displayName ,meetingId: widget.fileName+"Affidavit"+userClass.uid,isJoin: false,),
+                          type: PageTransitionType.rightToLeft));
+                })
+               
+          
+          
+              ],
+            ),
           ),
         ),
       // ),

@@ -16,6 +16,10 @@ void setISLoggedIn(UserClass user) async {
     SharedPreferences myPrefs = await SharedPreferences.getInstance();
     myPrefs.setString('LOGGED_USER',  jsonEncode(user.toJson()));
   }
+  void RemoveUserLoggedIn() async {
+    SharedPreferences myPrefs = await SharedPreferences.getInstance();
+    myPrefs.setString('LOGGED_USER', "");
+  }
 Future<String> getISLoggedIn() async {
     SharedPreferences myPrefs = await SharedPreferences.getInstance();
     return myPrefs.getString('LOGGED_USER') ?? "";
