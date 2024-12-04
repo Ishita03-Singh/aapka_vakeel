@@ -62,14 +62,16 @@ dependencies:
 
   firebase_storage:
   # flutter_document_writer:
-  video_call:
-    path: /Users/ishitasingh/Desktop/aapka_vakeel/videosdk/video_call
+  # video_call:
+  #   path: /Users/ishitasingh/Desktop/aapka_vakeel/videosdk/video_call
   uuid:
   provider:
   firebase_messaging:
   camera:
   razorpay_flutter:
   csc_picker:
+  
+  pinput: ^5.0.0
   # gallery_saver: 
   # flutter_datetime_picker:
 

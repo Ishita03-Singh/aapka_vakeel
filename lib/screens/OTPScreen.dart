@@ -16,6 +16,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:pinput/pinput.dart';
 
 class OTPScreen extends StatefulWidget {
   // User user;
@@ -39,18 +40,11 @@ class OTPScreen extends StatefulWidget {
 class _OTPScreenState extends State<OTPScreen> {
   bool _isLoading = false;
   TextEditingController otpController = new TextEditingController();
-  List<TextEditingController> _controllers =
-      List.generate(6, (index) => TextEditingController());
-  List<FocusNode> _focusNodes = List.generate(6, (index) => FocusNode());
-  final FocusScopeNode _focusScopeNode = FocusScopeNode();
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   // late UserCredential userCredential;
 
   @override
   void dispose() {
-     _controllers.forEach((controller) => controller.dispose());
-    _focusNodes.forEach((focusNode) => focusNode.dispose());
-    _focusScopeNode.dispose();
     super.dispose();
   }
 
@@ -72,89 +66,141 @@ class _OTPScreenState extends State<OTPScreen> {
                 CustomText.infoText("Enter the 6 digit code sent to "),
                 CustomText.infoText(widget.phoneNumber),
                 Padding(padding: EdgeInsets.only(top: 12)),
-                FocusScope(
-                  node: _focusScopeNode,
-                  child: Container(
-                    width: MediaQuery.of(context).size.width,
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: List.generate(6, (index) {
-                              return Container(
-                                width: MediaQuery.of(context).size.width/8,
-                                height: 60,
-                                margin: index > 0
-                                    ? EdgeInsets.symmetric(horizontal: 5)
-                                    : EdgeInsets.symmetric(horizontal: 0),
-                                decoration: BoxDecoration(
-                                  color: Color(0xffececec),
-                                  border: Border.all(width: 2, color: Colors.black),
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: TextField(
-                                  controller: _controllers[index],
-                                  focusNode: _focusNodes[index],
-                                  keyboardType: TextInputType.text,
-                                  textAlign: TextAlign.center,
-                                  maxLength: 1,
-                                   inputFormatters: [
-                                    FilteringTextInputFormatter.digitsOnly,
-                                     LengthLimitingTextInputFormatter(1),
-                                ],
-                                  style: TextStyle(
-                                      fontSize: 24,
-                                      color: AppColor.secondaryTextColor),
-                                  decoration: InputDecoration(
-                                    counterText: '',
-                                    border: InputBorder.none,
-                                  ),
-                                  onChanged: (value) {
-                                    if (value.isNotEmpty && index < 5) {
-                                      _focusNodes[index].unfocus();
-                                      // FocusScope.of(context).nextFocus();
-                                       FocusScope.of(context)
-                                          .requestFocus(_focusNodes[index + 1]);
-                                    } else if (value.isEmpty && index > 0) {
-                                      _focusNodes[index].unfocus();
-                                      FocusScope.of(context)
-                                          .requestFocus(_focusNodes[index - 1]);
-                                          // KeyboardLockMode.numLock;
-                                      // FocusScope.of(context).previousFocus();
+                // FocusScope(
+                //   node: _focusScopeNode,
+                //   child: Container(
+                //     width: MediaQuery.of(context).size.width,
+                //     child: Row(
+                //         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                //         crossAxisAlignment: CrossAxisAlignment.center,
+                //         children: [
+                //           Row(
+                //             mainAxisAlignment: MainAxisAlignment.center,
+                //             children: List.generate(6, (index) {
+                //               return Container(
+                //                 width: MediaQuery.of(context).size.width/8,
+                //                 height: 60,
+                //                 margin: index > 0
+                //                     ? EdgeInsets.symmetric(horizontal: 5)
+                //                     : EdgeInsets.symmetric(horizontal: 0),
+                //                 decoration: BoxDecoration(
+                //                   color: Color(0xffececec),
+                //                   border: Border.all(width: 2, color: Colors.black),
+                //                   borderRadius: BorderRadius.circular(10),
+                //                 ),
+                //                 child: TextField(
+                //                   controller: _controllers[index],
+                //                   focusNode: _focusNodes[index],
+                //                   keyboardType: TextInputType.text,
+                //                   textAlign: TextAlign.center,
+                //                   maxLength: 1,
+                //                    inputFormatters: [
+                //                     FilteringTextInputFormatter.digitsOnly,
+                //                      LengthLimitingTextInputFormatter(1),
+                //                 ],
+                //                   style: TextStyle(
+                //                       fontSize: 24,
+                //                       color: AppColor.secondaryTextColor),
+                //                   decoration: InputDecoration(
+                //                     counterText: '',
+                //                     border: InputBorder.none,
+                //                   ),
+                //                   onChanged: (value) {
+                //                     if (value.isNotEmpty && index < 5) {
+                //                       _focusNodes[index].unfocus();
+                //                       // FocusScope.of(context).nextFocus();
+                //                        FocusScope.of(context)
+                //                           .requestFocus(_focusNodes[index + 1]);
+                //                     } else if (value.isEmpty && index > 0) {
+                //                       _focusNodes[index].unfocus();
+                //                       FocusScope.of(context)
+                //                           .requestFocus(_focusNodes[index - 1]);
+                //                           // KeyboardLockMode.numLock;
+                //                       // FocusScope.of(context).previousFocus();
 
-                                    }
-                                  },
-                                ),
-                              );
-                            }),
-                          ),
-                          // Container(
-                          //   width: 100,
-                          //   child: TextField(
-                          //       decoration:
-                          //           MyTextField.filledTextFieldCountryCode(""),
-                          //       keyboardType: TextInputType.phone,
-                          //       controller: otpController,
-                          //       readOnly: true,
-                          //       // enabled: true,
-                          //       // enableInteractiveSelection: false,
-                          //       // cursorColor: AppColor.primaryTextColor,
-                          //       style: TextStyle(
-                          //           color: AppColor.primaryTextColor,
-                          //           fontSize: 16,
-                          //           fontWeight: FontWeight.w900)),
-                          // ),
-                        ]),
+                //                     }
+                //                   },
+                //                 ),
+                //               );
+                //             }),
+                //           ),
+                //           // Container(
+                //           //   width: 100,
+                //           //   child: TextField(
+                //           //       decoration:
+                //           //           MyTextField.filledTextFieldCountryCode(""),
+                //           //       keyboardType: TextInputType.phone,
+                //           //       controller: otpController,
+                //           //       readOnly: true,
+                //           //       // enabled: true,
+                //           //       // enableInteractiveSelection: false,
+                //           //       // cursorColor: AppColor.primaryTextColor,
+                //           //       style: TextStyle(
+                //           //           color: AppColor.primaryTextColor,
+                //           //           fontSize: 16,
+                //           //           fontWeight: FontWeight.w900)),
+                //           // ),
+                //         ]),
+                //   ),
+                // ),
+                Pinput(
+
+                  controller: otpController,
+
+                  length: 6,
+
+                  defaultPinTheme: PinTheme(
+
+                    width: 50,
+
+                    height: 60,
+
+                    textStyle: TextStyle(
+
+                      fontSize: 24,
+
+                      color: AppColor.secondaryTextColor,
+
+                      fontWeight: FontWeight.w600,
+
+                    ),
+
+                    decoration: BoxDecoration(
+
+                      color: Color(0xffececec),
+
+                      borderRadius: BorderRadius.circular(10),
+
+                      border: Border.all(color: Colors.black, width: 2),
+
+                    ),
+
                   ),
+
+                  onChanged: (value) {
+
+                    // Check if the input value is numeric and has exactly 6 digits
+
+                    if (value.length == 6 && int.tryParse(value) != null) {
+
+                      // Valid input
+
+                      print('Valid OTP: $value');
+
+                    } else {
+
+                      // Invalid input, can display an error message or handle it as needed
+
+                      print('Invalid OTP, must be 6 digits long');
+
+                    }
+
+                  },
+
                 ),
                 Padding(padding: EdgeInsets.only(top: 12)),
                 customButton.taskButton("Verify now", () async {
-                  String code = "";
-                  for (var controller in _controllers) {
-                    code += controller.text.trim();
-                  }
+                  String code = otpController.text;
                   setState(() {
                     _isLoading=true;
                   });
