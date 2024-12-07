@@ -401,7 +401,7 @@ return Container(
               "FatherName":fatherNameController.text,
               "Address":addressController.text+", "+cityController.text+", "+stateController.text+", "+CountryController.text+', '+PinCodeController.text
             };
-              Navigator.of(context).pushReplacement(
+              Navigator.of(context).push(
                    MaterialPageRoute(
                     builder: (context) =>ContractLoader(fileName:widget.fileName,isAffidavitPage: widget.isAffidavitPage,DocumentDetails:details)
                     // VideoCall(data: snapshot.data!),

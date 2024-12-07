@@ -68,7 +68,6 @@ dependencies:
   provider:
   firebase_messaging:
   camera:
-  razorpay_flutter:
   csc_picker:
   
   pinput: ^5.0.0
