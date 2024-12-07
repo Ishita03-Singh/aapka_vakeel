@@ -135,40 +135,54 @@ class _PhoneNumPageState extends State<PhoneNumPage> {
                   ),
                   // if (widget.first)
                     Theme(
-                        data: Theme.of(context).copyWith(
-                            unselectedWidgetColor: Colors.black,
-                            useMaterial3: true),
-                        child: ListTileTheme(
-                          horizontalTitleGap: 0,
-                          child: CheckboxListTile(
-                            contentPadding: const EdgeInsets.all(0),
-                            controlAffinity: ListTileControlAffinity.leading,
-                            title: Row(
-                              children: [
-                                CustomText.infoText("I agree to the "),
-                                GestureDetector(
-                                  onTap: (){
-                                    MyAppBar.launchURL('http://aapkavakeel.com/#/terms');
-                                  },
-                                  child: Text("terms and conditions",
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(
-                                          fontSize: 14,
-                                          decoration: TextDecoration.underline,
-                                          color: AppColor.primaryTextColor,
-                                          fontWeight: FontWeight.w400)),
-                                ),
-                              ],
-                            ),
+  data: Theme.of(context).copyWith(
+    unselectedWidgetColor: Colors.black,
+    useMaterial3: true,
+  ),
+  child: ListTileTheme(
+    horizontalTitleGap: 0,
+    child: CheckboxListTile(
+      contentPadding: const EdgeInsets.all(0),
+      controlAffinity: ListTileControlAffinity.leading,
+      title: Container(
+        child: Row(
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            Flexible(
+              child: CustomText.infoText("I agree to the "),
+            ),
+            GestureDetector(
+              onTap: () {
+                MyAppBar.launchURL('http://aapkavakeel.com/#/terms');
+              },
+              child: Flexible(
+                child: Container(
+                  child: Text(
+                    "terms and conditions",
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      fontSize: 12,
+                      decoration: TextDecoration.underline,
+                      color: AppColor.primaryTextColor,
+                      fontWeight: FontWeight.w400,
+                    ),
+                    overflow: TextOverflow.ellipsis, // Handle overflow
+                    maxLines: 1, // Limit lines if needed
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+      activeColor: AppColor.tertiaryColor,
+      checkColor: AppColor.tertiaryTextColor,
+      value: termsCond,
+      onChanged: (newValue) => setState(() => termsCond = newValue!),
+    ),
+  ),
+),
 
-                            activeColor: AppColor.tertiaryColor,
-                            // fillColor: MaterialStatePropertyAll(Color(0xffececec)),
-                            checkColor: AppColor.tertiaryTextColor,
-                            value: termsCond,
-                            onChanged: (newValue) =>
-                                setState(() => termsCond = newValue!),
-                          ),
-                        )),
                   Padding(padding: EdgeInsets.only(top: 12)),
                   customButton.taskButton("Continue", () {
                     if (phonenumController.text.isEmpty ||

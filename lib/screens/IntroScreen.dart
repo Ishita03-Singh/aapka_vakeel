@@ -74,18 +74,21 @@ class _IntroPageState extends State<IntroPage> {
 
   getScrollWigets(){
       return  Container(
-        height: 180.0, // Height of the horizontal scroll view
+        height: MediaQuery.of(context).size.height/3, // Height of the horizontal scroll view
         child: PageView.builder(
           controller: _pageController,
           scrollDirection: Axis.horizontal,
           itemCount: introScrolls.length,
           itemBuilder: (context, index) {
         return Column(
-         children: [CustomText.appNameText(introScrolls[index]["headText"],
-                          isCenter: true),
+         children: [
+         CustomText.boldDarkText(introScrolls[index]["headText"],
+                          isCenter:true ),
                       Padding(padding: EdgeInsets.all(3)),
-                      CustomText.infoText(introScrolls[index]["infoText"],
-                           isCenter: true),
+        Container(
+          child: CustomText.infoText(introScrolls[index]["infoText"],
+                             isCenter: true),
+        ),
                           Padding(padding: EdgeInsets.all(12)),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,

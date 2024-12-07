@@ -715,135 +715,120 @@ class AdvocateAffidavitDetails extends StatefulWidget {
   @override
   State<AdvocateAffidavitDetails> createState() => _AdvocateAffidavitDetailsState();
 }
-
 class _AdvocateAffidavitDetailsState extends State<AdvocateAffidavitDetails> {
-@override
+  late String displayFileName;
+
+  @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    widget.fileName=widget.fileName.split('.')[0];
+    // Safely modify the filename
+    displayFileName = widget.fileName.split('.')[0];
   }
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
-      appBar: MyAppBar.appbar(context,head: widget.fileName),
-      body:
-      //  SingleChildScrollView(
-        // child: 
+    return Scaffold(
+      appBar: MyAppBar.appbar(context, head: displayFileName),
+      body: SingleChildScrollView(
+        child: Container(
+          padding: const EdgeInsets.all(12),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              getNamePriceContainer(),
+              const SizedBox(height: 30),
+              CustomText.smallheadText("Benefits"),
+              const SizedBox(height: 10),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  for (var benefit in [
+                    "Ensures the distribution of the property",
+                    "Provides financial security",
+                    "Appointing guardian for minors",
+                    "Inventory of assets",
+                    "Reduces legal hassles",
+                  ])
+                   Text("• $benefit", style: const TextStyle(color: Colors.black)),
+                    
+                ],
+              ),
+              const SizedBox(height: 10),
+              CustomText.smallheadText("Description"),
+              const SizedBox(height: 10),
+              CustomText.infoText(
+                  "A will or testament is a legal document that expresses a person's wishes as to how their property is to be distributed after their death and as to which person is to manage the property until its final distribution. A will is a legal document that coordinates the distribution of your assets after death and can appoint guardians for minor children. A will is important to have, as it allows you to..."),
+              const SizedBox(height: 20),
+              customButton.taskButton("Join Call", () async {
+                String dir = widget.isAffidavitPage ? "Affidavit" : "Agreements";
+                String draftFile = await Serverhttphelper.fetchFileUrl(widget.fileName, dir);
 
-        SingleChildScrollView(
-          child: Container(
-            height: MediaQuery.of(context).size.height-100,
-            padding: EdgeInsets.all(12),
-            child: Column( crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                getNamePriceContainer(),
-                SizedBox(height: 30),
-                CustomText.smallheadText("Benefits"),
-                SizedBox(height: 10),
-               RichText(
-                text: TextSpan(
-          children: [
-            TextSpan(
-              text: "1. Ensures the distribution of the property\n",
-              style: TextStyle(fontWeight: FontWeight.normal, color: Colors.black),
-            ),
-            TextSpan(
-              text: "2. Provides financial security\n",
-              style: TextStyle(fontWeight: FontWeight.normal, color: Colors.black),
-            ),
-            TextSpan(
-              text: "3. Appointing guardian for minors.\n",
-              style: TextStyle(fontWeight: FontWeight.normal, color: Colors.black),
-            ),
-            TextSpan(
-              text: "4. Inventory of assets\n",
-              style: TextStyle(fontWeight: FontWeight.normal, color: Colors.black),
-            ),
-            TextSpan(
-              text: "5. Reduces legal hassles",
-              style: TextStyle(fontWeight: FontWeight.normal, color: Colors.black),
-            ),
-          ],
-                ),
-              ),   
-             
-              SizedBox(height: 10),
-                
-                CustomText.smallheadText("Description"),
-                SizedBox(height: 10),
-                
-                CustomText.infoText("A will or testament is a legal document that expresses a person's wishes as to how their property is to be distributed after their death and as to which person is to manage the property until its final distribution. A will is a legal document that coordinates the distribution of your assets after death and can appoint guardians for minor children. A will is important to have, as it allows you to")
-               
-                ],)),
-                customButton.taskButton("Join Call", ()async {
-          
-          
-              String dir= widget.isAffidavitPage?"Affidavit":"Agreements";
-              String draftfile=await Serverhttphelper.fetchFileUrl(widget.fileName,dir);
-              
-          
-             await FirebaseFirestore.instance
-              .collection('affidavitCall')
-              .doc(userClass.uid+widget.fileName)
-              .set({
-                'userId':userClass.uid,
-                'userName':widget.DocumentDetails["Name"],
-                'fatherName':widget.DocumentDetails["FatherName"],
-                'address': widget.DocumentDetails["Address"],
-                'isAffidavit': widget.isAffidavitPage,
-                'fileName':draftfile ,
-                'callTime':DateTime.now().toString()
-              });
-          
-          
-              Navigator.pushReplacement(
-                      context,
-                      PageTransition(
-                          child: JoinScreen(username:userClass.displayName ,meetingId: widget.fileName+"Affidavit"+userClass.uid,isJoin: false,),
-                          type: PageTransitionType.rightToLeft));
-                })
-               
-          
-          
-              ],
-            ),
+                await FirebaseFirestore.instance
+                    .collection('affidavitCall')
+                    .doc(userClass.uid + widget.fileName)
+                    .set({
+                  'userId': userClass.uid,
+                  'userName': widget.DocumentDetails["Name"] ?? "N/A",
+                  'fatherName': widget.DocumentDetails["FatherName"] ?? "N/A",
+                  'address': widget.DocumentDetails["Address"] ?? "N/A",
+                  'isAffidavit': widget.isAffidavitPage,
+                  'fileName': draftFile,
+                  'callTime': DateTime.now().toString(),
+                });
+
+                Navigator.pushReplacement(
+                  context,
+                  PageTransition(
+                    child: JoinScreen(
+                      username: userClass.displayName,
+                      meetingId: "${widget.fileName}Affidavit${userClass.uid}",
+                      isJoin: false,
+                    ),
+                    type: PageTransitionType.rightToLeft,
+                  ),
+                );
+              }),
+            ],
           ),
         ),
-      // ),
+      ),
     );
   }
-  getNamePriceContainer(){
+
+  Widget getNamePriceContainer() {
     return Container(
-      
       decoration: BoxDecoration(
-        color: Color(0xFFeaeeef),
-        borderRadius: BorderRadius.all(Radius.circular(10))
+        color: const Color(0xFFeaeeef),
+        borderRadius: BorderRadius.circular(10),
       ),
-      child:Column(crossAxisAlignment: CrossAxisAlignment.stretch,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Container(
-            padding: EdgeInsets.all(20),
-            child: Column(crossAxisAlignment: CrossAxisAlignment.start,
+          Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                CustomText.boldDarkText(widget.fileName),
-                Row(children: [Icon(Icons.scale,size: 12),SizedBox(width: 5,),CustomText.infoText("88+ users registered")],),
-                SizedBox(height: 5),
-                CustomText.colorText("Rs. 199/-")
+                CustomText.boldDarkText(displayFileName),
+                Row(
+                  children: [
+                    const Icon(Icons.scale, size: 12),
+                    const SizedBox(width: 5),
+                    CustomText.infoText("88+ users registered"),
+                  ],
+                ),
+                const SizedBox(height: 5),
+                CustomText.colorText("Rs. 199/-"),
               ],
             ),
           ),
-          Container(height: 2,color: Color(0xFF9dabb3)),
-          Container(
-            padding: EdgeInsets.all(20),
-            child: CustomText.infoText("To know more about the service consult a lawyer"))
-         
-
+          const Divider(color: Color(0xFF9dabb3), thickness: 2),
+          Padding(
+            padding: const EdgeInsets.all(20),
+            child: CustomText.infoText("To know more about the service, consult a lawyer"),
+          ),
         ],
-
-    ));
+      ),
+    );
   }
 }

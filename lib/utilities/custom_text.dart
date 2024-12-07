@@ -24,8 +24,10 @@ class CustomText {
       style: TextStyle(
           fontSize: fontSize, color: Colors.black, fontWeight: FontWeight.w400));
 
-  static Text boldDarkText(String text,{double fontSize=18}) => Text(text,
+  static Text boldDarkText(String text,{double fontSize=18,bool isCenter=false}) => Text(text,
+   textAlign: isCenter ? TextAlign.center : TextAlign.left,
       style: TextStyle(
+        
           fontSize: fontSize, color: Colors.black, fontWeight: FontWeight.w800));
   static Text smallheadText(String text) => Text(text,
       style: TextStyle(
@@ -35,6 +37,7 @@ class CustomText {
       textAlign: isCenter ? TextAlign.center : TextAlign.left,
       style: TextStyle(
           fontSize: 14,
+          overflow: TextOverflow.clip,
           color: AppColor.secondaryTextColor,
           fontWeight: FontWeight.w300));
     static Text extraSmallinfoText(String text, {bool isCenter = false}) => Text(text,
