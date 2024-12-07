@@ -14,6 +14,7 @@ import 'package:aapka_vakeel/utilities/validation.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:csc_picker/csc_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_webrtc/flutter_webrtc.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:page_transition/page_transition.dart';
@@ -228,6 +229,7 @@ Future<void> _initializeAsync() async {
               //         title: Text(_filteredItems[index]),
               //       );
               //     },
+              //     },
               //   ),
               // ),
               IconButton(onPressed: (){}, icon: Icon(Icons.menu)),
@@ -274,7 +276,8 @@ Future<void> _initializeAsync() async {
 class AffidavitDetail extends StatefulWidget {
   String fileName;
   bool isAffidavitPage;
-  AffidavitDetail({super.key,required this.fileName, required this.isAffidavitPage});
+  final Map<String, dynamic>? documentDetails;
+  AffidavitDetail({super.key,required this.fileName, required this.isAffidavitPage, this.documentDetails});
 
   @override
   State<AffidavitDetail> createState() => _AffidavitDetailState();
@@ -293,6 +296,27 @@ TextEditingController PinCodeController= new TextEditingController();
 
 
 bool _isLoaderVisible = false;
+
+   @override
+   void initState() {
+     super.initState();
+     // Populate fields from documentDetails if provided
+     _populateFields(widget.documentDetails);
+   }
+
+   void _populateFields(Map<String, dynamic>? details) {
+     if (details != null) {
+       setState(() {
+         nameController.text = details['Name'] ?? '';
+         fatherNameController.text = details['FatherName'] ?? '';
+         addressController.text = details['Address'] ?? '';
+         cityController.text = details['City'] ?? '';
+         stateController.text = details['State'] ?? '';
+         CountryController.text = details['Country'] ?? '';
+         PinCodeController.text = details['PinCode'] ?? '';
+       });
+     }
+   }
 
   @override
   Widget build(BuildContext context) {
@@ -401,7 +425,7 @@ return Container(
               "FatherName":fatherNameController.text,
               "Address":addressController.text+", "+cityController.text+", "+stateController.text+", "+CountryController.text+', '+PinCodeController.text
             };
-              Navigator.of(context).pushReplacement(
+              Navigator.of(context).push(
                    MaterialPageRoute(
                     builder: (context) =>ContractLoader(fileName:widget.fileName,isAffidavitPage: widget.isAffidavitPage,DocumentDetails:details)
                     // VideoCall(data: snapshot.data!),
@@ -615,7 +639,21 @@ List<String> affidavitList= [];
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
-      appBar: MyAppBar.appbar(context,head: ""),
+      appBar: MyAppBar.appbar(context,head: "",
+          onBackPressed: (){
+            final addressParts = widget.DocumentDetails['Address']?.split(', ') ?? [];
+            Navigator.pop(context, {
+
+              "Name": widget.DocumentDetails["Name"],
+              'FatherName':widget.DocumentDetails["FatherName"],
+              "Address" : addressParts.isNotEmpty ? addressParts[0] : '',
+              "City": addressParts.length > 1 ? addressParts[1] : '',
+              "State": addressParts.length > 2 ? addressParts[2] : '',
+              "Country": addressParts.length > 3 ? addressParts[3] : '',
+              "PinCode": addressParts.length > 4 ? addressParts[4] : '',
+            });
+
+          }),
       body: Container(
         padding: EdgeInsets.fromLTRB(20,40,20,20),
         child: Column(
@@ -689,7 +727,7 @@ List<String> affidavitList= [];
                     PageTransition(
                         child: AdvocateAffidavitDetails(fileName:widget.fileName,isAffidavitPage:widget.isAffidavitPage,DocumentDetails:widget.DocumentDetails),
                         type: PageTransitionType.rightToLeft));
-           
+
           }),
           SizedBox(height: 12),
           customButton.taskButton("Continue with AI", (){
@@ -803,7 +841,7 @@ class _AdvocateAffidavitDetailsState extends State<AdvocateAffidavitDetails> {
               Navigator.pushReplacement(
                       context,
                       PageTransition(
-                          child: JoinScreen(username:userClass.displayName ,meetingId: widget.fileName+"Affidavit"+userClass.uid,isJoin: false,),
+                          child: JoinScreen(username:userClass.displayName ,meetingId: widget.fileName+"Affidavit"+userClass.uid),
                           type: PageTransitionType.rightToLeft));
                 })
                

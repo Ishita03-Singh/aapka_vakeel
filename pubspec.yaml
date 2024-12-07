@@ -62,8 +62,8 @@ dependencies:
 
   firebase_storage:
   # flutter_document_writer:
-  # video_call:
-  #   path: /Users/ishitasingh/Desktop/aapka_vakeel/videosdk/video_call
+  video_call:
+    path: "D://personalGithub/videoSDK"
   uuid:
   provider:
   firebase_messaging:
