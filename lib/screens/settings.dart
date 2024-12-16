@@ -84,8 +84,11 @@ class _SettingsState extends State<Settings> {
                                      String stringContent = downloadedDocList[index];
                                      File file= File(stringContent);
                                     return  
-                                    Container(color: Color(0xFFf9f9f9),
+                                    Container(
                                       padding: const EdgeInsets.all(8.0),
+                                      decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(8)),
+                                      color: Color(0xFFE0E1DD),
+                                      ),
                                       child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                               children: [
                                                                 Column(children: [
@@ -150,7 +153,10 @@ Future<void> downloadSavedFile(File savedFile) async {
                                        DateTime dateTime = DateTime.parse(advocatecall.callTime);
                                        var t=DateTime.now();
                                     return  
-                                    Container(color: Color(0xFFf9f9f9),
+                                    Container(
+                                       decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(8)),
+                                      color: Color(0xFFE0E1DD),
+                                      ),
                                     padding: const EdgeInsets.all(8.0),
                                       child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                               children: [

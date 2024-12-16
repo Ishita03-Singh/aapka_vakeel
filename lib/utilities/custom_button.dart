@@ -79,21 +79,25 @@ class CustomButton {
               icon: Icon(icon, color: Colors.black)));
 
   // cancel Button -> LoaderOverlay - Lottie Animation
-  cancelButton(String text, Function onPressed) => TextButton(
+  cancelButton(String text, Function onPressed,{Color color=Colors.white}){
+    // color= color==null?Colors.white:color;
+    return TextButton(
       style: TextButton.styleFrom(
       
           padding: const EdgeInsets.all(16),
           shape: RoundedRectangleBorder(
-            side:BorderSide(color: Colors.black),
+            // side:BorderSide(color: Colors.black),
             borderRadius: BorderRadius.circular(10.0),
           ),
-          foregroundColor: AppColor.primaryTextColor,
-          backgroundColor: AppColor.primaryTextColor,
+          foregroundColor: color,
+          backgroundColor: color,
           // minimumSize: const Size(100, 30),
           elevation: 0,
           shadowColor: AppColor.secondaryColor),
       onPressed: () => onPressed(),
       child: CustomText.cancelBtnText(text));
+  }
+   
 
   taskButton(String text, Function() onPressed) => TextButton(
       style: TextButton.styleFrom(
@@ -102,7 +106,7 @@ class CustomButton {
             borderRadius: BorderRadius.circular(10.0),
           ),
           foregroundColor: AppColor.tertiaryColor,
-          backgroundColor: Colors.black,
+          backgroundColor: Color(0xFF0D1B2A),
           // minimumSize: const Size(100, 30),
           elevation: 0,
           shadowColor: AppColor.secondaryColor),
@@ -116,7 +120,7 @@ class CustomButton {
             borderRadius: BorderRadius.circular(radius),
           ),
           foregroundColor: AppColor.tertiaryColor,
-          backgroundColor: Colors.black,
+          backgroundColor: Color(0xFF0D1B2A),
           // minimumSize: const Size(100, 30),
           elevation: 0,
           shadowColor: AppColor.secondaryColor),

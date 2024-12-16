@@ -77,9 +77,9 @@ class _IntroPageState extends State<IntroPage> {
     super.dispose();
   }
 
-  getScrollWigets() {
-    return Container(
-        height: 280.0,
+  getScrollWigets(){
+      return  Container(
+        height: MediaQuery.of(context).size.height/3.3, // Height of the horizontal scroll view
         child: PageView.builder(
             controller: _pageController,
             scrollDirection: Axis.horizontal,
@@ -89,15 +89,15 @@ class _IntroPageState extends State<IntroPage> {
                 children: [
                   Container(
                     width: double.infinity,
-                    child: CustomText.appNameText(
+                    child: CustomText.boldDarkText(fontSize: 30,
                         introScrolls[index]["headText"],
-                        isCenter: true),
+                        isCenter: true, fontWeight: FontWeight.w900),
                     margin: EdgeInsets.symmetric(vertical: 10, horizontal: 50),
                   ),
                   Padding(padding: EdgeInsets.all(10)),
                   CustomText.infoText(introScrolls[index]["infoText"],
-                      isCenter: true),
-                  Padding(padding: EdgeInsets.all(30)),
+                      isCenter: true, color: Color(0xFF415A77)),
+                  Padding(padding: EdgeInsets.all(20)),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -172,17 +172,16 @@ class _IntroPageState extends State<IntroPage> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             // Empty space to position the expanded container
-            SizedBox(height: 270), // Adjust this value to control overlap
+            SizedBox(height: 260), // Adjust this value to control overlap
             Expanded(
               child: Container(
                 padding: EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: Color(0xffECECEC),
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(50),
-                    topRight: Radius.circular(50),
-                  ),
-                ),
+                    color: Color(0xffE0E1DD),
+                    // color: Colors.red,
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(50),
+                        topRight: Radius.circular(50))),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [

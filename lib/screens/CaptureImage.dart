@@ -46,7 +46,7 @@ class _CaptureImageState extends State<CaptureImage> {
             Container(
               margin: EdgeInsets.all(30),
               decoration: BoxDecoration(
-                  border: Border.all(color: Colors.black),
+                  border: Border.all(color: AppColor.secondaryTextColor),
                   borderRadius: BorderRadius.all(Radius.circular(7))),
               padding: EdgeInsets.all(40),
               child: Image.asset(

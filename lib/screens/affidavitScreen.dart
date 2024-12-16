@@ -103,8 +103,8 @@ Future<void> _initializeAsync() async {
                     child: Container(
                       padding: EdgeInsets.all(8),
                       decoration: BoxDecoration(
-                        border: Border.all(color:Colors.black),
-                        color: isAffidavitPage?Colors.black:Colors.white,
+                        border: Border.all(color:Color(0xFF0D1B2A)),
+                        color: isAffidavitPage?Color(0xFF0D1B2A):Colors.white,
                         borderRadius: BorderRadius.all(Radius.circular(20))),
                       child: isAffidavitPage?CustomText.taskBtnText("Affidavit"):CustomText.cancelBtnText("Affidavit")),
                   )),
@@ -122,8 +122,8 @@ Future<void> _initializeAsync() async {
                       child: Container(
                       padding: EdgeInsets.all(8),
                       decoration: BoxDecoration(
-                        border: Border.all(color:Colors.black),
-                        color: isAffidavitPage?Colors.white:Colors.black,
+                        border: Border.all(color:Color(0xFF0D1B2A)),
+                        color: isAffidavitPage?Colors.white:Color(0xFF0D1B2A),
                         borderRadius: BorderRadius.all(Radius.circular(20))),
                       child: isAffidavitPage?CustomText.cancelBtnText("Agreement"):CustomText.taskBtnText("Agreement"),),
                     )),
@@ -250,11 +250,18 @@ Future<void> _initializeAsync() async {
 
   draftListContainer(String text,){
     return Container(
-      margin: EdgeInsets.only(top:  6),
+      margin: EdgeInsets.only(top:  6,bottom: 7),
       padding: EdgeInsets.all(8),
       decoration: BoxDecoration(
-        color: Color(0xFFF0F0F0),
-        borderRadius: BorderRadius.all(Radius.circular(10))
+        color: Color(0xFFE0E1DD),
+        borderRadius: BorderRadius.all(Radius.circular(10)),
+          boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.7), // Shadow color
+                    blurRadius: 6, // Spread of the shadow
+                    offset: Offset(0, 3), // Position of the shadow
+                  ),
+                ],
         ),
       child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -408,7 +415,7 @@ return Container(
           } else {
             CustomMessenger.defaultMessenger(context, "Location permission not granted.");
           }
-        }),
+        },color: Color(0xFFE0E1DD)),
           SizedBox(height: 8),
           getStateCityInput(),
           giveInputField("Address", addressController, true,TextInputType.streetAddress),
@@ -544,21 +551,34 @@ return Container(
               CustomText.infoText(HeadText),
             ],
           ),
-          TextFormField(
-              decoration: MyTextField.outlinedTextField(""),
-              keyboardType: textInputType,
-              controller: controller,
-              // readOnly: true,
-               validator: (value) {
-                 validationService.validate(value!, textInputType);
-                },
-              // enabled: true,
-              // enableInteractiveSelection: false,
-              cursorColor: AppColor.primaryTextColor,
-              style: TextStyle(
-                  color: AppColor.primaryTextColor,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w400)),
+          Container(
+             decoration: BoxDecoration(
+                color: Colors.white, // Background color for the input
+                borderRadius: BorderRadius.circular(8),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.7), // Shadow color
+                    blurRadius: 6, // Spread of the shadow
+                    offset: Offset(0, 3), // Position of the shadow
+                  ),
+                ],
+              ),
+            child: TextFormField(
+                decoration: MyTextField.outlinedTextField(""),
+                keyboardType: textInputType,
+                controller: controller,
+                // readOnly: true,
+                 validator: (value) {
+                   validationService.validate(value!, textInputType);
+                  },
+                // enabled: true,
+                // enableInteractiveSelection: false,
+                cursorColor: AppColor.primaryTextColor,
+                style: TextStyle(
+                    color: AppColor.primaryTextColor,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w400)),
+          ),
         ],
       ),
     );
@@ -655,7 +675,8 @@ List<String> affidavitList= [];
 
           }),
       body: Container(
-        padding: EdgeInsets.fromLTRB(20,40,20,20),
+        color: Color(0xFFE0E1DD),
+        padding: EdgeInsets.all(40),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -669,8 +690,9 @@ List<String> affidavitList= [];
                
               padding:EdgeInsets.all(20),
               decoration: BoxDecoration(
+                color: Colors.white,
                 //  color: Colors.red,
-                border: Border.all(color: Colors.black)),
+                border: Border.all(color: Color(0xFF0D1B2A))),
             child: Column(              
               crossAxisAlignment: CrossAxisAlignment.stretch,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -696,7 +718,7 @@ List<String> affidavitList= [];
                             height: 4,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.all(Radius.circular(2)),
-                              color: _currentPage==0?Colors.black:Color(0xFFbdbdbd),
+                              color: _currentPage==0?Color(0xFF0D1B2A):Colors.white,
                             ),
                           ),
 
@@ -706,7 +728,7 @@ List<String> affidavitList= [];
                             height: 4,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.all(Radius.circular(2)),
-                              color: _currentPage==0?Color(0xFFbdbdbd):Colors.black,
+                              color: _currentPage==0?Colors.white:Color(0xFF0D1B2A),
                             ),
                           ),
           ],),
@@ -753,135 +775,120 @@ class AdvocateAffidavitDetails extends StatefulWidget {
   @override
   State<AdvocateAffidavitDetails> createState() => _AdvocateAffidavitDetailsState();
 }
-
 class _AdvocateAffidavitDetailsState extends State<AdvocateAffidavitDetails> {
-@override
+  late String displayFileName;
+
+  @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    widget.fileName=widget.fileName.split('.')[0];
+    // Safely modify the filename
+    displayFileName = widget.fileName.split('.')[0];
   }
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
-      appBar: MyAppBar.appbar(context,head: widget.fileName),
-      body:
-      //  SingleChildScrollView(
-        // child: 
+    return Scaffold(
+      appBar: MyAppBar.appbar(context, head: displayFileName),
+      body: SingleChildScrollView(
+        child: Container(
+          padding: const EdgeInsets.all(12),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              getNamePriceContainer(),
+              const SizedBox(height: 30),
+              CustomText.smallheadText("Benefits"),
+              const SizedBox(height: 10),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  for (var benefit in [
+                    "Ensures the distribution of the property",
+                    "Provides financial security",
+                    "Appointing guardian for minors",
+                    "Inventory of assets",
+                    "Reduces legal hassles",
+                  ])
+                   Text("• $benefit", style: const TextStyle(color: Colors.black)),
+                    
+                ],
+              ),
+              const SizedBox(height: 10),
+              CustomText.smallheadText("Description"),
+              const SizedBox(height: 10),
+              CustomText.infoText(
+                  "A will or testament is a legal document that expresses a person's wishes as to how their property is to be distributed after their death and as to which person is to manage the property until its final distribution. A will is a legal document that coordinates the distribution of your assets after death and can appoint guardians for minor children. A will is important to have, as it allows you to..."),
+              const SizedBox(height: 20),
+              customButton.taskButton("Join Call", () async {
+                String dir = widget.isAffidavitPage ? "Affidavit" : "Agreements";
+                String draftFile = await Serverhttphelper.fetchFileUrl(widget.fileName, dir);
 
-        SingleChildScrollView(
-          child: Container(
-            height: MediaQuery.of(context).size.height-100,
-            padding: EdgeInsets.all(12),
-            child: Column( crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                getNamePriceContainer(),
-                SizedBox(height: 30),
-                CustomText.smallheadText("Benefits"),
-                SizedBox(height: 10),
-               RichText(
-                text: TextSpan(
-          children: [
-            TextSpan(
-              text: "1. Ensures the distribution of the property\n",
-              style: TextStyle(fontWeight: FontWeight.normal, color: Colors.black),
-            ),
-            TextSpan(
-              text: "2. Provides financial security\n",
-              style: TextStyle(fontWeight: FontWeight.normal, color: Colors.black),
-            ),
-            TextSpan(
-              text: "3. Appointing guardian for minors.\n",
-              style: TextStyle(fontWeight: FontWeight.normal, color: Colors.black),
-            ),
-            TextSpan(
-              text: "4. Inventory of assets\n",
-              style: TextStyle(fontWeight: FontWeight.normal, color: Colors.black),
-            ),
-            TextSpan(
-              text: "5. Reduces legal hassles",
-              style: TextStyle(fontWeight: FontWeight.normal, color: Colors.black),
-            ),
-          ],
-                ),
-              ),   
-             
-              SizedBox(height: 10),
-                
-                CustomText.smallheadText("Description"),
-                SizedBox(height: 10),
-                
-                CustomText.infoText("A will or testament is a legal document that expresses a person's wishes as to how their property is to be distributed after their death and as to which person is to manage the property until its final distribution. A will is a legal document that coordinates the distribution of your assets after death and can appoint guardians for minor children. A will is important to have, as it allows you to")
-               
-                ],)),
-                customButton.taskButton("Join Call", ()async {
-          
-          
-              String dir= widget.isAffidavitPage?"Affidavit":"Agreements";
-              String draftfile=await Serverhttphelper.fetchFileUrl(widget.fileName,dir);
-              
-          
-             await FirebaseFirestore.instance
-              .collection('affidavitCall')
-              .doc(userClass.uid+widget.fileName)
-              .set({
-                'userId':userClass.uid,
-                'userName':widget.DocumentDetails["Name"],
-                'fatherName':widget.DocumentDetails["FatherName"],
-                'address': widget.DocumentDetails["Address"],
-                'isAffidavit': widget.isAffidavitPage,
-                'fileName':draftfile ,
-                'callTime':DateTime.now().toString()
-              });
-          
-          
-              Navigator.pushReplacement(
-                      context,
-                      PageTransition(
-                          child: JoinScreen(username:userClass.displayName ,meetingId: widget.fileName+"Affidavit"+userClass.uid),
-                          type: PageTransitionType.rightToLeft));
-                })
-               
-          
-          
-              ],
-            ),
+                await FirebaseFirestore.instance
+                    .collection('affidavitCall')
+                    .doc(userClass.uid + widget.fileName)
+                    .set({
+                  'userId': userClass.uid,
+                  'userName': widget.DocumentDetails["Name"] ?? "N/A",
+                  'fatherName': widget.DocumentDetails["FatherName"] ?? "N/A",
+                  'address': widget.DocumentDetails["Address"] ?? "N/A",
+                  'isAffidavit': widget.isAffidavitPage,
+                  'fileName': draftFile,
+                  'callTime': DateTime.now().toString(),
+                });
+
+                Navigator.pushReplacement(
+                  context,
+                  PageTransition(
+                    child: JoinScreen(
+                      username: userClass.displayName,
+                      meetingId: "${widget.fileName}Affidavit${userClass.uid}",
+                      // isJoin: false,
+                    ),
+                    type: PageTransitionType.rightToLeft,
+                  ),
+                );
+              }),
+            ],
           ),
         ),
-      // ),
+      ),
     );
   }
-  getNamePriceContainer(){
+
+  Widget getNamePriceContainer() {
     return Container(
-      
       decoration: BoxDecoration(
-        color: Color(0xFFeaeeef),
-        borderRadius: BorderRadius.all(Radius.circular(10))
+        color: const Color(0xFFeaeeef),
+        borderRadius: BorderRadius.circular(10),
       ),
-      child:Column(crossAxisAlignment: CrossAxisAlignment.stretch,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Container(
-            padding: EdgeInsets.all(20),
-            child: Column(crossAxisAlignment: CrossAxisAlignment.start,
+          Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                CustomText.boldDarkText(widget.fileName),
-                Row(children: [Icon(Icons.scale,size: 12),SizedBox(width: 5,),CustomText.infoText("88+ users registered")],),
-                SizedBox(height: 5),
-                CustomText.colorText("Rs. 199/-")
+                CustomText.boldDarkText(displayFileName),
+                Row(
+                  children: [
+                    const Icon(Icons.scale, size: 12),
+                    const SizedBox(width: 5),
+                    CustomText.infoText("88+ users registered"),
+                  ],
+                ),
+                const SizedBox(height: 5),
+                CustomText.colorText("Rs. 199/-"),
               ],
             ),
           ),
-          Container(height: 2,color: Color(0xFF9dabb3)),
-          Container(
-            padding: EdgeInsets.all(20),
-            child: CustomText.infoText("To know more about the service consult a lawyer"))
-         
-
+          const Divider(color: Color(0xFF9dabb3), thickness: 2),
+          Padding(
+            padding: const EdgeInsets.all(20),
+            child: CustomText.infoText("To know more about the service, consult a lawyer"),
+          ),
         ],
-
-    ));
+      ),
+    );
   }
 }

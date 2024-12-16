@@ -90,7 +90,8 @@ Future<void> getAdvocateImage() async {
              children: [
               //  MyAppBar.appbar(context),
                Container(
-                padding: const EdgeInsets.only(left: 16, right: 16, top: 20),
+                color: Color(0xFFE0E1DD),
+                padding: const EdgeInsets.only(left: 16, right: 16, top: 20,bottom: 20),
                 child: Row(
                   children:[
                       CircleAvatar( radius: 30,  
@@ -100,7 +101,7 @@ Future<void> getAdvocateImage() async {
                    Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                    CustomText.appNameText("Welcome Back!"),
+                    CustomText.boldDarkText("Welcome Back!"),
                     CustomText.headText(widget.userclass!.displayName),
                   ],),
                   ]
@@ -140,9 +141,9 @@ Future<void> getAdvocateImage() async {
                       Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           getCardContainer("My Cases",StrLiteral.cases),
-                          SizedBox(width: 10),
+                          SizedBox(height: 10),
                            getCardContainer("Daily Calls List",StrLiteral.dailyCalls),
-                          SizedBox(width: 10),
+                          SizedBox(height: 10),
                             
                           GestureDetector(
                             onTap: (){
@@ -154,9 +155,9 @@ Future<void> getAdvocateImage() async {
                             type: PageTransitionType.rightToLeft));
                             },
                             child:  getCardContainer("Appointments",StrLiteral.calender),),
-                          SizedBox(width: 10),
+                          SizedBox(height: 10),
                             getCardContainer("My Clients",StrLiteral.clients),
-                          SizedBox(width: 10),
+                          SizedBox(height: 10),
                             
                         ],
                       )
@@ -173,7 +174,7 @@ Future<void> getAdvocateImage() async {
 
   getCardContainer(String text,String image){
     return Card(
-        color: Colors.white,
+        color: Color(0xFFE0E1DD),
         elevation: 10,
         child:Container(
           padding: EdgeInsets.all(12),
@@ -193,7 +194,7 @@ getBlueContainer(String text,String number){
     child: Container(
       padding: EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: Colors.black,
+        color: Color(0xFF0D1B2A),
         borderRadius: BorderRadius.all(Radius.circular(12))
       ),
       child: Column(

@@ -467,13 +467,12 @@ class _DashboardState extends State<Dashboard> {
         
         decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(20),),
         border: Border.all(color: Color(0xFF333333).withOpacity(0.2),width: 1),
-        color: Colors.white,
+        color: Color(0xFFE0E1DD).withOpacity(0.2),
         boxShadow: [BoxShadow(
-                      color: Color(0xFF333333).withOpacity(0.2),
-                      spreadRadius: 3,
-                      blurRadius: 4,
-                      offset: Offset(0, 3), // changes position of shadow
-                    ),] 
+                    color: Colors.grey.withOpacity(0.2), // Shadow color
+                    blurRadius: 6, // Spread of the shadow
+                    offset: Offset(0, 3), // Position of the shadow
+                  ),] 
         ),
         child: Column(
           children: [

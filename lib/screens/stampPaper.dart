@@ -63,7 +63,7 @@ TextEditingController addressController_2= new TextEditingController();
               setState(() {
               singleParty=true;
               });
-            }),
+            },color: Color(0xFFE0E1DD)),
         
             SizedBox(height: 10),
         
@@ -72,7 +72,7 @@ TextEditingController addressController_2= new TextEditingController();
               setState(() {
               singleParty=false;
               });
-            }),
+            },color: Color(0xFFE0E1DD)),
             SizedBox(height: 10),
          DropdownMenu<String>(
           width: MediaQuery.of(context).size.width,
@@ -117,7 +117,7 @@ return Container(
             
          }
          
-          }),
+          },color: Color(0xFFE0E1DD)),
         giveInputField("Address", addressController, true,TextInputType.text),
         giveInputField("Purpose", puropseController, true,TextInputType.text),
         giveInputField("Amount", amountController, true,TextInputType.number),
@@ -326,25 +326,38 @@ return Container(
               CustomText.infoText(HeadText),
             ],
           ),
-          TextFormField(
-              decoration: MyTextField.outlinedTextField(""),
-              keyboardType: textInputType,
-              controller: controller,
-              // readOnly: true,
-               validator: (value) {
-                validationService.validate(value!, textInputType);
-                  // if (value == null || value.isEmpty) {
-                  //   return 'Please enter ${HeadText}';
-                  // }
-                  // return null;
-                },
-              enabled: true,
-              enableInteractiveSelection: false,
-              cursorColor: AppColor.primaryTextColor,
-              style: TextStyle(
-                  color: AppColor.primaryTextColor,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w400)),
+          Container(
+             decoration: BoxDecoration(
+                color: Colors.white, // Background color for the input
+                borderRadius: BorderRadius.circular(8),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.7), // Shadow color
+                    blurRadius: 6, // Spread of the shadow
+                    offset: Offset(0, 3), // Position of the shadow
+                  ),
+                ],
+              ),
+            child: TextFormField(
+                decoration: MyTextField.outlinedTextField(""),
+                keyboardType: textInputType,
+                controller: controller,
+                // readOnly: true,
+                 validator: (value) {
+                  validationService.validate(value!, textInputType);
+                    // if (value == null || value.isEmpty) {
+                    //   return 'Please enter ${HeadText}';
+                    // }
+                    // return null;
+                  },
+                enabled: true,
+                enableInteractiveSelection: false,
+                cursorColor: AppColor.primaryTextColor,
+                style: TextStyle(
+                    color: AppColor.primaryTextColor,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w400)),
+          ),
         ],
       ),
     );

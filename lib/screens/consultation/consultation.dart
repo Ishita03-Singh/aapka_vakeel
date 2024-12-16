@@ -264,9 +264,10 @@ Future<String> getAdvocateImage(Map<String, dynamic> advocate) async {
                             type: PageTransitionType.rightToLeft));
   },
    child: Container(
+    margin: EdgeInsets.all(8),
     padding: EdgeInsets.all(10),
     decoration: BoxDecoration(
-      border: Border.all(width: 1,color: Colors.grey),
+      border: Border.all(width: 1,color: Colors.black.withOpacity(0.2)),
       borderRadius: BorderRadius.all(Radius.circular(10))
     ),
     child: Column(
@@ -340,8 +341,8 @@ await FirebaseFirestore.instance
           },
           child:Container(
             padding:EdgeInsets.fromLTRB(20,10,20,10),
-            decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(10)),
-            color: Colors.black),
+            decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(5)),
+            color: Color(0xFF0D1B2A)),
             child: Row(mainAxisAlignment: MainAxisAlignment.center,
               children: [
               Icon(Icons.call,color: Colors.white,size: 18),
@@ -391,8 +392,8 @@ await FirebaseFirestore.instance
 
           },
           child:Container(padding:EdgeInsets.fromLTRB(20,10,20,10),
-            decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(10)),
-            color: Colors.black),
+            decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(5)),
+            color: Color(0xFF0D1B2A)),
             child: Row(mainAxisAlignment: MainAxisAlignment.center,children: [
               Icon(Icons.videocam,color: Colors.white,size: 18),
               SizedBox(width: 10),
