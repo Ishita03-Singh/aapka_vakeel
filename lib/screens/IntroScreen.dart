@@ -21,163 +21,201 @@ class IntroPage extends StatefulWidget {
 }
 
 class _IntroPageState extends State<IntroPage> {
-   final PageController _pageController = PageController();
+  final PageController _pageController = PageController();
   int _currentPage = 0;
   Timer? _timer;
   // bool _isVisible = false;
   final List<Map> introScrolls = [
     {
-      "headText":"Get guidance from trusted lawyers",
-      "infoText":"Aapka Vakeel transforms how you access legal services, making professional legal assistance just a few clicks away, no matter where you are.", 
+      "headText": "Get guidance from trusted lawyers",
+      "infoText":
+          "Aapka Vakeel transforms how you access legal services, making professional legal assistance just a few clicks away, no matter where you are.",
     },
-     {
-      "headText":"Get guidance from trusted lawyers",
-      "infoText":"Embrace the future of law with Aapka Vakeel. Our innovative application combines technology with legal expertise to deliver unparalleled service.",
+    {
+      "headText": "Get guidance from trusted lawyers",
+      "infoText":
+          "Embrace the future of law with Aapka Vakeel. Our innovative application combines technology with legal expertise to deliver unparalleled service.",
     },
-     {
-     "headText":"Get guidance from trusted lawyers",
-    "infoText":"Experience legal excellence with Aapka Vakeel. Our platform delivers expert legal solutions right to your device, making legal help more accessible than ever.",
+    {
+      "headText": "Get guidance from trusted lawyers",
+      "infoText":
+          "Experience legal excellence with Aapka Vakeel. Our platform delivers expert legal solutions right to your device, making legal help more accessible than ever.",
     }
-    ];
+  ];
 
-     @override
+  @override
   void initState() {
     super.initState();
     _startAutoScroll();
   }
- void _startAutoScroll() {
+
+  void _startAutoScroll() {
     _timer = Timer.periodic(Duration(seconds: 3), (timer) {
       // if (_isVisible) {
-        if (_currentPage < 2) {
-          setState(() {
+      if (_currentPage < 2) {
+        setState(() {
           _currentPage++;
-          });
-        } else {
-          setState(() {
-          _currentPage = 0; 
-          });
-        }
-        _pageController.animateToPage(
-          _currentPage,
-          duration: Duration(milliseconds: 300),
-          curve: Curves.easeInOut,
-        );
+        });
+      } else {
+        setState(() {
+          _currentPage = 0;
+        });
+      }
+      _pageController.animateToPage(
+        _currentPage,
+        duration: Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      );
       // }
     });
   }
-   @override
+
+  @override
   void dispose() {
     _timer?.cancel();
     _pageController.dispose();
     super.dispose();
   }
 
-  getScrollWigets(){
-      return  Container(
-        height: 180.0, // Height of the horizontal scroll view
+  getScrollWigets() {
+    return Container(
+        height: 280.0,
         child: PageView.builder(
-          controller: _pageController,
-          scrollDirection: Axis.horizontal,
-          itemCount: introScrolls.length,
-          itemBuilder: (context, index) {
-        return Column(
-         children: [CustomText.appNameText(introScrolls[index]["headText"],
-                          isCenter: true),
-                      Padding(padding: EdgeInsets.all(3)),
-                      CustomText.infoText(introScrolls[index]["infoText"],
-                           isCenter: true),
-                          Padding(padding: EdgeInsets.all(12)),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            margin: EdgeInsets.all(5),
-                            width: 25,
-                            height: 4,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.all(Radius.circular(2)),
-                              color: index==0?Colors.black:Colors.white,
-                            ),
-                          ),
-                          Container(
-                            margin: EdgeInsets.all(5),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.all(Radius.circular(2)),
-                              color: index==1?Colors.black:Colors.white,
-                              
-                            ),
-                            width: 25,
-                            height: 4,
-                          ),
-                          Container(
-                            margin: EdgeInsets.all(5),
-                            width: 25,
-                            height: 4,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.all(Radius.circular(2)),
-                              color: index==2?Colors.black:Colors.white,
-                            ),
-                          )
-                        ],
+            controller: _pageController,
+            scrollDirection: Axis.horizontal,
+            itemCount: introScrolls.length,
+            itemBuilder: (context, index) {
+              return Column(
+                children: [
+                  Container(
+                    width: double.infinity,
+                    child: CustomText.appNameText(
+                        introScrolls[index]["headText"],
+                        isCenter: true),
+                    margin: EdgeInsets.symmetric(vertical: 10, horizontal: 50),
+                  ),
+                  Padding(padding: EdgeInsets.all(10)),
+                  CustomText.infoText(introScrolls[index]["infoText"],
+                      isCenter: true),
+                  Padding(padding: EdgeInsets.all(30)),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        margin: EdgeInsets.all(1),
+                        width: 25,
+                        height: 4,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(2)),
+                          color: index == 0 ? Colors.black : Colors.white,
+                        ),
                       ),
-                          ],
-        );})
-      
-    );
+                      Container(
+                        margin: EdgeInsets.all(5),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(2)),
+                          color: index == 1 ? Colors.black : Colors.white,
+                        ),
+                        width: 25,
+                        height: 4,
+                      ),
+                      Container(
+                        margin: EdgeInsets.all(5),
+                        width: 25,
+                        height: 4,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(2)),
+                          color: index == 2 ? Colors.black : Colors.white,
+                        ),
+                      )
+                    ],
+                  ),
+                ],
+              );
+            }));
   }
-  
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColor.bgColor,
-      appBar: MyAppBar.appbar(context),
-      body: Container(
-        padding: EdgeInsets.only(top:26),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Row(mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image.asset(
+  return Scaffold(
+    backgroundColor: AppColor.bgColor,
+    appBar: MyAppBar.appbar(context),
+    body: Stack(
+      children: [
+        // Images Row positioned from top
+        Positioned(
+          top: 60,
+          left: 0,
+          right: 0,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                child: Image.asset(
+                  height: 250,
+                  scale: 0.5,
                   StrLiteral.intro1,
                 ),
-                Image.asset(
-                  StrLiteral.intro2, 
+              ),
+              Container(
+                child: Image.asset(
+                  height: 200,
+                  scale: 0.8,
+                  StrLiteral.intro2,
                 ),
-              ],
-            ),
+              ),
+            ],
+          ),
+        ),
+        // Main content column
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            // Empty space to position the expanded container
+            SizedBox(height: 270), // Adjust this value to control overlap
             Expanded(
               child: Container(
                 padding: EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                    color: Color(0xffECECEC),
-                    // color: Colors.red,
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(50),
-                        topRight: Radius.circular(50))),
+                  color: Color(0xffECECEC),
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(50),
+                    topRight: Radius.circular(50),
+                  ),
+                ),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Padding(padding: EdgeInsets.all(16)),
                     getScrollWigets(),
-                    Padding(padding: EdgeInsets.all(4)),
-                    customButton.cancelButton("Login", () {
-                      Navigator.push(
+                    Padding(padding: EdgeInsets.all(1)),
+                    Container(
+                      width: 300,
+                      child: customButton.cancelButton("Login", () {
+                        Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => PhoneNumPage(
-                                    first: false,
-                                    isAdvocate: false,
-                                  )));
-                    }),
-                    Padding(padding: EdgeInsets.all(8)),
-                    customButton.taskButton("Sign-up", () {
-                      Navigator.push(
+                            builder: (context) => PhoneNumPage(
+                              first: false,
+                              isAdvocate: false,
+                            ),
+                          ),
+                        );
+                      }),
+                    ),
+                    Padding(padding: EdgeInsets.all(12)),
+                    Container(
+                      width: 300,
+                      child: customButton.taskButton("Sign-up", () {
+                        Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => WelcomePage()));
-                    }),
-                    Padding(padding: EdgeInsets.all(6)),
+                            builder: (context) => WelcomePage(),
+                          ),
+                        );
+                      }),
+                    ),
+                    Padding(padding: EdgeInsets.all(12)),
                     CustomText.cancelBtnText('Looking for help?', fontsize: 13)
                   ],
                 ),
@@ -185,7 +223,8 @@ class _IntroPageState extends State<IntroPage> {
             )
           ],
         ),
-      ),
-    );
-  }
+      ],
+    ),
+  );
+}
 }

@@ -54,7 +54,7 @@ class _PhoneNumPageState extends State<PhoneNumPage> {
                 children: [
                   CustomText.headText(
                       widget.first ? "Lets get started" : "Welcome Back!"),
-                  // Padding(padding: EdgeInsets.all(12)),
+                  Padding(padding: EdgeInsets.all(4)),
                   CustomText.infoText(
                       "Embrace the future of law with Aapka Vakeel. Our innovative application combines technology with legal expertise to deliver unparalleled service."),
                   Padding(padding: EdgeInsets.only(top: 12)),
@@ -235,6 +235,13 @@ class _PhoneNumPageState extends State<PhoneNumPage> {
                       )),
                     ),
                   ),
+                  Padding(padding: EdgeInsets.all(8)),
+                   Container(
+                    height: 400,
+                child: Image.asset(
+                   StrLiteral.login1,                 
+                ),
+              ),
                 ],
               ),
             ),
@@ -258,11 +265,14 @@ class _PhoneNumPageState extends State<PhoneNumPage> {
 
   Future<bool> loginUser(String phone, BuildContext context) async {
     FirebaseAuth _auth = FirebaseAuth.instance;
+    final otpController = TextEditingController();
 
     _auth.verifyPhoneNumber(
       phoneNumber: phone,
       timeout: Duration(seconds: 60),
-      verificationCompleted: (AuthCredential credential) async {
+      
+      verificationCompleted: (credential) async {
+        otpController.text = credential.smsCode?? "";
         Navigator.of(context).pop();
 
         UserCredential result = await _auth.signInWithCredential(credential);
@@ -296,12 +306,15 @@ class _PhoneNumPageState extends State<PhoneNumPage> {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => OTPScreen(
+                builder: (context) => 
+                OTPScreen(
                     auth: _auth,
                     verificationId: verificationId,
                     phoneNumber: phone,
                     isFirst: widget.first,
-                    isAdvocate: widget.isAdvocate)));
+                    isAdvocate: widget.isAdvocate,
+                    otpContoller: otpController,)));
+                    // SmsVerificationPage()));
         // showDialog(
         //     context: context,
         //     barrierDismissible: false,

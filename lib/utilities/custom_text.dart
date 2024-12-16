@@ -7,7 +7,7 @@ class CustomText {
   static Text appNameText(String text, {bool isCenter = false}) => Text(text,
       textAlign: isCenter ? TextAlign.center : TextAlign.left,
       style: TextStyle(
-          fontSize: 22, color: Colors.black, fontWeight: FontWeight.w700));
+          fontSize: 24, color: Colors.black, fontWeight: FontWeight.w900));
   static Text headText(String text,{Color color=Colors.black}) => Text(text,
       style: TextStyle(
           fontSize: 24, color: color, fontWeight: FontWeight.w900));
@@ -31,12 +31,15 @@ class CustomText {
       style: TextStyle(
           fontSize: 16, color: Colors.black, fontWeight: FontWeight.w900));
 
-  static Text infoText(String text, {bool isCenter = false}) => Text(text,
+  static Text infoText(String text, {bool isCenter = false, Color? color}) => Text(
+      text,
       textAlign: isCenter ? TextAlign.center : TextAlign.left,
       style: TextStyle(
-          fontSize: 14,
-          color: AppColor.secondaryTextColor,
-          fontWeight: FontWeight.w300));
+        fontSize: 14,
+        color: color ?? AppColor.secondaryTextColor, // Use color if provided, otherwise use default
+        fontWeight: FontWeight.w800,
+      ),
+    );
     static Text extraSmallinfoText(String text, {bool isCenter = false}) => Text(text,
       textAlign: isCenter ? TextAlign.center : TextAlign.left,
       style: TextStyle(
@@ -63,7 +66,7 @@ class CustomText {
       style: TextStyle(
           fontSize: fontsize,
           color: Colors.black,
-          fontWeight: FontWeight.w600));
+          fontWeight: FontWeight.w800));
   static taskBtnText(String text, {double fontsize = 16}) => Text(
       textAlign: TextAlign.center,
       text,

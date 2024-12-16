@@ -11,6 +11,7 @@ class StrLiteral {
   static const String tradeMark= 'assets/images/trademark.png';
   static const String intro1= 'assets/images/intro1.png';
   static const String intro2= 'assets/images/intro2.png';
+  static const String login1= 'assets/images/login1.png';
   static const String GST= 'assets/images/gst.png';
   static const String slider1= 'assets/images/slider1.png';
   static const String slider2= 'assets/images/slider2.png';
