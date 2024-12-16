@@ -328,7 +328,7 @@ FilePickerResult? result = await FilePicker.platform.pickFiles(
           } else {
             CustomMessenger.defaultMessenger(context, "Location permission not granted.");
           }
-        }),
+        },color: Color(0xFFE0E1DD)),
         
                    SizedBox(height: 8),
                    getStateCityInput(),
@@ -454,7 +454,7 @@ FilePickerResult? result = await FilePicker.platform.pickFiles(
           Container(
             margin: EdgeInsets.fromLTRB(50, 30, 50, 30),
             decoration: BoxDecoration(
-                border: Border.all(color: Colors.black),
+                border: Border.all(color: Color(0xFF0D1B2A)),
                 borderRadius: BorderRadius.all(Radius.circular(4))),
             padding: EdgeInsets.all(20),
             child: Column(
@@ -584,22 +584,35 @@ FilePickerResult? result = await FilePicker.platform.pickFiles(
           ) //IconButton
             ],
           ),
-          TextFormField(
-              decoration: MyTextField.outlinedTextField(""),
-              keyboardType: textInputType,
-              controller: controller,
-              // readOnly: true,
-               validator: (value){
-               validationService.validate(value!,textInputType);
-
-               },
-              enabled: true,
-              enableInteractiveSelection: false,
-              cursorColor: AppColor.primaryTextColor,
-              style: TextStyle(
-                  color: AppColor.primaryTextColor,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w400)),
+          Container(
+            decoration: BoxDecoration(
+                color: Colors.white, // Background color for the input
+                borderRadius: BorderRadius.circular(8),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.7), // Shadow color
+                    blurRadius: 6, // Spread of the shadow
+                    offset: Offset(0, 3), // Position of the shadow
+                  ),
+                ],
+              ),
+            child: TextFormField(
+                decoration: MyTextField.outlinedTextField(""),
+                keyboardType: textInputType,
+                controller: controller,
+                // readOnly: true,
+                 validator: (value){
+                 validationService.validate(value!,textInputType);
+            
+                 },
+                enabled: true,
+                enableInteractiveSelection: false,
+                cursorColor: AppColor.primaryTextColor,
+                style: TextStyle(
+                    color: AppColor.primaryTextColor,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w400)),
+          ),
         ],
       ),
     );

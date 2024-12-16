@@ -153,7 +153,7 @@ class _IntroPageState extends State<IntroPage> {
               child: Container(
                 padding: EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                    color: Color(0xffECECEC),
+                    color: Color(0xffE0E1DD),
                     // color: Colors.red,
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(50),

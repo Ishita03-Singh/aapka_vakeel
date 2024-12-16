@@ -278,8 +278,8 @@ class _AdvocateDetailState extends State<AdvocateDetail> {
           },
           child:Container(
             padding:EdgeInsets.fromLTRB(20,10,20,10),
-            decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(10)),
-            color: Colors.black),
+            decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(5)),
+            color: Color(0xFF0D1B2A)),
             child: Row(mainAxisAlignment: MainAxisAlignment.center,
               children: [
               Icon(Icons.call,color: Colors.white,size: 18),
@@ -326,8 +326,8 @@ class _AdvocateDetailState extends State<AdvocateDetail> {
 
           },
           child:Container(padding:EdgeInsets.fromLTRB(20,10,20,10),
-            decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(10)),
-            color: Colors.black),
+            decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(5)),
+            color: Color(0xFF0D1B2A)),
             child: Row(mainAxisAlignment: MainAxisAlignment.center,children: [
               Icon(Icons.videocam,color: Colors.white,size: 18),
               SizedBox(width: 10),

@@ -102,8 +102,8 @@ Future<void> _initializeAsync() async {
                     child: Container(
                       padding: EdgeInsets.all(8),
                       decoration: BoxDecoration(
-                        border: Border.all(color:Colors.black),
-                        color: isAffidavitPage?Colors.black:Colors.white,
+                        border: Border.all(color:Color(0xFF0D1B2A)),
+                        color: isAffidavitPage?Color(0xFF0D1B2A):Colors.white,
                         borderRadius: BorderRadius.all(Radius.circular(20))),
                       child: isAffidavitPage?CustomText.taskBtnText("Affidavit"):CustomText.cancelBtnText("Affidavit")),
                   )),
@@ -121,8 +121,8 @@ Future<void> _initializeAsync() async {
                       child: Container(
                       padding: EdgeInsets.all(8),
                       decoration: BoxDecoration(
-                        border: Border.all(color:Colors.black),
-                        color: isAffidavitPage?Colors.white:Colors.black,
+                        border: Border.all(color:Color(0xFF0D1B2A)),
+                        color: isAffidavitPage?Colors.white:Color(0xFF0D1B2A),
                         borderRadius: BorderRadius.all(Radius.circular(20))),
                       child: isAffidavitPage?CustomText.cancelBtnText("Agreement"):CustomText.taskBtnText("Agreement"),),
                     )),
@@ -248,11 +248,18 @@ Future<void> _initializeAsync() async {
 
   draftListContainer(String text,){
     return Container(
-      margin: EdgeInsets.only(top:  6),
+      margin: EdgeInsets.only(top:  6,bottom: 7),
       padding: EdgeInsets.all(8),
       decoration: BoxDecoration(
-        color: Color(0xFFF0F0F0),
-        borderRadius: BorderRadius.all(Radius.circular(10))
+        color: Color(0xFFE0E1DD),
+        borderRadius: BorderRadius.all(Radius.circular(10)),
+          boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.7), // Shadow color
+                    blurRadius: 6, // Spread of the shadow
+                    offset: Offset(0, 3), // Position of the shadow
+                  ),
+                ],
         ),
       child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -384,7 +391,7 @@ return Container(
           } else {
             CustomMessenger.defaultMessenger(context, "Location permission not granted.");
           }
-        }),
+        },color: Color(0xFFE0E1DD)),
           SizedBox(height: 8),
           getStateCityInput(),
           giveInputField("Address", addressController, true,TextInputType.streetAddress),
@@ -520,21 +527,34 @@ return Container(
               CustomText.infoText(HeadText),
             ],
           ),
-          TextFormField(
-              decoration: MyTextField.outlinedTextField(""),
-              keyboardType: textInputType,
-              controller: controller,
-              // readOnly: true,
-               validator: (value) {
-                 validationService.validate(value!, textInputType);
-                },
-              // enabled: true,
-              // enableInteractiveSelection: false,
-              cursorColor: AppColor.primaryTextColor,
-              style: TextStyle(
-                  color: AppColor.primaryTextColor,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w400)),
+          Container(
+             decoration: BoxDecoration(
+                color: Colors.white, // Background color for the input
+                borderRadius: BorderRadius.circular(8),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.7), // Shadow color
+                    blurRadius: 6, // Spread of the shadow
+                    offset: Offset(0, 3), // Position of the shadow
+                  ),
+                ],
+              ),
+            child: TextFormField(
+                decoration: MyTextField.outlinedTextField(""),
+                keyboardType: textInputType,
+                controller: controller,
+                // readOnly: true,
+                 validator: (value) {
+                   validationService.validate(value!, textInputType);
+                  },
+                // enabled: true,
+                // enableInteractiveSelection: false,
+                cursorColor: AppColor.primaryTextColor,
+                style: TextStyle(
+                    color: AppColor.primaryTextColor,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w400)),
+          ),
         ],
       ),
     );
@@ -617,7 +637,8 @@ List<String> affidavitList= [];
     return  Scaffold(
       appBar: MyAppBar.appbar(context,head: ""),
       body: Container(
-        padding: EdgeInsets.fromLTRB(20,40,20,20),
+        color: Color(0xFFE0E1DD),
+        padding: EdgeInsets.all(40),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -631,8 +652,9 @@ List<String> affidavitList= [];
                
               padding:EdgeInsets.all(20),
               decoration: BoxDecoration(
+                color: Colors.white,
                 //  color: Colors.red,
-                border: Border.all(color: Colors.black)),
+                border: Border.all(color: Color(0xFF0D1B2A))),
             child: Column(              
               crossAxisAlignment: CrossAxisAlignment.stretch,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -658,7 +680,7 @@ List<String> affidavitList= [];
                             height: 4,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.all(Radius.circular(2)),
-                              color: _currentPage==0?Colors.black:Color(0xFFbdbdbd),
+                              color: _currentPage==0?Color(0xFF0D1B2A):Colors.white,
                             ),
                           ),
 
@@ -668,7 +690,7 @@ List<String> affidavitList= [];
                             height: 4,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.all(Radius.circular(2)),
-                              color: _currentPage==0?Color(0xFFbdbdbd):Colors.black,
+                              color: _currentPage==0?Colors.white:Color(0xFF0D1B2A),
                             ),
                           ),
           ],),

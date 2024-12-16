@@ -170,7 +170,7 @@ class _UserProfileState extends State<UserProfile> {
                                     type: PageTransitionType.rightToLeft));
               },"Are you sure you want to Logout?","Logout");
                        
-                        })
+                        },color: Color(0xFFE0E1DD))
             ],),
           ),
 
@@ -272,6 +272,7 @@ Future<void> signOutUser() async {
       padding: EdgeInsets.only(bottom: 20),
       child: Column(
         children: [
+          if(!disabledEdit)
           Row(
             children: [
               if (isrequired)
@@ -279,29 +280,42 @@ Future<void> signOutUser() async {
                   "*",
                   style: TextStyle(color: Colors.red),
                 ),
-              Padding(padding: EdgeInsets.all(4)),
-              CustomText.infoText(HeadText),
+              // Padding(padding: EdgeInsets.all(4)),
+              // CustomText.infoText(HeadText),
             ],
           ),
-          TextFormField(
-            
-              decoration: MyTextField.outlinedTextField(""),
-              keyboardType: textInputType,
-              controller: controller,
-              readOnly: disabledEdit,
-               validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter ${HeadText}';
-                  }
-                  return null;
-                },
-              enabled: true,
-              enableInteractiveSelection: false,
-              cursorColor: AppColor.primaryTextColor,
-              style: TextStyle(
-                  color: AppColor.primaryTextColor,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w400)),
+          Container(
+             decoration: BoxDecoration(
+                color: Colors.white, // Background color for the input
+                borderRadius: BorderRadius.circular(8),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.7), // Shadow color
+                    blurRadius: 6, // Spread of the shadow
+                    offset: Offset(0, 3), // Position of the shadow
+                  ),
+                ],
+              ),
+            child: TextFormField(
+              
+                decoration: MyTextField.outlinedTextField(""),
+                keyboardType: textInputType,
+                controller: controller,
+                readOnly: disabledEdit,
+                 validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter ${HeadText}';
+                    }
+                    return null;
+                  },
+                enabled: true,
+                enableInteractiveSelection: false,
+                cursorColor: AppColor.primaryTextColor,
+                style: TextStyle(
+                    color: AppColor.primaryTextColor,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w400)),
+          ),
         ],
       ),
     );

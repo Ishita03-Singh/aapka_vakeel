@@ -18,6 +18,8 @@ import 'package:flutter/widgets.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:pinput/pinput.dart';
 
+import '../utilities/strings.dart';
+
 class OTPScreen extends StatefulWidget {
   // User user;
   var verificationId;
@@ -57,293 +59,302 @@ class _OTPScreenState extends State<OTPScreen> {
         children: [
          SingleChildScrollView(
           child: Container(
-            padding: const EdgeInsets.only(left: 16, right: 16, top: 30),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
+            child: Column( mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                CustomText.headText("OTP Verification"),
-                // Padding(padding: EdgeInsets.all(12)),
-                CustomText.infoText("Enter the 6 digit code sent to "),
-                CustomText.infoText(widget.phoneNumber),
-                Padding(padding: EdgeInsets.only(top: 12)),
-                // FocusScope(
-                //   node: _focusScopeNode,
-                //   child: Container(
-                //     width: MediaQuery.of(context).size.width,
-                //     child: Row(
-                //         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                //         crossAxisAlignment: CrossAxisAlignment.center,
-                //         children: [
-                //           Row(
-                //             mainAxisAlignment: MainAxisAlignment.center,
-                //             children: List.generate(6, (index) {
-                //               return Container(
-                //                 width: MediaQuery.of(context).size.width/8,
-                //                 height: 60,
-                //                 margin: index > 0
-                //                     ? EdgeInsets.symmetric(horizontal: 5)
-                //                     : EdgeInsets.symmetric(horizontal: 0),
-                //                 decoration: BoxDecoration(
-                //                   color: Color(0xffececec),
-                //                   border: Border.all(width: 2, color: Colors.black),
-                //                   borderRadius: BorderRadius.circular(10),
-                //                 ),
-                //                 child: TextField(
-                //                   controller: _controllers[index],
-                //                   focusNode: _focusNodes[index],
-                //                   keyboardType: TextInputType.text,
-                //                   textAlign: TextAlign.center,
-                //                   maxLength: 1,
-                //                    inputFormatters: [
-                //                     FilteringTextInputFormatter.digitsOnly,
-                //                      LengthLimitingTextInputFormatter(1),
-                //                 ],
-                //                   style: TextStyle(
-                //                       fontSize: 24,
-                //                       color: AppColor.secondaryTextColor),
-                //                   decoration: InputDecoration(
-                //                     counterText: '',
-                //                     border: InputBorder.none,
-                //                   ),
-                //                   onChanged: (value) {
-                //                     if (value.isNotEmpty && index < 5) {
-                //                       _focusNodes[index].unfocus();
-                //                       // FocusScope.of(context).nextFocus();
-                //                        FocusScope.of(context)
-                //                           .requestFocus(_focusNodes[index + 1]);
-                //                     } else if (value.isEmpty && index > 0) {
-                //                       _focusNodes[index].unfocus();
-                //                       FocusScope.of(context)
-                //                           .requestFocus(_focusNodes[index - 1]);
-                //                           // KeyboardLockMode.numLock;
-                //                       // FocusScope.of(context).previousFocus();
-
-                //                     }
-                //                   },
-                //                 ),
-                //               );
-                //             }),
-                //           ),
-                //           // Container(
-                //           //   width: 100,
-                //           //   child: TextField(
-                //           //       decoration:
-                //           //           MyTextField.filledTextFieldCountryCode(""),
-                //           //       keyboardType: TextInputType.phone,
-                //           //       controller: otpController,
-                //           //       readOnly: true,
-                //           //       // enabled: true,
-                //           //       // enableInteractiveSelection: false,
-                //           //       // cursorColor: AppColor.primaryTextColor,
-                //           //       style: TextStyle(
-                //           //           color: AppColor.primaryTextColor,
-                //           //           fontSize: 16,
-                //           //           fontWeight: FontWeight.w900)),
-                //           // ),
-                //         ]),
-                //   ),
-                // ),
-                Pinput(
-
-                  controller: otpController,
-
-                  length: 6,
-
-                  defaultPinTheme: PinTheme(
-
-                    width: 50,
-
-                    height: 60,
-
-                    textStyle: TextStyle(
-
-                      fontSize: 24,
-
-                      color: AppColor.secondaryTextColor,
-
-                      fontWeight: FontWeight.w600,
-
-                    ),
-
-                    decoration: BoxDecoration(
-
-                      color: Color(0xffececec),
-
-                      borderRadius: BorderRadius.circular(10),
-
-                      border: Border.all(color: Colors.black, width: 2),
-
-                    ),
-
-                  ),
-
-                  onChanged: (value) {
-
-                    // Check if the input value is numeric and has exactly 6 digits
-
-                    if (value.length == 6 && int.tryParse(value) != null) {
-
-                      // Valid input
-
-                      print('Valid OTP: $value');
-
-                    } else {
-
-                      // Invalid input, can display an error message or handle it as needed
-
-                      print('Invalid OTP, must be 6 digits long');
-
-                    }
-
-                  },
-
-                ),
-                Padding(padding: EdgeInsets.only(top: 12)),
-                customButton.taskButton("Verify now", () async {
-                  String code = otpController.text;
-                  setState(() {
-                    _isLoading=true;
-                  });
-          
-                  AuthCredential credential = PhoneAuthProvider.credential(
-                      verificationId: widget.verificationId, smsCode: code);
-          
-                  UserCredential result =
-                      await widget.auth.signInWithCredential(credential);
-          
-                  User user = result.user!;
-          
-                  if (user != null) {
-                    setState(() {
-                      _isLoading=false;
-                    });
-                    print(user);
-                    if (widget.isFirst) {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => UserRegistrationForm(
-                                  isAdvocate: widget.isAdvocate,
-                                  userCredential: result,)));
-                    } else {
-                      
-                      //get user from firebase
-
-                      // MySharedPreferences.instance.setISLoggedIn();
-
-                       print(user.uid);
-                       try{
-                        var userRes=false;
-                        DocumentSnapshot userSnapshot= await _firestore.collection('users').doc(user.uid).get();
-                             if (userSnapshot.exists) {
-                              userRes=true;
+                Container(
+                  padding: const EdgeInsets.only(left: 16, right: 16, top: 30),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      CustomText.headText("OTP Verification"),
+                      // Padding(padding: EdgeInsets.all(12)),
+                      CustomText.infoText("Enter the 6 digit code sent to "),
+                      CustomText.infoText(widget.phoneNumber),
+                      Padding(padding: EdgeInsets.only(top: 12)),
+                      // FocusScope(
+                      //   node: _focusScopeNode,
+                      //   child: Container(
+                      //     width: MediaQuery.of(context).size.width,
+                      //     child: Row(
+                      //         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      //         crossAxisAlignment: CrossAxisAlignment.center,
+                      //         children: [
+                      //           Row(
+                      //             mainAxisAlignment: MainAxisAlignment.center,
+                      //             children: List.generate(6, (index) {
+                      //               return Container(
+                      //                 width: MediaQuery.of(context).size.width/8,
+                      //                 height: 60,
+                      //                 margin: index > 0
+                      //                     ? EdgeInsets.symmetric(horizontal: 5)
+                      //                     : EdgeInsets.symmetric(horizontal: 0),
+                      //                 decoration: BoxDecoration(
+                      //                   color: Color(0xffececec),
+                      //                   border: Border.all(width: 2, color: Colors.black),
+                      //                   borderRadius: BorderRadius.circular(10),
+                      //                 ),
+                      //                 child: TextField(
+                      //                   controller: _controllers[index],
+                      //                   focusNode: _focusNodes[index],
+                      //                   keyboardType: TextInputType.text,
+                      //                   textAlign: TextAlign.center,
+                      //                   maxLength: 1,
+                      //                    inputFormatters: [
+                      //                     FilteringTextInputFormatter.digitsOnly,
+                      //                      LengthLimitingTextInputFormatter(1),
+                      //                 ],
+                      //                   style: TextStyle(
+                      //                       fontSize: 24,
+                      //                       color: AppColor.secondaryTextColor),
+                      //                   decoration: InputDecoration(
+                      //                     counterText: '',
+                      //                     border: InputBorder.none,
+                      //                   ),
+                      //                   onChanged: (value) {
+                      //                     if (value.isNotEmpty && index < 5) {
+                      //                       _focusNodes[index].unfocus();
+                      //                       // FocusScope.of(context).nextFocus();
+                      //                        FocusScope.of(context)
+                      //                           .requestFocus(_focusNodes[index + 1]);
+                      //                     } else if (value.isEmpty && index > 0) {
+                      //                       _focusNodes[index].unfocus();
+                      //                       FocusScope.of(context)
+                      //                           .requestFocus(_focusNodes[index - 1]);
+                      //                           // KeyboardLockMode.numLock;
+                      //                       // FocusScope.of(context).previousFocus();
+                
+                      //                     }
+                      //                   },
+                      //                 ),
+                      //               );
+                      //             }),
+                      //           ),
+                      //           // Container(
+                      //           //   width: 100,
+                      //           //   child: TextField(
+                      //           //       decoration:
+                      //           //           MyTextField.filledTextFieldCountryCode(""),
+                      //           //       keyboardType: TextInputType.phone,
+                      //           //       controller: otpController,
+                      //           //       readOnly: true,
+                      //           //       // enabled: true,
+                      //           //       // enableInteractiveSelection: false,
+                      //           //       // cursorColor: AppColor.primaryTextColor,
+                      //           //       style: TextStyle(
+                      //           //           color: AppColor.primaryTextColor,
+                      //           //           fontSize: 16,
+                      //           //           fontWeight: FontWeight.w900)),
+                      //           // ),
+                      //         ]),
+                      //   ),
+                      // ),
+                      Pinput(
+                
+                        controller: otpController,
+                
+                        length: 6,
+                
+                        defaultPinTheme: PinTheme(
+                
+                          width: 50,
+                
+                          height: 60,
+                
+                          textStyle: TextStyle(
+                
+                            fontSize: 24,
+                
+                            color: AppColor.secondaryTextColor,
+                
+                            fontWeight: FontWeight.w600,
+                
+                          ),
+                
+                          decoration: BoxDecoration(
+                
+                            color: Color(0xffE0E1DD),
+                
+                            borderRadius: BorderRadius.circular(10),
+                
+                            border: Border.all(color: Color(0xFF0D1B2A), width: 1),
+                
+                          ),
+                
+                        ),
+                
+                        onChanged: (value) {
+                
+                          // Check if the input value is numeric and has exactly 6 digits
+                
+                          if (value.length == 6 && int.tryParse(value) != null) {
+                
+                            // Valid input
+                
+                            print('Valid OTP: $value');
+                
+                          } else {
+                
+                            // Invalid input, can display an error message or handle it as needed
+                
+                            print('Invalid OTP, must be 6 digits long');
+                
+                          }
+                
+                        },
+                
+                      ),
+                      Padding(padding: EdgeInsets.only(top: 12)),
+                      customButton.taskButton("Verify now", () async {
+                        String code = otpController.text;
+                        setState(() {
+                          _isLoading=true;
+                        });
+                
+                        AuthCredential credential = PhoneAuthProvider.credential(
+                            verificationId: widget.verificationId, smsCode: code);
+                
+                        UserCredential result =
+                            await widget.auth.signInWithCredential(credential);
+                
+                        User user = result.user!;
+                
+                        if (user != null) {
+                          setState(() {
+                            _isLoading=false;
+                          });
+                          print(user);
+                          if (widget.isFirst) {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => UserRegistrationForm(
+                                        isAdvocate: widget.isAdvocate,
+                                        userCredential: result,)));
+                          } else {
+                            
+                            //get user from firebase
+                
+                            // MySharedPreferences.instance.setISLoggedIn();
+                
+                             print(user.uid);
+                             try{
+                              var userRes=false;
+                              DocumentSnapshot userSnapshot= await _firestore.collection('users').doc(user.uid).get();
+                                   if (userSnapshot.exists) {
+                                    userRes=true;
+                                   }
+                                   else{
+                                    userSnapshot= await _firestore.collection('advocates').doc(user.uid).get();
+                                     if (userSnapshot.exists) {
+                                        userRes=true;
+                                      }
+                                      else{
+                                        userRes=false;
+                                      }
+                                   }
+                              // Check if the document exists
+                              if (userRes) {
+                                // Access the data
+                                Map<String, dynamic>? userData = userSnapshot.data() as Map<String, dynamic>?;
+                                print('User data: $userData');
+                                   userClass.uid=user.uid;
+                                    userClass.email=userData?["email"];
+                                    userClass.isAdvocate=false;
+                                    userClass.displayName=userData?["firstName"]+" "+userData?["lastName"];
+                                    userClass.address=userData?["address"];
+                                    userClass.barRegistrationNo= userData?["barRegistrationNo"]??"";
+                                    userClass.barRegistrationCertificate=userData?["barRegistrationCertificate"] ??"";
+                                    userClass.phoneNumber= userData?["phoneNumber"];
+                                    userClass.introduction=userData?["introduction"]??"";
+                                    userClass.experience=userData?["experience"]??"";
+                                    userClass.charges=userData?["charges"]??"";
+                                    userClass.skills=userData?["skills"]??"";
+                                       
+                                       if(userClass.isAdvocate){
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) => AdvocateDashboard(
+                                                        user: user,
+                                                        userclass: userClass,
+                                                      )));
+                
+                                       }
+                                       else{
+                                              Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) => Dashboard(
+                                                        user: user,
+                                                        userclass: userClass,
+                                                      )));
+                                       }
+                           
+                           
+                              } else {
+                                print('No such document exists!');
+                                CustomMessenger.defaultMessenger(context, "No such user found");
+                              }
+                
+                                  //  userClass.uid=user.uid;
+                                  //   userClass.email=Muser["email"];
+                                  //   userClass.displayName=Muser["firstName"]+Muser["lastName"];
+                                  //   userClass.address=Muser["address"];
+                                  //   userClass.barRegistrationNo= Muser["barRegistrationNo"]??"";
+                                  //   userClass.barRegistrationCertificate=Muser["barRegistrationCertificate"] ??"";
+                                  //   userClass.phoneNumber= Muser["phoneNumber"];
+                                  //   userClass.introduction=Muser["introduction"]??"";
+                                  //   userClass.experience=Muser["experience"]??"";
+                                  //   userClass.charges=Muser["charges"]??"";
+                                  //   userClass.skills=Muser["skills"]??"";
+                               
                              }
-                             else{
-                              userSnapshot= await _firestore.collection('advocates').doc(user.uid).get();
-                               if (userSnapshot.exists) {
-                                  userRes=true;
-                                }
-                                else{
-                                  userRes=false;
-                                }
+                             catch(ex){
+                              CustomMessenger.defaultMessenger(context, "Error getting user");
+                              print(ex);
                              }
-                        // Check if the document exists
-                        if (userRes) {
-                          // Access the data
-                          Map<String, dynamic>? userData = userSnapshot.data() as Map<String, dynamic>?;
-                          print('User data: $userData');
-                             userClass.uid=user.uid;
-                              userClass.email=userData?["email"];
-                              userClass.isAdvocate=false;
-                              userClass.displayName=userData?["firstName"]+" "+userData?["lastName"];
-                              userClass.address=userData?["address"];
-                              userClass.barRegistrationNo= userData?["barRegistrationNo"]??"";
-                              userClass.barRegistrationCertificate=userData?["barRegistrationCertificate"] ??"";
-                              userClass.phoneNumber= userData?["phoneNumber"];
-                              userClass.introduction=userData?["introduction"]??"";
-                              userClass.experience=userData?["experience"]??"";
-                              userClass.charges=userData?["charges"]??"";
-                              userClass.skills=userData?["skills"]??"";
-                                 
-                                 if(userClass.isAdvocate){
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => AdvocateDashboard(
-                                                  user: user,
-                                                  userclass: userClass,
-                                                )));
-
-                                 }
-                                 else{
-                                        Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => Dashboard(
-                                                  user: user,
-                                                  userclass: userClass,
-                                                )));
-                                 }
-                     
-                     
+                             
+                              // }
+                            // });
+                
+                            
+                          }
                         } else {
-                          print('No such document exists!');
-                          CustomMessenger.defaultMessenger(context, "No such user found");
+                          print("Error");
                         }
-
-                            //  userClass.uid=user.uid;
-                            //   userClass.email=Muser["email"];
-                            //   userClass.displayName=Muser["firstName"]+Muser["lastName"];
-                            //   userClass.address=Muser["address"];
-                            //   userClass.barRegistrationNo= Muser["barRegistrationNo"]??"";
-                            //   userClass.barRegistrationCertificate=Muser["barRegistrationCertificate"] ??"";
-                            //   userClass.phoneNumber= Muser["phoneNumber"];
-                            //   userClass.introduction=Muser["introduction"]??"";
-                            //   userClass.experience=Muser["experience"]??"";
-                            //   userClass.charges=Muser["charges"]??"";
-                            //   userClass.skills=Muser["skills"]??"";
-                         
-                       }
-                       catch(ex){
-                        CustomMessenger.defaultMessenger(context, "Error getting user");
-                        print(ex);
-                       }
-                       
-                        // }
-                      // });
-
-                      
-                    }
-                  } else {
-                    print("Error");
-                  }
-                }),
-                Padding(padding: EdgeInsets.all(8)),
-                Center(
-                  child: GestureDetector(
-                    onTap: ()async{
-                      setState(() {
-                        _isLoading=true;
-                      });
-                      await loginUser(widget.phoneNumber, context);
-                    },
-                    child: RichText(
-                        text: TextSpan(
-                      // Note: Styles for TextSpans must be explicitly defined.
-                      // Child text spans will inherit styles from parent
-                      style: TextStyle(
-                          fontSize: 14.0,
-                          color: AppColor.secondaryTextColor,
-                          fontWeight: FontWeight.w300),
-                      children: <TextSpan>[
-                        TextSpan(text: 'Didn’t recieve code? '),
-                        TextSpan(
-                            text: 'Resend Code',
-                            style: const TextStyle(fontWeight: FontWeight.w900)),
-                      ],
-                    )),
+                      }),
+                      Padding(padding: EdgeInsets.all(8)),
+                      Center(
+                        child: GestureDetector(
+                          onTap: ()async{
+                            setState(() {
+                              _isLoading=true;
+                            });
+                            await loginUser(widget.phoneNumber, context);
+                          },
+                          child: RichText(
+                              text: TextSpan(
+                            // Note: Styles for TextSpans must be explicitly defined.
+                            // Child text spans will inherit styles from parent
+                            style: TextStyle(
+                                fontSize: 14.0,
+                                color: AppColor.secondaryTextColor,
+                                fontWeight: FontWeight.w300),
+                            children: <TextSpan>[
+                              TextSpan(text: 'Didn’t recieve code? '),
+                              TextSpan(
+                                  text: 'Resend Code',
+                                  style: const TextStyle(fontWeight: FontWeight.w900)),
+                            ],
+                          )),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
+                 Image.asset(StrLiteral.lady,
+                  height: MediaQuery.of(context).size.height/1.5,
+                )
               ],
             ),
           ),

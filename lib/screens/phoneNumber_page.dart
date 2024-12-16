@@ -47,208 +47,216 @@ class _PhoneNumPageState extends State<PhoneNumPage> {
            
           SingleChildScrollView(
             child: Container(
-
-              padding: const EdgeInsets.only(left: 16, right: 16, top: 30),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
+             height: MediaQuery.of(context).size.height-80,
+              child: Column(mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  CustomText.headText(
-                      widget.first ? "Lets get started" : "Welcome Back!"),
-                  // Padding(padding: EdgeInsets.all(12)),
-                  CustomText.infoText(
-                      "Embrace the future of law with Aapka Vakeel. Our innovative application combines technology with legal expertise to deliver unparalleled service."),
-                  Padding(padding: EdgeInsets.only(top: 12)),
                   Container(
-                    width: MediaQuery.of(context).size.width,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                  
+                    padding: const EdgeInsets.only(left: 16, right: 16, top: 30),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
+                        CustomText.headText(
+                            widget.first ? "Lets get started" : "Welcome Back!"),
+                        // Padding(padding: EdgeInsets.all(12)),
+                        CustomText.infoText(
+                            "Embrace the future of law with Aapka Vakeel. Our innovative application combines technology with legal expertise to deliver unparalleled service."),
+                        Padding(padding: EdgeInsets.only(top: 12)),
                         Container(
-                          width: 70,
-                          child: IntlPhoneField(
-                            invalidNumberMessage: '',
-                            disableLengthCheck: true,
-                            pickerDialogStyle: PickerDialogStyle(width: 300),
-                            flagsButtonPadding: const EdgeInsets.all(8),
-                            dropdownIconPosition: IconPosition.trailing,
-                            controller: countryController,
-                            decoration: MyTextField.filledTextField(""),
-                            dropdownIcon:
-                                Icon(Icons.keyboard_arrow_down_rounded),
-                            style: TextStyle(
-                                color: AppColor.primaryTextColor,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w400),
-                            initialCountryCode: 'IN',
-                            onCountryChanged: (value) {
-                              countryCodeController.text =
-                                  "+" + value.dialCode + " ";
-                              setState(() {});
-                            },
-                          ),
-                        ),
-                        Container(
-                          width: MediaQuery.of(context).size.width - 110,
+                          width: MediaQuery.of(context).size.width,
                           child: Row(
-                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Container(
-                                width: 50,
-                                child: TextField(
-                                    decoration:
-                                        MyTextField.filledTextFieldCountryCode(
-                                            ""),
-                                    keyboardType: TextInputType.phone,
-                                    controller: countryCodeController,
-                                    readOnly: true,
-                                    // enabled: true,
-                                    // enableInteractiveSelection: false,
-                                    // cursorColor: AppColor.primaryTextColor,
-                                    style: TextStyle(
-                                        color: AppColor.primaryTextColor,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w900)),
+                                width: 70,
+                                child: IntlPhoneField(
+                                  invalidNumberMessage: '',
+                                  disableLengthCheck: true,
+                                  pickerDialogStyle: PickerDialogStyle(width: 300),
+                                  flagsButtonPadding: const EdgeInsets.all(8),
+                                  dropdownIconPosition: IconPosition.trailing,
+                                  controller: countryController,
+                                  decoration: MyTextField.filledTextField(""),
+                                  dropdownIcon:
+                                      Icon(Icons.keyboard_arrow_down_rounded),
+                                  style: TextStyle(
+                                      color: AppColor.primaryTextColor,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w400),
+                                  initialCountryCode: 'IN',
+                                  onCountryChanged: (value) {
+                                    countryCodeController.text =
+                                        "+" + value.dialCode + " ";
+                                    setState(() {});
+                                  },
+                                ),
                               ),
-                              Expanded(
-                                child: Container(
-                                  child: TextField(
-                                      decoration: MyTextField.PhoneText(
-                                          "Enter Phone Number"),
-                                      keyboardType: TextInputType.phone,
-                                      controller: phonenumController,
-                                      // readOnly: true,
-                                      enabled: true,
-                                      enableInteractiveSelection: false,
-                                      cursorColor: AppColor.primaryTextColor,
-                                      style: TextStyle(
-                                          color: AppColor.primaryTextColor,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w400)),
+                              Container(
+                                width: MediaQuery.of(context).size.width - 110,
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Container(
+                                      width: 50,
+                                      child: TextField(
+                                          decoration:
+                                              MyTextField.filledTextFieldCountryCode(
+                                                  ""),
+                                          keyboardType: TextInputType.phone,
+                                          controller: countryCodeController,
+                                          readOnly: true,
+                                          // enabled: true,
+                                          // enableInteractiveSelection: false,
+                                          // cursorColor: AppColor.primaryTextColor,
+                                          style: TextStyle(
+                                              color: AppColor.primaryTextColor,
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w900)),
+                                    ),
+                                    Expanded(
+                                      child: Container(
+                                        child: TextField(
+                                            decoration: MyTextField.PhoneText(
+                                                "Enter Phone Number"),
+                                            keyboardType: TextInputType.phone,
+                                            controller: phonenumController,
+                                            // readOnly: true,
+                                            enabled: true,
+                                            enableInteractiveSelection: false,
+                                            cursorColor: AppColor.primaryTextColor,
+                                            style: TextStyle(
+                                                color: AppColor.primaryTextColor,
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w400)),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ],
                           ),
                         ),
+                        // if (widget.first)
+                          Theme(
+                    data: Theme.of(context).copyWith(
+                      unselectedWidgetColor: Color(0xFF0D1B2A),
+                      useMaterial3: true,
+                    ),
+                    child: ListTileTheme(
+                      horizontalTitleGap: 0,
+                      child: CheckboxListTile(
+                        contentPadding: const EdgeInsets.all(0),
+                        controlAffinity: ListTileControlAffinity.leading,
+                        title: Container(
+                          child: Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                  CustomText.infoText("I agree to the "),
+                  GestureDetector(
+                    onTap: () {
+                      MyAppBar.launchURL('http://aapkavakeel.com/#/terms');
+                    },
+                    child: Container(
+                      child: Text(
+                        "terms and conditions",
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                          fontSize: 12,
+                          decoration: TextDecoration.underline,
+                          color: AppColor.primaryTextColor,
+                          fontWeight: FontWeight.w400,
+                        ),
+                        overflow: TextOverflow.ellipsis, // Handle overflow
+                        maxLines: 1, // Limit lines if needed
+                      ),
+                    ),
+                  ),
+                            ],
+                          ),
+                        ),
+                        activeColor: AppColor.tertiaryColor,
+                        checkColor: AppColor.tertiaryTextColor,
+                        value: termsCond,
+                        onChanged: (newValue) => setState(() => termsCond = newValue!),
+                      ),
+                    ),
+                  ),
+                  
+                        Padding(padding: EdgeInsets.only(top: 12)),
+                        customButton.taskButton("Continue", () {
+                          if (phonenumController.text.isEmpty ||
+                              phonenumController.text.length != 10) {
+                            CustomMessenger.defaultMessenger(
+                                context, "Please enter valid phone number");
+                            return;
+                          }
+                          if(!termsCond){
+                             CustomMessenger.defaultMessenger(
+                                context, "Please accept our terms and conditions");
+                            return;   
+                          }
+                          setState(() {
+                            _isLoading = true; // Start the task
+                          });
+                          final phone = countryCodeController.text.trim() +
+                              phonenumController.text.trim();
+                  
+                          loginUser(phone, context);
+                          // Navigator.push(
+                          //     context,
+                          //     PageTransition(
+                          //         child: OTPScreen(),
+                          //         type: PageTransitionType.rightToLeft));
+                        }),
+                        Padding(padding: EdgeInsets.all(8)),
+                        Center(
+                          child: GestureDetector(
+                            onTap: () {
+                              if (widget.first) {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => PhoneNumPage(
+                                              first: false,
+                                              isAdvocate: false,
+                                            )));
+                              } else {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => WelcomePage()));
+                              }
+                            },
+                            child: RichText(
+                                text: TextSpan(
+                              // Note: Styles for TextSpans must be explicitly defined.
+                              // Child text spans will inherit styles from parent
+                              style: TextStyle(
+                                  fontSize: 14.0,
+                                  color: AppColor.secondaryTextColor,
+                                  fontWeight: FontWeight.w300),
+                              children: <TextSpan>[
+                                TextSpan(
+                                    text: widget.first
+                                        ? 'Already have an account? '
+                                        : 'Not member? '),
+                                TextSpan(
+                                    text: widget.first ? 'Login' : 'Register Now!',
+                                    style:
+                                        const TextStyle(fontWeight: FontWeight.w900)),
+                              ],
+                            )),
+                          ),
+                        ),
+                       
                       ],
                     ),
                   ),
-                  // if (widget.first)
-                    Theme(
-  data: Theme.of(context).copyWith(
-    unselectedWidgetColor: Colors.black,
-    useMaterial3: true,
-  ),
-  child: ListTileTheme(
-    horizontalTitleGap: 0,
-    child: CheckboxListTile(
-      contentPadding: const EdgeInsets.all(0),
-      controlAffinity: ListTileControlAffinity.leading,
-      title: Container(
-        child: Row(
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            Flexible(
-              child: CustomText.infoText("I agree to the "),
-            ),
-            GestureDetector(
-              onTap: () {
-                MyAppBar.launchURL('http://aapkavakeel.com/#/terms');
-              },
-              child: Flexible(
-                child: Container(
-                  child: Text(
-                    "terms and conditions",
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                      fontSize: 12,
-                      decoration: TextDecoration.underline,
-                      color: AppColor.primaryTextColor,
-                      fontWeight: FontWeight.w400,
-                    ),
-                    overflow: TextOverflow.ellipsis, // Handle overflow
-                    maxLines: 1, // Limit lines if needed
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-      activeColor: AppColor.tertiaryColor,
-      checkColor: AppColor.tertiaryTextColor,
-      value: termsCond,
-      onChanged: (newValue) => setState(() => termsCond = newValue!),
-    ),
-  ),
-),
-
-                  Padding(padding: EdgeInsets.only(top: 12)),
-                  customButton.taskButton("Continue", () {
-                    if (phonenumController.text.isEmpty ||
-                        phonenumController.text.length != 10) {
-                      CustomMessenger.defaultMessenger(
-                          context, "Please enter valid phone number");
-                      return;
-                    }
-                    if(!termsCond){
-                       CustomMessenger.defaultMessenger(
-                          context, "Please accept our terms and conditions");
-                      return;   
-                    }
-                    setState(() {
-                      _isLoading = true; // Start the task
-                    });
-                    final phone = countryCodeController.text.trim() +
-                        phonenumController.text.trim();
-
-                    loginUser(phone, context);
-                    // Navigator.push(
-                    //     context,
-                    //     PageTransition(
-                    //         child: OTPScreen(),
-                    //         type: PageTransitionType.rightToLeft));
-                  }),
-                  Padding(padding: EdgeInsets.all(8)),
-                  Center(
-                    child: GestureDetector(
-                      onTap: () {
-                        if (widget.first) {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => PhoneNumPage(
-                                        first: false,
-                                        isAdvocate: false,
-                                      )));
-                        } else {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => WelcomePage()));
-                        }
-                      },
-                      child: RichText(
-                          text: TextSpan(
-                        // Note: Styles for TextSpans must be explicitly defined.
-                        // Child text spans will inherit styles from parent
-                        style: TextStyle(
-                            fontSize: 14.0,
-                            color: AppColor.secondaryTextColor,
-                            fontWeight: FontWeight.w300),
-                        children: <TextSpan>[
-                          TextSpan(
-                              text: widget.first
-                                  ? 'Already have an account? '
-                                  : 'Not member? '),
-                          TextSpan(
-                              text: widget.first ? 'Login' : 'Register Now!',
-                              style:
-                                  const TextStyle(fontWeight: FontWeight.w900)),
-                        ],
-                      )),
-                    ),
-                  ),
+                  Image.asset(StrLiteral.lady,
+                  height: MediaQuery.of(context).size.height/2.5,
+                )
+                
                 ],
               ),
             ),
