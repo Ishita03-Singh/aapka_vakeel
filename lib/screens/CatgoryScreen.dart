@@ -3,6 +3,7 @@ import 'package:aapka_vakeel/utilities/colors.dart';
 import 'package:aapka_vakeel/utilities/custom_button.dart';
 import 'package:aapka_vakeel/utilities/custom_text.dart';
 import 'package:aapka_vakeel/utilities/my_appbar.dart';
+import 'package:aapka_vakeel/utilities/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 
@@ -24,7 +25,7 @@ class WelcomePage extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                CustomText.infoText("Choose your category"),
+                CustomText.infoText("Choose your category", color: Color(0xFF778DA9)),
                 Padding(padding: EdgeInsets.all(8)),
                 customButton.taskButton("Advocate", () {
                   Navigator.push(
@@ -41,6 +42,13 @@ class WelcomePage extends StatelessWidget {
                           child: PhoneNumPage(first: true,isAdvocate: false,),
                           type: PageTransitionType.rightToLeft));
                 }),
+                Padding(padding: EdgeInsets.all(30)),
+                   Container(
+                    height: 400,
+                child: Image.asset(
+                   StrLiteral.login1,                 
+                ),
+              ),
               ],
             ),
           ],

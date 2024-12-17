@@ -47,7 +47,7 @@ class _PhoneNumPageState extends State<PhoneNumPage> {
            
           SingleChildScrollView(
             child: Container(
-             height: MediaQuery.of(context).size.height-80,
+             height: MediaQuery.of(context).size.height - 100,
               child: Column(mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Container(
@@ -253,8 +253,8 @@ class _PhoneNumPageState extends State<PhoneNumPage> {
                       ],
                     ),
                   ),
-                  Image.asset(StrLiteral.lady,
-                  height: MediaQuery.of(context).size.height/2.5,
+                  Image.asset(StrLiteral.login1,
+                  height: MediaQuery.of(context).size.height/2,
                 )
                 
                 ],

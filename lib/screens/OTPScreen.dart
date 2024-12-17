@@ -59,6 +59,7 @@ class _OTPScreenState extends State<OTPScreen> {
         children: [
          SingleChildScrollView(
           child: Container(
+            height: MediaQuery.of(context).size.height - 100,
             child: Column( mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Container(
@@ -352,8 +353,8 @@ class _OTPScreenState extends State<OTPScreen> {
                     ],
                   ),
                 ),
-                 Image.asset(StrLiteral.lady,
-                  height: MediaQuery.of(context).size.height/1.5,
+                 Image.asset(StrLiteral.login1,
+                  height: MediaQuery.of(context).size.height/2,
                 )
               ],
             ),

@@ -146,7 +146,7 @@ return Container(
          if (_formKey.currentState!.validate()) {
             Navigator.of(context).pushReplacement(
                  MaterialPageRoute(
-                  builder: (context) =>JoinScreen(username: userClass.displayName,meetingId: userClass.uid+"stampaper",isJoin: false,)
+                  builder: (context) =>JoinScreen(username: userClass.displayName,meetingId: userClass.uid+"stampaper")
                   // VideoCall(data: snapshot.data!),
                   ),
                                                                 );
@@ -280,7 +280,7 @@ return Container(
             if (_formKey.currentState!.validate()) {
                Navigator.of(context).pushReplacement(
                  MaterialPageRoute(
-                  builder: (context) =>JoinScreen(username: userClass.displayName,meetingId: userClass.uid+"stampaper",isJoin: false,)
+                  builder: (context) =>JoinScreen(username: userClass.displayName,meetingId: userClass.uid+"stampaper")
                   // VideoCall(data: snapshot.data!),
                  ));
                        

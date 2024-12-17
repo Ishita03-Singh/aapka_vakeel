@@ -101,7 +101,7 @@ Future<void> getAdvocateImage() async {
                    Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                    CustomText.appNameText("Welcome Back!"),
+                    CustomText.boldDarkText("Welcome Back!"),
                     CustomText.headText(widget.userclass!.displayName),
                   ],),
                   ]

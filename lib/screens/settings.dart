@@ -169,7 +169,7 @@ Future<void> downloadSavedFile(File savedFile) async {
                                                                 customButton.smalltaskButton("Join Now", (){
                                                                     Navigator.of(context).pushReplacement(
                                                                     MaterialPageRoute(
-                                                                      builder: (context) =>JoinScreen(username: userClass.displayName,meetingId:advocatecall.advoacteId,isJoin: true,)
+                                                                      builder: (context) =>JoinScreen(username: userClass.displayName,meetingId:advocatecall.advoacteId)
                                                                       // VideoCall(data: snapshot.data!),
                                                                     ),
                                                                 );

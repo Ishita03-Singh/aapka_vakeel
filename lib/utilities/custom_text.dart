@@ -9,7 +9,7 @@ class CustomText {
     return Text(text,
           textAlign: isCenter ? TextAlign.center : TextAlign.left,
           style: TextStyle(
-              fontSize: 22, color: DarkColor, fontWeight: FontWeight.w700));
+              fontSize: 24, color: DarkColor, fontWeight: FontWeight.w900));
       }
 
 
@@ -34,23 +34,26 @@ class CustomText {
       style: TextStyle(
           fontSize: fontSize, color: DarkColor, fontWeight: FontWeight.w400));
 
-  static Text boldDarkText(String text,{double fontSize=18,bool isCenter=false}) => Text(text,
+  static Text boldDarkText(String text,{double fontSize=18,bool isCenter=false, FontWeight fontWeight = FontWeight.w800}) => Text(text,
    textAlign: isCenter ? TextAlign.center : TextAlign.left,
       style: TextStyle(
-          fontSize: fontSize, color: DarkColor, fontWeight: FontWeight.w800));
+          fontSize: fontSize, color: DarkColor, fontWeight: fontWeight));
 
 
   static Text smallheadText(String text) => Text(text,
       style: TextStyle(
           fontSize: 16, color: DarkColor, fontWeight: FontWeight.w900));
 
-  static Text infoText(String text, {bool isCenter = false}) => Text(text,
+  static Text infoText(String text, {bool isCenter = false, Color? color}) => Text(
+      text,
       textAlign: isCenter ? TextAlign.center : TextAlign.left,
       style: TextStyle(
-          fontSize: 14,
+        fontSize: 14,
           overflow: TextOverflow.clip,
-          color: AppColor.secondaryTextColor,
-          fontWeight: FontWeight.w300));
+        color: color ?? AppColor.secondaryTextColor, // Use color if provided, otherwise use default
+        fontWeight: FontWeight.w800,
+      ),
+    );
 
 
     static Text extraSmallinfoText(String text, {bool isCenter = false}) => Text(text,
@@ -79,7 +82,7 @@ class CustomText {
       style: TextStyle(
           fontSize: fontsize,
           color: DarkColor,
-          fontWeight: FontWeight.w600));
+          fontWeight: FontWeight.w800));
 
           
   static taskBtnText(String text, {double fontsize = 16}) => Text(
