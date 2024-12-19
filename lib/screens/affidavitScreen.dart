@@ -842,7 +842,7 @@ class _AdvocateAffidavitDetailsState extends State<AdvocateAffidavitDetails> {
                     child: JoinScreen(
                       username: userClass.displayName,
                       meetingId: "${widget.fileName}Affidavit${userClass.uid}",
-                      isJoin: false,
+                      // isJoin: false,
                     ),
                     type: PageTransitionType.rightToLeft,
                   ),

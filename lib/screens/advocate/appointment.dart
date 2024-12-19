@@ -60,7 +60,8 @@ class _AppointmentPageState extends State<AppointmentPage> {
                   ,customButton.smalltaskButton("Join call", (){
                     Navigator.of(context).pushReplacement(
                                                                     MaterialPageRoute(
-                                                                      builder: (context) =>JoinScreen(username: userClass.displayName,meetingId: userClass.phoneNumber,isJoin: false,)
+                                                                      builder: (context) =>JoinScreen(username: userClass.displayName,meetingId: userClass.phoneNumber,//isJoin: false,
+                                                                      )
                                                                       // VideoCall(data: snapshot.data!),
                                                                     ));
                   })
