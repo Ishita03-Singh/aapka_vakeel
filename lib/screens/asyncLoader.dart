@@ -73,7 +73,7 @@ var meetingId="";
               WidgetsBinding.instance.addPostFrameCallback((_) {
                 Navigator.of(context).pushReplacement(
                   MaterialPageRoute(
-                    builder: (context) =>JoinScreen(username: widget.username,meetingId: meetingId)
+                    builder: (context) =>JoinScreen(username: widget.username,meetingId: meetingId,isJoin: false,)
                     // VideoCall(data: snapshot.data!),
                   ),
                 );

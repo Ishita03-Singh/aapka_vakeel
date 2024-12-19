@@ -21,6 +21,8 @@ import 'package:flutter/widgets.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
+import '../chatGPT/chatGPT.dart';
+
 class AdvocateDashboard extends StatefulWidget {
   User? user;
   UserClass? userclass;
@@ -38,10 +40,14 @@ class AdvocateDashboard extends StatefulWidget {
 
 class _AdvocateDashboardState extends State<AdvocateDashboard> {
 String imageURL="";
+ OverlayEntry? _popupOverlay; // To store the overlay entry
+  bool _isPopupVisible = false;
   
    @override
   void initState() {
     super.initState();
+    Timer(Duration(seconds: 1),  _showPopup);
+    Timer(Duration(seconds: 8),  _hidePopup);
     // print(widget.image!.path);
     if(widget.image==null)
     {
@@ -49,7 +55,51 @@ String imageURL="";
     }
    
   }
+  // Function to create the popup overlay entry
+  OverlayEntry _createPopupOverlay() {
+    return OverlayEntry(
+      builder: (context) => Positioned(
+        bottom: 130, // Position it above the floating action button
+        right: 20,
+        child: Material(
+          color: Colors.transparent,
+          child: Container(
+            padding: EdgeInsets.all(12),
+            decoration: BoxDecoration(
+               boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.5), // Shadow color with opacity
+                  spreadRadius: 5, // How much the shadow spreads
+                  blurRadius: 7,   // Softening of the shadow
+                  offset: Offset(0, 3), // X and Y offset for the shadow
+                ),
+              ],
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                IconButton(onPressed: _hidePopup, icon: Icon(Icons.close,color: Colors.grey,size: 20,)),
+                CustomText.RegularDarkText("Hi, Got any legal query? I’m happy to help.",fontSize: 12),
+              ],
+            )
+          ),
+        ),
+      ),
+    );
+  }
 
+
+void _showPopup() {
+    if (!_isPopupVisible) {
+      _popupOverlay = _createPopupOverlay();
+      Overlay.of(context)?.insert(_popupOverlay!);
+      setState(() {
+        _isPopupVisible = true;
+      });
+    }
+  }
 
 
    @override
@@ -75,12 +125,37 @@ Future<void> getAdvocateImage() async {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: 
+       FloatingActionButton(
+        shape: CircleBorder(),
+        elevation: 10,
+        backgroundColor: Colors.white,
+        onPressed: (){
+            setState(() {
+                 _hidePopup();
+                });
+       
+                              Navigator.push(
+                                context,
+                                PageTransition(
+                                    child: ChatScreen(),
+                                    type: PageTransitionType.rightToLeft));
+                            },
+                            child:  Image.asset(StrLiteral.appLogoPath,width: 40,),),
       appBar: MyAppBar.appbar(context),
       body: scrollContainer(),
       bottomNavigationBar: advocateScBar(),
     );
   }
 
+void _hidePopup() {
+    if (_isPopupVisible) {
+      _popupOverlay?.remove();
+      setState(() {
+        _isPopupVisible = false;
+      });
+    }
+  }
   scrollContainer(){
     return SingleChildScrollView(
       child: 

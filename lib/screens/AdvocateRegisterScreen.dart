@@ -364,7 +364,7 @@ FilePickerResult? result = await FilePicker.platform.pickFiles(
                           SkillsController, true,TextInputType.text),
                           if (widget.isAdvocate)
                         giveInputField("Charges per minute",
-                            ChargeController, true,TextInputType.number,tooltipText:charges.toString()),
+                            ChargeController, true,TextInputType.number,tooltipText:charges.toString(),disable: true),
                          
                            
                           
@@ -559,7 +559,7 @@ FilePickerResult? result = await FilePicker.platform.pickFiles(
 //                   }
 //                   return null;}
   giveInputField(
-      String HeadText, TextEditingController controller, bool isrequired, TextInputType textInputType,{tooltipText=""}) {
+      String HeadText, TextEditingController controller, bool isrequired, TextInputType textInputType,{tooltipText="",disable=false}) {
     return Container(
       padding: EdgeInsets.only(bottom: 20),
       child: Column(
@@ -600,7 +600,7 @@ FilePickerResult? result = await FilePicker.platform.pickFiles(
                 decoration: MyTextField.outlinedTextField(""),
                 keyboardType: textInputType,
                 controller: controller,
-                // readOnly: true,
+                readOnly: disable,
                  validator: (value){
                  validationService.validate(value!,textInputType);
             

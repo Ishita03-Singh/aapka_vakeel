@@ -1477,7 +1477,7 @@ packages:
   video_call:
     dependency: "direct main"
     description:
-      path: "D:\\personalGithub\\videoSDK"
+      path: "/Users/ishitasingh/Desktop/aapka_vakeel/videosdk/video_call"
       relative: false
     source: path
     version: "0.0.1"
