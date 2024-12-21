@@ -51,7 +51,7 @@ class MyTextField {
           contentPadding: EdgeInsets.only(left: 8),
           hintText: hinttext,
           filled: true,
-          fillColor: Color(0xffececec),
+          fillColor: Color(0xffE0E1DD),
           hintStyle:
               TextStyle(
                   color: AppColor.secondaryTextColor,
@@ -66,10 +66,10 @@ class MyTextField {
                               topRight: Radius.circular(0),
                               topLeft: Radius.circular(8),
                               bottomLeft: Radius.circular(8)),
-                  borderSide: BorderSide(color: Color(0xffececec))),
+                  borderSide: BorderSide(color: Color(0xffE0E1DD))),
           focusedBorder:
               UnderlineInputBorder(
-                  borderSide: BorderSide(color: Color(0xffececec))),
+                  borderSide: BorderSide(color: Color(0xffE0E1DD))),
           focusedErrorBorder: const UnderlineInputBorder(
               borderSide: BorderSide(color: Colors.red)),
           errorBorder: const UnderlineInputBorder(
@@ -79,7 +79,7 @@ class MyTextField {
       hintText: hinttext,
       contentPadding: EdgeInsets.only(right: 8),
       filled: true,
-      fillColor: Color(0xffececec),
+      fillColor: Color(0xffE0E1DD),
       hintStyle: TextStyle(
           color: AppColor.secondaryTextColor,
           fontSize: 13,
@@ -88,11 +88,11 @@ class MyTextField {
       enabledBorder: UnderlineInputBorder(
           borderRadius: BorderRadius.only(
               topRight: Radius.circular(8), bottomRight: Radius.circular(8)),
-          borderSide: BorderSide(color: Color(0xffececec))),
+          borderSide: BorderSide(color: Color(0xffE0E1DD))),
       focusedBorder: UnderlineInputBorder(
           borderRadius: BorderRadius.only(
               topRight: Radius.circular(8), bottomRight: Radius.circular(8)),
-          borderSide: BorderSide(color: Color(0xffececec))),
+          borderSide: BorderSide(color: Color(0xffE0E1DD))),
       focusedErrorBorder: const UnderlineInputBorder(
           borderRadius: BorderRadius.only(
               topRight: Radius.circular(8), bottomRight: Radius.circular(8)),
@@ -102,7 +102,8 @@ class MyTextField {
               topRight: Radius.circular(8), bottomRight: Radius.circular(8)),
           borderSide: BorderSide(color: Colors.red)));
 
-  static InputDecoration outlinedTextField(String hinttext) => InputDecoration(
+  static InputDecoration outlinedTextField(String hinttext) => 
+  InputDecoration(
       hintText: hinttext,
       filled: false,
       // fillColor: Color(0xffececec),
@@ -113,10 +114,10 @@ class MyTextField {
       errorStyle: const TextStyle(color: Colors.red),
       enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(8)),
-          borderSide: BorderSide(color: Colors.black54)),
+          borderSide: BorderSide(color: Color(0xFFd0d0d0))),
       focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(8)),
-          borderSide: BorderSide(color: Colors.black54)),
+          borderSide: BorderSide(color: Color(0xFF0d0d0d0))),
       focusedErrorBorder: const OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(8)),
           borderSide: BorderSide(color: Colors.red)),
@@ -127,7 +128,7 @@ class MyTextField {
   static InputDecoration filledTextField(String hinttext) => InputDecoration(
       hintText: hinttext,
       filled: true,
-      fillColor: Color(0xffececec),
+      fillColor: Color(0xffE0E1DD),
       hintStyle: TextStyle(
           color: AppColor.secondaryTextColor,
           fontSize: 13,
@@ -135,10 +136,10 @@ class MyTextField {
       errorStyle: const TextStyle(color: Colors.red),
       enabledBorder: UnderlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(8)),
-          borderSide: BorderSide(color: Color(0xffececec))),
+          borderSide: BorderSide(color: Color(0xffE0E1DD))),
       focusedBorder: UnderlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(8)),
-          borderSide: BorderSide(color: Color(0xffececec))),
+          borderSide: BorderSide(color: Color(0xffE0E1DD))),
       focusedErrorBorder: const UnderlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(8)),
           borderSide: BorderSide(color: Colors.red)),

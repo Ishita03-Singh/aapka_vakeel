@@ -7,9 +7,12 @@ list(APPEND FLUTTER_PLUGIN_LIST
   file_selector_windows
   firebase_auth
   firebase_core
+  firebase_storage
   flutter_webrtc
+  geolocator_windows
   permission_handler_windows
   screen_retriever
+  url_launcher_windows
   videosdk
   window_manager
 )

@@ -11,11 +11,14 @@ import 'package:aapka_vakeel/utilities/my_appbar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'dart:io';
 import 'package:page_transition/page_transition.dart';
 import 'package:image_picker/image_picker.dart';
 
-import 'dart:html' as html;
+// import 'dart:html' as html;
+
+import '../HTTP/serverhttpHelper.dart';
 class CaptureImage extends StatefulWidget {
   User user;
    CaptureImage({super.key,required this.user});
@@ -26,6 +29,9 @@ class CaptureImage extends StatefulWidget {
 
 class _CaptureImageState extends State<CaptureImage> {
   File? _image;
+  File? advocateImage=File("path");
+
+  //  html.File advocateImage= html.File([], "");
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +46,7 @@ class _CaptureImageState extends State<CaptureImage> {
             Container(
               margin: EdgeInsets.all(30),
               decoration: BoxDecoration(
-                  border: Border.all(color: Colors.black),
+                  border: Border.all(color: AppColor.secondaryTextColor),
                   borderRadius: BorderRadius.all(Radius.circular(7))),
               padding: EdgeInsets.all(40),
               child: Image.asset(
@@ -75,7 +81,7 @@ class _CaptureImageState extends State<CaptureImage> {
                             Navigator.push(
                                 context,
                                 PageTransition(
-                                    child: PreviewImage(image: _image,user: widget.user,),
+                                    child: PreviewImage(image: _image,user: widget.user,advocateImage: advocateImage!,),
                                     type: PageTransitionType.rightToLeft));
               }
             } 
@@ -88,128 +94,161 @@ class _CaptureImageState extends State<CaptureImage> {
 
   Future<void> _captureImageWeb() async {
   // Create a file picker input element for camera capture
-  html.FileUploadInputElement uploadInput = html.FileUploadInputElement();
-  uploadInput.accept = 'image/*'; // Allow only images
-  uploadInput.setAttribute('capture', 'camera'); 
-  uploadInput.click(); // Open the file picker (camera)
+  // html.FileUploal && files.isNotEmpty) {
+  //     advocateImage=files[0];
+  //     final file = files.first;
 
-  // Listen for changes (file selected)
-  uploadInput.onChange.listen((e) {
-    final files = uploadInput.files;
-    if (files != null && files.isNotEmpty) {
-      final file = files.first;
+  //     // Read the selected file as data
+  //     final reader = html.FileReader();
+  //     reader.readAsArrayBuffer(file); // Read file as binary (Uint8List)
 
-      // Read the selected file as data
-      final reader = html.FileReader();
-      reader.readAsArrayBuffer(file); // Read file as binary (Uint8List)
+  //     reader.onLoadEnd.listen((e) {
+  //       Uint8List imageData = reader.result as Uint8List; // Get image data
+  //       setState(() {
+  //         _image = File.fromRawPath(imageData); // Save image data
+  //       });
 
-      reader.onLoadEnd.listen((e) {
-        Uint8List imageData = reader.result as Uint8List; // Get image data
-        setState(() {
-          _image = File.fromRawPath(imageData); // Save image data
-        });
+  //       if (_image != null) {
+  //         Navigator.push(
+  //           context,
+  //           PageTransition(
+  //             child: PreviewImage(
+  //               advocateImage:advocateImage,
+  //               image: imageData, // Pass image data
+  //               user: widget.user,
+  //             ),
+  //             type: dInputElement uploadInput = html.FileUploadInputElement();
+  // uploadInput.accept = 'image/*'; // Allow only images
+  // uploadInput.setAttribute('capture', 'camera'); 
+  // uploadInput.click(); // Open the file picker (camera)
 
-        if (_image != null) {
-          Navigator.push(
-            context,
-            PageTransition(
-              child: PreviewImage(
-                image: imageData, // Pass image data
-                user: widget.user,
-              ),
-              type: PageTransitionType.rightToLeft,
-            ),
-          );
-        }
-      });
-    }
-  });
+  // // Listen for changes (file selected)
+  // uploadInput.onChange.listen((e) {
+  //   final files = uploadInput.files;
+  //   if (files != nulPageTransitionType.rightToLeft,
+  //           ),
+  //         );
+  //       }
+  //     });
+  //   }
+  // });
 }
 }
 
 
 class PreviewImage extends StatefulWidget {
+  // html.File advocateImage= html.File([], "");
+  File advocateImage;
   User user;
   var image;
-  PreviewImage({super.key, required this.image,required this.user});
+  PreviewImage({super.key, required this.image,required this.user, required this.advocateImage });
 
   @override
   State<PreviewImage> createState() => _PreviewImageState();
 }
 
 class _PreviewImageState extends State<PreviewImage> {
+
+      bool _isLoading=false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: AppColor.bgColor,
         appBar: MyAppBar.appbar(context),
-        body: Container(
-          padding: EdgeInsets.all(12),
-          child:
-              Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-            CustomText.headText("Preview"),
-            Container(
-                margin: EdgeInsets.all(30),
-                decoration: BoxDecoration(
-                    border: Border.all(color: Colors.black),
-                    borderRadius: BorderRadius.all(Radius.circular(7))),
-                // padding: EdgeInsets.all(40),
-                child: kIsWeb?Image.memory(widget.image!,height: 250) : Image.file(widget.image!, height: 250)),
-            customButton.taskButton("Retake", () async {
-              if(!kIsWeb)
-              {
-                var xfile = await PickImage.pickImage(ImageSource.camera);
-                 setState(() {
-                widget.image = File(xfile.path);
-              });
-              }
-              else
-              {
-                _captureImageWeb();
-              }
-              
-             
-            }),
-            Padding(padding: EdgeInsets.all(4)),
-            customButton.taskButton("Save", () {
-              MySharedPreferences.instance.setISLoggedIn(userClass);
-              Navigator.push(
-                  context,
-                  PageTransition(
-                      child: AdvocateDashboard(user: widget.user,userclass: userClass,),
-                      type: PageTransitionType.rightToLeft));
-            }),
-            Padding(padding: EdgeInsets.all(4)),
-            Padding(padding: EdgeInsets.all(4)),
-            CustomText.infoText(
-                "*Your photo will only be used for identification purposes within the app and will not be shared with third parties.")
-          ]),
+        body: Stack(
+          children:[ Container(
+            padding: EdgeInsets.all(12),
+            child:
+                Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+              CustomText.headText("Preview"),
+              Container(
+                  margin: EdgeInsets.all(30),
+                  decoration: BoxDecoration(
+                      border: Border.all(color: Colors.black),
+                      borderRadius: BorderRadius.all(Radius.circular(7))),
+                  // padding: EdgeInsets.all(40),
+                  child: kIsWeb?Image.memory(widget.image!,height: 250) : Image.file(widget.image!, height: 250)),
+              customButton.taskButton("Retake", () async {
+                if(!kIsWeb)
+                {
+                  var xfile = await PickImage.pickImage(ImageSource.camera);
+                   setState(() {
+                  widget.image = File(xfile.path);
+                });
+                }
+                else
+                {
+                  _captureImageWeb();
+                }
+                
+               
+              }),
+              Padding(padding: EdgeInsets.all(4)),
+              customButton.taskButton("Save", () async{
+                setState(() {
+                  _isLoading=true;
+                });
+              await Serverhttphelper.uploadFileWeb(widget.image,"AdvocateImages",widget.user.phoneNumber!);
+          
+           setState(() {
+                  _isLoading=false;
+                });
+                MySharedPreferences.instance.setISLoggedIn(userClass);
+                Navigator.push(
+                    context,
+                    PageTransition(
+                        child: AdvocateDashboard(user: widget.user,userclass: userClass,image:widget.image),
+                        type: PageTransitionType.rightToLeft));
+              }),
+              Padding(padding: EdgeInsets.all(4)),
+              Padding(padding: EdgeInsets.all(4)),
+              CustomText.infoText(
+                  "*Your photo will only be used for identification purposes within the app and will not be shared with third parties.")
+            ]),
+          ),
+             if (_isLoading)
+          ModalBarrier(
+            color: Colors.grey.withOpacity(0.1),
+            dismissible: false,
+          ),
+          Center(
+            child: Visibility(
+              visible: _isLoading,
+              child: LoadingAnimationWidget.hexagonDots(
+                color: Color(0xFF9999999),
+                size: 60,
+              ),
+            ),
+          ),
+          ]
         ));
   }
   Future<void> _captureImageWeb() async {
   // Create a file picker input element for camera capture
-  html.FileUploadInputElement uploadInput = html.FileUploadInputElement();
-  uploadInput.accept = 'image/*'; // Allow only images
-  uploadInput.setAttribute('capture', 'camera'); 
-  uploadInput.click(); // Open the file picker (camera)
+  // html.FileUploadInputElement uploadInput = html.FileUploadInputElement();
+  // uploadInput.accept = 'image/*'; // Allow only images
+  // uploadInput.setAttribute('capture', 'camera'); 
+  // uploadInput.click(); // Open the file picker (camera)
 
-  // Listen for changes (file selected)
-  uploadInput.onChange.listen((e) {
-    final files = uploadInput.files;
-    if (files != null && files.isNotEmpty) {
-      final file = files.first;
-      // Read the selected file as data
-      final reader = html.FileReader();
-      reader.readAsArrayBuffer(file); // Read file as binary (Uint8List)
-      reader.onLoadEnd.listen((e) {
-        Uint8List imageData = reader.result as Uint8List; // Get image data
-        setState(() {
-         widget.image = imageData; // Save image data
-        });
+  // // Listen for changes (file selected)
+  // uploadInput.onChange.listen((e) {
+  //   final files = uploadInput.files;
+  //   if (files != null && files.isNotEmpty) {
+  //     widget.advocateImage= files[0];
+  //     final file = files.first;
+  //     // Read the selected file as data
+  //     final reader = html.FileReader();
+  //     reader.readAsArrayBuffer(file); // Read file as binary (Uint8List)
+  //     reader.onLoadEnd.listen((e) {
+  //       Uint8List imageData = reader.result as Uint8List; // Get image data
+  //       setState(() {
+  //        widget.image = imageData; // Save image data
+  //       });
 
-      });
-    }
-  });
+  //     });
+  //   }
+  // });
 }
 }
 

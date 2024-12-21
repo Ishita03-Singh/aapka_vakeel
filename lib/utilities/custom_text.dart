@@ -4,13 +4,27 @@ import 'package:flutter/material.dart';
 // import '../Utilities/colors.dart';
 
 class CustomText {
-  static Text appNameText(String text, {bool isCenter = false}) => Text(text,
-      textAlign: isCenter ? TextAlign.center : TextAlign.left,
+  static var DarkColor= Color(0XFF0D1B2A);
+      static Text appNameText(String text, {bool isCenter = false}) {
+    return Text(text,
+          textAlign: isCenter ? TextAlign.center : TextAlign.left,
+          style: TextStyle(
+              fontSize: 24, color: DarkColor, fontWeight: FontWeight.w900));
+      }
+
+
+
+      static Text headText(String text,{Color ?color}){
+        color ??= DarkColor; // Assign default value here
+    return Text(text,
+          style: TextStyle(
+              fontSize: 24, color: color, fontWeight: FontWeight.w900));
+      }
+
+
+  static Text colorText(String text,{Color color=const Color.fromARGB(255, 2, 35, 62)}) => Text(text,
       style: TextStyle(
-          fontSize: 22, color: Colors.black, fontWeight: FontWeight.w700));
-  static Text headText(String text,{Color color=Colors.black}) => Text(text,
-      style: TextStyle(
-          fontSize: 24, color: color, fontWeight: FontWeight.w900));
+          fontSize: 18, color: color, fontWeight: FontWeight.w900));
 
   static Text boldinfoText(String text) => Text(text,
       style: TextStyle(
@@ -18,21 +32,30 @@ class CustomText {
 
   static Text RegularDarkText(String text,{double fontSize=18}) => Text(text,
       style: TextStyle(
-          fontSize: fontSize, color: Colors.black, fontWeight: FontWeight.w400));
+          fontSize: fontSize, color: DarkColor, fontWeight: FontWeight.w400));
 
-  static Text boldDarkText(String text,{double fontSize=18}) => Text(text,
+  static Text boldDarkText(String text,{double fontSize=18,bool isCenter=false, FontWeight fontWeight = FontWeight.w800}) => Text(text,
+   textAlign: isCenter ? TextAlign.center : TextAlign.left,
       style: TextStyle(
-          fontSize: fontSize, color: Colors.black, fontWeight: FontWeight.w800));
+          fontSize: fontSize, color: DarkColor, fontWeight: fontWeight));
+
+
   static Text smallheadText(String text) => Text(text,
       style: TextStyle(
-          fontSize: 16, color: Colors.black, fontWeight: FontWeight.w900));
+          fontSize: 16, color: DarkColor, fontWeight: FontWeight.w900));
 
-  static Text infoText(String text, {bool isCenter = false}) => Text(text,
+  static Text infoText(String text, {bool isCenter = false, Color? color}) => Text(
+      text,
       textAlign: isCenter ? TextAlign.center : TextAlign.left,
       style: TextStyle(
-          fontSize: 14,
-          color: AppColor.secondaryTextColor,
-          fontWeight: FontWeight.w300));
+        fontSize: 14,
+          overflow: TextOverflow.clip,
+        color: color ?? AppColor.secondaryTextColor, // Use color if provided, otherwise use default
+        fontWeight: FontWeight.w800,
+      ),
+    );
+
+
     static Text extraSmallinfoText(String text, {bool isCenter = false}) => Text(text,
       textAlign: isCenter ? TextAlign.center : TextAlign.left,
       style: TextStyle(
@@ -58,8 +81,10 @@ class CustomText {
       text,
       style: TextStyle(
           fontSize: fontsize,
-          color: Colors.black,
-          fontWeight: FontWeight.w600));
+          color: DarkColor,
+          fontWeight: FontWeight.w800));
+
+          
   static taskBtnText(String text, {double fontsize = 16}) => Text(
       textAlign: TextAlign.center,
       text,

@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:aapka_vakeel/screens/notaryScreen.dart';
 import 'package:aapka_vakeel/screens/stampPaper.dart';
 import 'package:aapka_vakeel/utilities/custom_button.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:path_provider/path_provider.dart';
@@ -12,6 +13,7 @@ import 'package:aapka_vakeel/main.dart';
 import 'package:aapka_vakeel/utilities/custom_text.dart';
 import 'package:aapka_vakeel/utilities/my_appbar.dart';
 import 'package:flutter/material.dart';
+// import 'dart:html' as html;
 
 class AffidavitFullScreen extends StatefulWidget {
   String fileName;
@@ -41,16 +43,24 @@ class _AffidavitFullScreenState extends State<AffidavitFullScreen> {
 //   return data.map((byte) => byte.toRadixString(16).padLeft(2, '0')).join(' ');
 // }
 Future<void> _initializeAsync() async {
-  String dir= widget.isAffidavitPage?"AffidavitDocument":"AgreementDocument";
-  String draftfile=await Serverhttphelper.getAffidavitFile(widget.fileName,dir);
+  String dir= widget.isAffidavitPage?"Affidavit":"Agreements";
+  String draftfile=await Serverhttphelper.fetchFileUrl(widget.fileName,dir);
   // draftFile= bytesToHex(draftfile);
 
     setState(() {
       filePath = draftfile??"";
     });
+    if(kIsWeb)
+    {
+      _openPdf(filePath);
+    }
     //  _filteredItems.addAll(affidavitList);
   }
 
+Future<void> _openPdf(String url) async {
+    // html.window.open(url, '_blank');  // Open in a new tab
+   
+  }
   
   @override
   Widget build(BuildContext context) {
@@ -130,11 +140,11 @@ Future<void> _initializeAsync() async {
                         ),
                       ),
                       customButton.smalltaskButton("Stamp Paper", (){
-    Navigator.push(
-                        context,
-                        PageTransition(
-                            child: NotaryScreen(filePath: filePath,),
-                            type: PageTransitionType.rightToLeft));
+    // Navigator.push(
+                        // context,
+                        // PageTransition(
+                        //     child: NotaryScreen(filePath: filePath,),
+                        //     type: PageTransitionType.rightToLeft));
               })
                     ],
                   ),

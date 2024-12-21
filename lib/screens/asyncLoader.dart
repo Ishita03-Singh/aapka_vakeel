@@ -19,41 +19,41 @@ class AsyncLoader extends StatefulWidget {
 }
 
 class _AsyncLoaderState extends State<AsyncLoader> {
-  FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
-  String? _fcmToken;
+  // FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
+  // String? _fcmToken;
 
 var meetingId="";
 
    @override
   void initState() {
     super.initState();
-    _initializeFirebaseMessaging();
+    // _initializeFirebaseMessaging();
   }
 
 
-  Future<void> _initializeFirebaseMessaging() async {
-    // Request notification permissions (for iOS)
-    NotificationSettings settings = await _firebaseMessaging.requestPermission(
-      alert: true,
-      badge: true,
-      sound: true,
-    );
+  // Future<void> _initializeFirebaseMessaging() async {
+  //   // Request notification permissions (for iOS)
+  //   NotificationSettings settings = await _firebaseMessaging.requestPermission(
+  //     alert: true,
+  //     badge: true,
+  //     sound: true,
+  //   );
 
-    if (settings.authorizationStatus == AuthorizationStatus.authorized) {
-      print('User granted permission');
-    } else {
-      print('User declined or has not accepted permission');
-    }
+  //   if (settings.authorizationStatus == AuthorizationStatus.authorized) {
+  //     print('User granted permission');
+  //   } else {
+  //     print('User declined or has not accepted permission');
+  //   }
 
-    // Get the FCM token for the device
-    _fcmToken = await _firebaseMessaging.getToken();
-    print("FCM Token: $_fcmToken");
+  //   // Get the FCM token for the device
+  //   _fcmToken = await _firebaseMessaging.getToken();
+  //   print("FCM Token: $_fcmToken");
 
-    // Handle background messages
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      print('Message received: ${message.notification?.title} - ${message.notification?.body}');
-    });
-  }
+  //   // Handle background messages
+  //   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+  //     print('Message received: ${message.notification?.title} - ${message.notification?.body}');
+  //   });
+  // }
 
 
   @override
@@ -73,7 +73,10 @@ var meetingId="";
               WidgetsBinding.instance.addPostFrameCallback((_) {
                 Navigator.of(context).pushReplacement(
                   MaterialPageRoute(
-                    builder: (context) =>JoinScreen(username: widget.username,meetingId: meetingId,)
+                    builder: (context) =>JoinScreen(username: widget.username,meetingId: meetingId,
+                    // isJoin: false,
+                    )
+
                     // VideoCall(data: snapshot.data!),
                   ),
                 );

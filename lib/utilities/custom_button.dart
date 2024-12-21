@@ -79,20 +79,25 @@ class CustomButton {
               icon: Icon(icon, color: Colors.black)));
 
   // cancel Button -> LoaderOverlay - Lottie Animation
-  cancelButton(String text, Function onPressed) => TextButton(
+  cancelButton(String text, Function onPressed,{Color color=Colors.white}){
+    // color= color==null?Colors.white:color;
+    return TextButton(
       style: TextButton.styleFrom(
-          padding: const EdgeInsets.all(10.5),
+      
+          padding: const EdgeInsets.all(16),
           shape: RoundedRectangleBorder(
-            side:BorderSide(color: Colors.black),
+            // side:BorderSide(color: Colors.black),
             borderRadius: BorderRadius.circular(10.0),
           ),
-          foregroundColor: AppColor.primaryTextColor,
-          backgroundColor: AppColor.primaryTextColor,
+          foregroundColor: color,
+          backgroundColor: color,
           // minimumSize: const Size(100, 30),
           elevation: 0,
           shadowColor: AppColor.secondaryColor),
       onPressed: () => onPressed(),
       child: CustomText.cancelBtnText(text));
+  }
+   
 
   taskButton(String text, Function() onPressed) => TextButton(
       style: TextButton.styleFrom(
@@ -101,7 +106,7 @@ class CustomButton {
             borderRadius: BorderRadius.circular(10.0),
           ),
           foregroundColor: AppColor.tertiaryColor,
-          backgroundColor: Colors.black,
+          backgroundColor: Color(0xFF0D1B2A),
           // minimumSize: const Size(100, 30),
           elevation: 0,
           shadowColor: AppColor.secondaryColor),
@@ -115,7 +120,7 @@ class CustomButton {
             borderRadius: BorderRadius.circular(radius),
           ),
           foregroundColor: AppColor.tertiaryColor,
-          backgroundColor: Colors.black,
+          backgroundColor: Color(0xFF0D1B2A),
           // minimumSize: const Size(100, 30),
           elevation: 0,
           shadowColor: AppColor.secondaryColor),
@@ -206,6 +211,40 @@ class CustomButton {
       child: child,
     );
   }
+
+ static  IconTextOutlineButton(String text,IconData icon, Function() fun){
+return GestureDetector(onTap: fun,
+child: Container(
+  padding: EdgeInsets.fromLTRB(10, 6, 10, 6),
+decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(20)),
+border: Border.all(color: Colors.black)),
+ child: Row(
+  mainAxisAlignment: MainAxisAlignment.center,
+  children: [
+   Icon(icon,color: Colors.black,size: 25),
+   CustomText.RegularDarkText(text)
+  ],
+ ),
+
+),);
+  }
+
+
+  textButton(String text, Function() onPressed) => TextButton(
+      style: TextButton.styleFrom(
+          padding: const EdgeInsets.all(16),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+          // foregroundColor: AppColor.tertiaryColor,
+          // backgroundColor: Colors.black,
+          // minimumSize: const Size(100, 30),
+          elevation: 0,
+          // shadowColor: AppColor.secondaryColor
+          ),
+      onPressed: onPressed,
+      child: CustomText.cancelBtnText(text));
+  
 }
 
 CustomButton customButton = CustomButton();
