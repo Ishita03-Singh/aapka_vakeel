@@ -3,44 +3,19 @@ import 'package:aapka_vakeel/utilities/custom_button.dart';
 import 'package:aapka_vakeel/utilities/custom_text.dart';
 import 'package:aapka_vakeel/utilities/strings.dart';
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class MyAppBar {
-  static appbar(
-      BuildContext context, {
-        String head = StrLiteral.appName,
-        VoidCallback? onBackPressed, // Callback for the back button
-      }) {
+  static appbar(context) {
     return AppBar(
-      leading: IconButton(
-        icon: const Icon(Icons.arrow_back),
-        onPressed: onBackPressed ?? () => Navigator.pop(context),
-      ),
       titleSpacing: 16,
       title: Align(
-        alignment: Alignment.centerLeft,
-        child: CustomText.appNameText(head),
-      ),
+          alignment: Alignment.centerLeft,
+          child: CustomText.appNameText(StrLiteral.appName)),
       backgroundColor: AppColor.bgColor,
       actions: [
         customButton.iconButton(
-          context,
-          "Help",
-          Icons.help_outline_rounded,
-              () {
-            launchURL('https://example.com'); // Replace with your URL
-          },
-        )
+            context, "Help", Icons.help_outline_rounded, () {})
       ],
     );
-  }
-
-  static Future<void> launchURL(String url) async {
-    // Check if the URL can be launched
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Could not launch $url';
-    }
   }
 }

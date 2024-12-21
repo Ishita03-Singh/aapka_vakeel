@@ -1,4 +1,3 @@
-import 'package:aapka_vakeel/model/AdvocateCall.dart';
 import 'package:aapka_vakeel/model/user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -16,32 +15,10 @@ void setISLoggedIn(UserClass user) async {
     SharedPreferences myPrefs = await SharedPreferences.getInstance();
     myPrefs.setString('LOGGED_USER',  jsonEncode(user.toJson()));
   }
-  void RemoveUserLoggedIn() async {
-    SharedPreferences myPrefs = await SharedPreferences.getInstance();
-    myPrefs.setString('LOGGED_USER', "");
-  }
 Future<String> getISLoggedIn() async {
     SharedPreferences myPrefs = await SharedPreferences.getInstance();
     return myPrefs.getString('LOGGED_USER') ?? "";
   }
-
-  void setAdvocateCallList(List<String> advocateCall) async {
-    SharedPreferences myPrefs = await SharedPreferences.getInstance();
-    myPrefs.setStringList('AdvocateCallList', advocateCall);
-  }
-Future<List<String>> getdvocateCallList() async {
-    SharedPreferences myPrefs = await SharedPreferences.getInstance();
-    return myPrefs.getStringList('AdvocateCallList') ?? [];
-  }
-   void setUserDownloadedFiles(List<String> docList) async {
-    SharedPreferences myPrefs = await SharedPreferences.getInstance();
-    myPrefs.setStringList('DownloadedDocList', docList);
-  }
-Future<List<String>> getUserDownloadedFiles() async {
-    SharedPreferences myPrefs = await SharedPreferences.getInstance();
-    return myPrefs.getStringList('DownloadedDocList') ?? [];
-  }
-
 
 
   // void setTheme(String themeName) async {

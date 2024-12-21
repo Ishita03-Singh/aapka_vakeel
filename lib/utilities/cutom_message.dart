@@ -11,7 +11,7 @@ class CustomMessenger {
           padding: const EdgeInsets.fromLTRB(10, 20, 10, 20),
           content:
               Text(text, style: TextStyle(color: AppColor.primaryTextColor)),
-          backgroundColor: const Color.fromARGB(255, 208, 208, 208),
+          backgroundColor: Color(0xffececec),
           margin: const EdgeInsets.all(0),
           dismissDirection: DismissDirection.down,
           behavior: SnackBarBehavior.floating,

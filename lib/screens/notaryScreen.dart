@@ -6,18 +6,15 @@ import 'package:aapka_vakeel/screens/asyncLoader.dart';
 import 'package:aapka_vakeel/utilities/custom_button.dart';
 import 'package:aapka_vakeel/utilities/custom_text.dart';
 import 'package:aapka_vakeel/utilities/cutom_message.dart';
-import 'package:aapka_vakeel/utilities/my_appbar.dart';
 import 'package:aapka_vakeel/utilities/strings.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:page_transition/page_transition.dart';
-// import 'dart:html' as html;
 
 class NotaryScreen extends StatefulWidget {
-   NotaryScreen({super.key,});
+  String filePath;
+   NotaryScreen({super.key,required this.filePath});
 
   @override
   State<NotaryScreen> createState() => _NotaryScreenState();
@@ -28,31 +25,7 @@ class _NotaryScreenState extends State<NotaryScreen> {
   File? otherId;
 
   Future<void> _pickAdharFile() async {
-    if(kIsWeb){
-//  html.FileUploadInputElement uploadInput = html.FileUploadInputElement();
-//   uploadInput.accept = '.pdf'; // Allow only PDF files
-//   uploadInput.click(); // Trigger the file picker
-
-//   uploadInput.onChange.listen((e) {
-//     final files = uploadInput.files;
-//     if (files != null && files.isNotEmpty) {
-//       final file = files.first;
-//         adharCard = File(file.name);
-//       final reader = html.FileReader();
-//       reader.readAsArrayBuffer(file);
-
-//       reader.onLoadEnd.listen((e) {
-//         setState(() {
-//           Uint8List fileBytes = reader.result as Uint8List;
-//             adharCard = File(file.name);
-//           // You can now use `fileBytes` as the PDF file data
-//         });
-//       });
-//     }
-  // });
-    }
-    else{
-  FilePickerResult? result = await FilePicker.platform.pickFiles(
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
       allowedExtensions: ['pdf'],
     );
@@ -64,36 +37,10 @@ class _NotaryScreenState extends State<NotaryScreen> {
     } else {
       // User canceled the picker
     }
-    }
-  
   }
 
    Future<void> _pickFile() async {
-    if(kIsWeb){
-// html.FileUploadInputElement uploadInput = html.FileUploadInputElement();
-//   uploadInput.accept = '.pdf'; // Allow only PDF files
-//   uploadInput.click(); // Trigger the file picker
-
-//   uploadInput.onChange.listen((e) {
-//     final files = uploadInput.files;
-//     if (files != null && files.isNotEmpty) {
-//       final file = files.first;
-//         otherId = File(file.name);
-//       final reader = html.FileReader();
-//       reader.readAsArrayBuffer(file);
-
-//       reader.onLoadEnd.listen((e) {
-//         setState(() {
-//           Uint8List fileBytes = reader.result as Uint8List;
-//             otherId = File(file.name);
-//           // You can now use `fileBytes` as the PDF file data
-//         });
-//       });
-//     }
-//   });
-    }
-    else{
-  FilePickerResult? result = await FilePicker.platform.pickFiles(
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
       allowedExtensions: ['pdf'],
     );
@@ -105,27 +52,25 @@ class _NotaryScreenState extends State<NotaryScreen> {
     } else {
       // User canceled the picker
     }
-    }
-  
   }
   
   
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
-      appBar:MyAppBar.appbar(context,head:"Notary" ),
+      // appBar: AppBar(),
       body: Container(
-        padding: EdgeInsets.fromLTRB(12,20,12,12),
+        padding: EdgeInsets.fromLTRB(12,50,12,12),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children:[ 
             Expanded(
               child: Container(
-                padding: EdgeInsets.only(top:8),
+                padding: EdgeInsets.only(top:12),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                // CustomText.headText("Notary"),
+                CustomText.headText("Notary"),
                 SizedBox(height: 12),
                 CustomText.boldinfoText("Upload Documents"),
                 SizedBox(height: 12),
@@ -154,35 +99,35 @@ class _NotaryScreenState extends State<NotaryScreen> {
                   ),
                 ),
                 SizedBox(height: 8),
-                // CustomText.cancelBtnText("Pan Card/Passport/Voter ID"),
-            //     SizedBox(height: 8),
-            //       Center(
-            //         child: Container(
-            //         padding: EdgeInsets.all(25),
-            //         width: MediaQuery.of(context).size.width/1.3,
-            //          decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(4)),
-            //         border: Border.all(
-            //         color: Colors.grey, // Set the border color here
-            //         width: 1.0, // Set the border width here
-            //                         ),),
-            //         child: Column(children: [
-            //           Image.asset(StrLiteral.upload),
-            //           CustomText.extraSmallinfoText('PDF format upto 50 MB.'),
-            //         customButton.smalltaskButton(
-            //         otherId != null ? 'Change' : 'Browse', (){
-            //           _pickFile();
-            //         }),
-            //            if (otherId != null)
-            //             CustomText.infoText(otherId!.path.split('/').last,
-            //           isCenter: true),
-            //         ],),
-            //                         ),
-            //       ),
+                CustomText.cancelBtnText("Pan Card/Passport/Voter ID"),
+                SizedBox(height: 8),
+                  Center(
+                    child: Container(
+                    padding: EdgeInsets.all(25),
+                    width: MediaQuery.of(context).size.width/1.3,
+                     decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(4)),
+                    border: Border.all(
+                    color: Colors.grey, // Set the border color here
+                    width: 1.0, // Set the border width here
+                                    ),),
+                    child: Column(children: [
+                      Image.asset(StrLiteral.upload),
+                      CustomText.extraSmallinfoText('PDF format upto 50 MB.'),
+                    customButton.smalltaskButton(
+                    otherId != null ? 'Change' : 'Browse', (){
+                      _pickFile();
+                    }),
+                       if (otherId != null)
+                        CustomText.infoText(otherId!.path.split('/').last,
+                      isCenter: true),
+                    ],),
+                                    ),
+                  ),
                         
                         ],),
               ),
             ),
-          customButton.taskButton("Save", ()async{
+          customButton.taskButton("Save", (){
             if( adharCard == null){
             CustomMessenger.defaultMessenger(context, "Please select adhar");
             return false;
@@ -192,15 +137,6 @@ class _NotaryScreenState extends State<NotaryScreen> {
           //   return false;
           //  }
            else{
-          await FirebaseFirestore.instance.collection('notaryCalls').doc(userClass.uid).set({
-          'phoneNumber':userClass.phoneNumber,
-          'name': userClass.displayName,
-          'email': userClass.email,
-          'address':userClass.address
-          // 'city':CityController.text,
-          // 'pinCode':PinCodeController.text,
-        });
-
             //upload files to cloud  
   Navigator.push(
                         context,
