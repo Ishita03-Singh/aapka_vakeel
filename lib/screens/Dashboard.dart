@@ -2,18 +2,10 @@ import 'dart:async';
 
 import 'package:aapka_vakeel/Utilities/strings.dart';
 import 'package:aapka_vakeel/model/user.dart';
-import 'package:aapka_vakeel/others/Audio%20Call/home_page.dart';
-// import 'package:aapka_vakeel/others/AudioCall.dart';
 import 'package:aapka_vakeel/others/shared_pref.dart';
 import 'package:aapka_vakeel/screens/OTPScreen.dart';
 import 'package:aapka_vakeel/screens/affidavitScreen.dart';
-import 'package:aapka_vakeel/screens/chatGPT/chatGPT.dart';
-import 'package:aapka_vakeel/screens/consultation/consultation.dart';
-import 'package:aapka_vakeel/screens/legalcases.dart';
-import 'package:aapka_vakeel/screens/notaryScreen.dart';
 import 'package:aapka_vakeel/screens/scbarContainer.dart';
-import 'package:aapka_vakeel/screens/stampPaper.dart';
-import 'package:aapka_vakeel/screens/trademark/trademark.dart';
 import 'package:aapka_vakeel/utilities/colors.dart';
 import 'package:aapka_vakeel/utilities/custom_button.dart';
 import 'package:aapka_vakeel/utilities/custom_text.dart';
@@ -40,44 +32,12 @@ class Dashboard extends StatefulWidget {
 
 class _DashboardState extends State<Dashboard> {
 
-    OverlayEntry? _popupOverlay; // To store the overlay entry
-  bool _isPopupVisible = false;
   //scroll widget variables
    final PageController _pageController = PageController();
-   final PageController _LegalCasepageController = PageController();
-
    TextEditingController ipController= TextEditingController();
   int _currentPage = 0;
   Timer? _timer;
   bool _isVisible = false;
-  //legal case
-  int _legalCaseCurrentPage = 0;
-  // Timer? _timer;
-  bool __legalCaseCurrentPageisVisible = false;
-  
-  final List<Map> scrollLegalCases = [
-    {
-      "headText":"Legal cases",
-      "infoText":"Solve your legal cases here",
-      // "btnText":"Call now",
-      "imagePath":StrLiteral.legalCase,
-      "terms":false
-    },
-     {
-      "headText":"Divorce cases",
-      "infoText":"Get guidance on divorce case",
-      // "btnText":"Call now",
-      "imagePath":StrLiteral.divorce,
-      "terms":true
-    },
-     {
-      "headText":"Bail",
-      "infoText":"Get easy guidance with bail",
-      // "btnText":"Call now",
-      "imagePath":StrLiteral.bail,
-      "terms":true
-    }
-    ];
   final List<Map> scrollWidgetContent = [
     {
       "headText":"Are you in a legal dilemma?",
@@ -113,33 +73,7 @@ class _DashboardState extends State<Dashboard> {
    @override
   void initState() {
     super.initState();
-     // Delay to show popup after 3 seconds
-    //  _showPopup();
-    Timer(Duration(seconds: 1),  _showPopup);
-    Timer(Duration(seconds: 8),  _hidePopup);
-
     _startAutoScroll();
-    _startAutoScrollLegalCases();
-  }
-  void _startAutoScrollLegalCases() {
-    _timer = Timer.periodic(Duration(seconds: 4), (timer) {
-      if (__legalCaseCurrentPageisVisible) {
-        if (_legalCaseCurrentPage < 2) {
-          setState(() {
-          _legalCaseCurrentPage++;
-          });
-        } else {
-          setState(() {
-          _legalCaseCurrentPage = 0; 
-          });
-        }
-        _LegalCasepageController.animateToPage(
-          _legalCaseCurrentPage,
-          duration: Duration(milliseconds: 200),
-          curve: Curves.easeInOut,
-        );
-      }
-    });
   }
  void _startAutoScroll() {
     _timer = Timer.periodic(Duration(seconds: 2), (timer) {
@@ -168,24 +102,18 @@ class _DashboardState extends State<Dashboard> {
     super.dispose();
   }
   
-  getScrollWigets(List<Map<dynamic,dynamic>> list,{isLegalCase=true}){
+  getScrollWigets(){
       return VisibilityDetector(
-      key: isLegalCase?Key('horizontal-scrolling-divs-legalCase'):Key('horizontal-scrolling-divs'),
+      key: Key('horizontal-scrolling-divs'),
       onVisibilityChanged: (VisibilityInfo info) {
-        if(isLegalCase){
-     __legalCaseCurrentPageisVisible = info.visibleFraction > 0;
-        }
-        else{
-           _isVisible = info.visibleFraction > 0;
-        }
-       
+        _isVisible = info.visibleFraction > 0;
       },
       child: Container(
         height: 200.0, // Height of the horizontal scroll view
         child: PageView.builder(
-          controller: isLegalCase? _LegalCasepageController:_pageController,
+          controller: _pageController,
           scrollDirection: Axis.horizontal,
-          itemCount: list.length,
+          itemCount: scrollWidgetContent.length,
           itemBuilder: (context, index) {
             return Container(
               padding: EdgeInsets.fromLTRB(18,18,18,6),
@@ -198,16 +126,14 @@ class _DashboardState extends State<Dashboard> {
               ),
               child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly,
              children: [
-              Container(
-                width: MediaQuery.of(context).size.width/2-80,
+              Expanded(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                CustomText.infoText(list[index]["headText"]),
-                CustomText.RegularDarkText(list[index]["infoText"],fontSize: 13),
+                CustomText.infoText(scrollWidgetContent[index]["headText"]),
+                CustomText.RegularDarkText(scrollWidgetContent[index]["infoText"]),
                 SizedBox(height: 5),
-                if(list[index]["btnText"]!=null)
-                customButton.smalltaskButton(list[index]["btnText"], (){},radius: 24) 
+                customButton.smalltaskButton(scrollWidgetContent[index]["btnText"], (){},radius: 24) 
                              ],),
               ),
               SizedBox(width: 8),
@@ -216,8 +142,8 @@ class _DashboardState extends State<Dashboard> {
              
                children: [
                  ClipRRect(borderRadius: BorderRadius.all(Radius.circular(20)), 
-                         child: Image.asset(list[index]["imagePath"],fit: BoxFit.fill,width: isLegalCase?MediaQuery.of(context).size.width/2.3: 100,)),
-               if(list[index]["terms"])
+                         child: Image.asset(scrollWidgetContent[index]["imagePath"],fit: BoxFit.fill,)),
+               if(scrollWidgetContent[index]["terms"])
                 CustomText.extraSmallinfoText("*Terms and conditions apply")
              
                ],
@@ -234,84 +160,12 @@ class _DashboardState extends State<Dashboard> {
 
 
 
-  // Function to create the popup overlay entry
-  OverlayEntry _createPopupOverlay() {
-    return OverlayEntry(
-      builder: (context) => Positioned(
-        bottom: 130, // Position it above the floating action button
-        right: 20,
-        child: Material(
-          color: Colors.transparent,
-          child: Container(
-            padding: EdgeInsets.all(12),
-            decoration: BoxDecoration(
-               boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.5), // Shadow color with opacity
-                  spreadRadius: 5, // How much the shadow spreads
-                  blurRadius: 7,   // Softening of the shadow
-                  offset: Offset(0, 3), // X and Y offset for the shadow
-                ),
-              ],
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                IconButton(onPressed: _hidePopup, icon: Icon(Icons.close,color: Colors.grey,size: 20,)),
-                CustomText.RegularDarkText("Hi, Got any legal query? I’m happy to help.",fontSize: 12),
-              ],
-            )
-          ),
-        ),
-      ),
-    );
-  }
-
-  // Function to show the popup
-  void _showPopup() {
-    if (!_isPopupVisible) {
-      _popupOverlay = _createPopupOverlay();
-      Overlay.of(context)?.insert(_popupOverlay!);
-      setState(() {
-        _isPopupVisible = true;
-      });
-    }
-  }
-
-  // Function to hide the popup
-  void _hidePopup() {
-    if (_isPopupVisible) {
-      _popupOverlay?.remove();
-      setState(() {
-        _isPopupVisible = false;
-      });
-    }
-  }
 
 
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-     floatingActionButton: 
-       FloatingActionButton(
-        shape: CircleBorder(),
-        elevation: 10,
-        backgroundColor: Colors.white,
-        onPressed: (){
-            setState(() {
-                 _hidePopup();
-                });
-       
-                              Navigator.push(
-                                context,
-                                PageTransition(
-                                    child: ChatScreen(),
-                                    type: PageTransitionType.rightToLeft));
-                            },
-                            child:  Image.asset(StrLiteral.appLogoPath,width: 40,),),
       body: scrollContainer(),
       bottomNavigationBar: ScBar(),
     );
@@ -329,115 +183,48 @@ class _DashboardState extends State<Dashboard> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Row( mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                  Column(crossAxisAlignment: CrossAxisAlignment.start,
-                  children: 
-                  [ CustomText.headText("Welcome!"),
-                  // customButton.taskButton("Audio call",(){
-                  //      Navigator.push(
-                  //       context,
-                  //       PageTransition(
-                  //           child: HomePage(),
-                  //           type: PageTransitionType.rightToLeft));
-                  // }),
-                  CustomText.infoText("How can we be of help?"),],
-                  ),
-                      Row(
-                        children: [
-
-                           GestureDetector(
-                            onTap: (){},
-                            child: Image.asset(StrLiteral.wallet,width: 30,),
-                                            ),
-
-                                            SizedBox(width: 10),
-                          
-                        ],
-                      )
-                    ],)
-                ,
+                  CustomText.headText("Welcome!"),
+                  CustomText.infoText("How can we be of help?"),
                    SizedBox(height: 10,),
                    Row( mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                    Container(child:
-                    getDashboardwidger(StrLiteral.affidavit,"Affidavit/Agreement","Get expert lawyer's signed Affidavit in minutes ",(){
-                      _hidePopup();
-                      Navigator.push(
+                    Expanded(child:
+                    getDashboardwidger(StrLiteral.affidavit,"Affidavit/Agreement","Lorem Ipsum is simply dummy ",(){Navigator.push(
                         context,
                         PageTransition(
                             child: AffidavitScreen(),
                             type: PageTransitionType.rightToLeft));}),
                     ),
                     SizedBox(width: 20,),
-                    Container(child:
-                    getDashboardwidger(StrLiteral.consultation,"Legal Consultation","Expert legal consultation is now just one call away",(){
-                      _hidePopup();
-                      Navigator.push(
-                        context,
-                        PageTransition(
-                            child: ConsultLawyer(),
-                            type: PageTransitionType.rightToLeft));
-                    }),
+                    Expanded(child:
+                    getDashboardwidger(StrLiteral.consultation,"Legal Consultation","Lorem Ipsum is simply dummy ",(){}),
                     )
                    ],)
                    , SizedBox(height: 20,),
                    Row( mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                    Container(child:
-                    getDashboardwidger(StrLiteral.notary,"Notary","Get notary in three simple steps. Click to know more ",(){
-                      _hidePopup();
-                       Navigator.push(
-                        context,
-                        PageTransition(
-                            child: NotaryScreen(),
-                            type: PageTransitionType.rightToLeft));
-                    }),
+                    Expanded(child:
+                    getDashboardwidger(StrLiteral.challan,"Fill Challan","Lorem Ipsum is simply dummy ",(){}),
                     ),
                     SizedBox(width: 20,),
-                    Container(child:
-                    getDashboardwidger(StrLiteral.stampPaper,"Stamp Paper","Get your stamp paper within minutes",(){
-                      _hidePopup();
-                       Navigator.push(
-                        context,
-                        PageTransition(
-                            child: StampPaper(),
-                            type: PageTransitionType.rightToLeft));
-                    }),
+                    Expanded(child:
+                    getDashboardwidger(StrLiteral.stampPaper,"Stamp Paper","Lorem Ipsum is simply dummy ",(){}),
                     )
                    ],),
                     SizedBox(height: 20,),
-                  //  Row( mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //   children: [
-                  //   Container(child:
-                  //   getDashboardwidger(StrLiteral.GST,"GST","get queries related to gst solved at ease",(){}),
-                  //   ),
-                  //   SizedBox(width: 20,),
-                  //   Container(child:
-                  //   getDashboardwidger(StrLiteral.tradeMark,"Trademark","Get trademark and other facilities in simple steps",(){
-                  //     Navigator.push(
-                  //       context,
-                  //       PageTransition(
-                  //           child: Trademark(),
-                  //           type: PageTransitionType.rightToLeft));
-                  //   }),
-                  //   )
-                  //  ],),
-                  SizedBox(height: 20),
-                   GestureDetector(
-                    onTap: (){
-                                Navigator.push(
-                                context,
-                                PageTransition(
-                                    child: LegalCases(),
-                                    type: PageTransitionType.rightToLeft));
-                    },
-                     child: 
-                     getScrollWigets(scrollLegalCases)
-                   ),
+                   Row( mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                    Expanded(child:
+                    getDashboardwidger(StrLiteral.GST,"GST","Lorem Ipsum is simply dummy ",(){}),
+                    ),
+                    SizedBox(width: 20,),
+                    Expanded(child:
+                    getDashboardwidger(StrLiteral.tradeMark,"Trademark","Lorem Ipsum is simply dummy ",(){}),
+                    )
+                   ],),
                    SizedBox(height: 20),
-                   getScrollWigets(scrollWidgetContent,isLegalCase: false),
-                   
+                   getScrollWigets(),
+                   SizedBox(height: 20),
                    CustomText.headText("Recent Activities",color:Color(0xFF9C9999)),
 
                 ],),
@@ -453,8 +240,6 @@ class _DashboardState extends State<Dashboard> {
 
 
   getDashboardwidger(String img, String headText, String infoText,Function callFun ){
-    // var width=MediaQuery.of(context).size.width;
-    // var height =MediaQuery.of(context).size.height;
    return GestureDetector(
     onTap: () {
       // AffidavitScreen
@@ -462,40 +247,31 @@ class _DashboardState extends State<Dashboard> {
       
     },
      child: Container(
-        // height: width>=height?MediaQuery.of(context).size.height/4:MediaQuery.of(context).size.height/4,
-       child: Container(
-        
-        decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(20),),
-        border: Border.all(color: Color(0xFF333333).withOpacity(0.2),width: 1),
-        color: Color(0xFFE0E1DD).withOpacity(0.2),
-        boxShadow: [BoxShadow(
-                    color: Colors.grey.withOpacity(0.2), // Shadow color
-                    blurRadius: 6, // Spread of the shadow
-                    offset: Offset(0, 3), // Position of the shadow
+      decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(20)),
+      border: Border.all(color: Color(0xFF333333).withOpacity(0.2),width: 1),
+      color: Colors.white,
+      boxShadow: [BoxShadow(
+                    color: Color(0xFF333333).withOpacity(0.2),
+                    spreadRadius: 3,
+                    blurRadius: 4,
+                    offset: Offset(0, 3), // changes position of shadow
                   ),] 
-        ),
-        child: Column(
-          children: [
-          ClipRRect(
-            borderRadius: BorderRadius.only(topLeft: Radius.circular(20),topRight: Radius.circular(20)), 
-            child: Image.asset(img,fit: BoxFit.cover,height: 140,width: MediaQuery.of(context).size.width/2-30,)),
-          Container(
-           width: MediaQuery.of(context).size.width/2-30,
-          //  color: Colors.red,
-            padding: EdgeInsets.all(8),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-              Container(
-                // color: Colors.blue,
-                child: CustomText.smallheadText(headText)),
-              Container(
-                // color: Colors.yellow,
-                child: CustomText.extraSmallinfoText(infoText,isCenter: false)),
-            ],),
-          )
-        ],),
-       ),
+      ),
+      child: Column(
+        children: [
+        ClipRRect(
+          borderRadius: BorderRadius.only(topLeft: Radius.circular(20),topRight: Radius.circular(20)), 
+          child: Image.asset(img,fit: BoxFit.fill,height: 140,)),
+        Container(
+          padding: EdgeInsets.all(8),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+            CustomText.smallheadText(headText),
+            CustomText.extraSmallinfoText(infoText,isCenter: false),
+          ],),
+        )
+      ],),
      ),
    );
   }
