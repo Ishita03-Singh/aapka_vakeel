@@ -4,11 +4,13 @@ import 'dart:io';
 import 'package:aapka_vakeel/Utilities/strings.dart';
 import 'package:aapka_vakeel/model/user.dart';
 import 'package:aapka_vakeel/others/shared_pref.dart';
+import 'package:aapka_vakeel/screens/IntroScreen.dart';
 import 'package:aapka_vakeel/screens/OTPScreen.dart';
 import 'package:aapka_vakeel/screens/advocate/appointment.dart';
 import 'package:aapka_vakeel/screens/advocate/notaryCalls.dart';
 import 'package:aapka_vakeel/screens/affidavitScreen.dart';
 import 'package:aapka_vakeel/screens/scbarContainer.dart';
+import 'package:aapka_vakeel/services/authService.dart';
 import 'package:aapka_vakeel/utilities/colors.dart';
 import 'package:aapka_vakeel/utilities/custom_button.dart';
 import 'package:aapka_vakeel/utilities/custom_text.dart';
@@ -142,7 +144,7 @@ Future<void> getAdvocateImage() async {
                                     type: PageTransitionType.rightToLeft));
                             },
                             child:  Image.asset(StrLiteral.appLogoPath,width: 40,),),
-      appBar: MyAppBar.appbar(context),
+      appBar: MyAppBar.appbar(context, showBackButton: false),
       body: scrollContainer(),
       bottomNavigationBar: advocateScBar(),
     );
@@ -157,7 +159,21 @@ void _hidePopup() {
     }
   }
   scrollContainer(){
-    return SingleChildScrollView(
+    return WillPopScope(
+        onWillPop: () async {
+          final shouldLogout = await showLogoutConfirmationDialog(context);
+          if (shouldLogout) {
+            // Call your logout function here
+            await onLogout();
+            Navigator.pushAndRemoveUntil(
+                            context,
+                            PageTransition(
+                                child: IntroPage(),
+                                type: PageTransitionType.rightToLeft), (route) => false); // Redirect to login or any desired page
+          }
+          return false; // Prevent default back navigation
+        },
+        child: SingleChildScrollView(
       child: 
          Container(
           height: MediaQuery.of(context).size.height,
@@ -243,8 +259,35 @@ void _hidePopup() {
              ],
            ),
          )
-    );
+    ));
 
+  }
+
+  Future<void> onLogout() async {
+    // Add your logout logic here
+    await AuthService.signOutUser();
+    print("User logged out");
+  }
+
+  Future<bool> showLogoutConfirmationDialog(BuildContext context) async {
+    return await showDialog<bool>(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text("Confirm logout"),
+            content: Text("Are you sure you want to logout?"),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context, false),
+                child: Text("No"),
+              ),
+              TextButton(
+                onPressed: () => Navigator.pop(context, true),
+                child: Text("Yes"),
+              ),
+            ],
+          ),
+        ) ??
+        false; // If the dialog is dismissed, return false
   }
 
   getCardContainer(String text,String image){
