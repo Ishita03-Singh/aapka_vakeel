@@ -74,7 +74,7 @@ var meetingId="";
                 Navigator.of(context).pushReplacement(
                   MaterialPageRoute(
                     builder: (context) =>JoinScreen(username: widget.username,meetingId: meetingId,
-                    // isJoin: false,
+                    isJoin: false,
                     )
 
                     // VideoCall(data: snapshot.data!),

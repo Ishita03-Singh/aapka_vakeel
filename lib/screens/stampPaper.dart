@@ -147,7 +147,7 @@ return Container(
             Navigator.of(context).pushReplacement(
                  MaterialPageRoute(
                   builder: (context) =>JoinScreen(username: userClass.displayName,meetingId: userClass.uid+"stampaper",
-                  //isJoin: false,
+                  isJoin: false,
                   )
                   // VideoCall(data: snapshot.data!),
                   ),
@@ -283,7 +283,7 @@ return Container(
                Navigator.of(context).pushReplacement(
                  MaterialPageRoute(
                   builder: (context) =>JoinScreen(username: userClass.displayName,meetingId: userClass.uid+"stampaper",
-                  //isJoin: false,
+                  isJoin: false,
                   )
                   // VideoCall(data: snapshot.data!),
                  ));

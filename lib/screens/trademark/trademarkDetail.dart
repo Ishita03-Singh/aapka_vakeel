@@ -129,7 +129,7 @@ class _TrademarkDetailState extends State<TrademarkDetail> {
    Navigator.of(context).pushReplacement(
                  MaterialPageRoute(
                   builder: (context) =>JoinScreen(username: userClass.displayName,meetingId: userClass.uid+"trademark:"+widget.trademarkType,
-                  //isJoin: false,
+                  isJoin: false,
                   )
                   // VideoCall(data: snapshot.data!),
                  ));

@@ -170,7 +170,7 @@ Future<void> downloadSavedFile(File savedFile) async {
                                                                     Navigator.of(context).pushReplacement(
                                                                     MaterialPageRoute(
                                                                       builder: (context) =>JoinScreen(username: userClass.displayName,meetingId:advocatecall.advoacteId,
-                                                                      //isJoin: true,
+                                                                      isJoin: true,
                                                                       )
                                                                       // VideoCall(data: snapshot.data!),
                                                                     ),

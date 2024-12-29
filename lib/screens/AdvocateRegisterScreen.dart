@@ -55,6 +55,7 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
       TextEditingController ChargeController = new TextEditingController();
         TextEditingController ExperienceController = new TextEditingController();
           TextEditingController SkillsController = new TextEditingController();
+          TextEditingController casesController= new TextEditingController();
   TextEditingController BarRegistrationNoController =
       new TextEditingController();
   TextEditingController BarRegistrationCertificateController =
@@ -155,7 +156,8 @@ class _UserRegistrationFormState extends State<UserRegistrationForm> {
            'introduction':IntroController.text,
            'experience':ExperienceController.text,
            'charges':ChargeController.text,
-           'skills':SkillsController.text
+           'skills':SkillsController.text,
+           'typeofcases':casesController.text
         });
         }
         userClass.uid=widget.userCredential.user!.uid;
@@ -332,6 +334,7 @@ FilePickerResult? result = await FilePicker.platform.pickFiles(
         
                    SizedBox(height: 8),
                    getStateCityInput(),
+                   
                     giveInputField("Address", AddressController, true,TextInputType.streetAddress),
                     // giveInputField("State", StateController, true,TextInputType.text),
                     // giveInputField("City", CityController, true,TextInputType.text),
@@ -362,6 +365,9 @@ FilePickerResult? result = await FilePicker.platform.pickFiles(
                           if (widget.isAdvocate)
                       giveInputField("Skills",
                           SkillsController, true,TextInputType.text),
+                            if (widget.isAdvocate)
+                      giveInputField("Type of cases",
+                          casesController, true,TextInputType.text),
                           if (widget.isAdvocate)
                         giveInputField("Charges per minute",
                             ChargeController, true,TextInputType.number,tooltipText:charges.toString(),disable: true),
@@ -601,6 +607,7 @@ FilePickerResult? result = await FilePicker.platform.pickFiles(
                 keyboardType: textInputType,
                 controller: controller,
                 readOnly: disable,
+                
                  validator: (value){
                  validationService.validate(value!,textInputType);
             
@@ -676,7 +683,6 @@ FilePickerResult? result = await FilePicker.platform.pickFiles(
                       StateController.text = value??'';
                     });
                   },
-
                   ///triggers once city selected in dropdown
                   onCityChanged: (value) {
                     setState(() {
