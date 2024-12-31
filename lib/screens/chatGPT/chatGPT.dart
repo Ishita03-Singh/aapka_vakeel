@@ -123,7 +123,7 @@ Future<String> getGeminiResponse(String inputText) async {
    Future<String> saveTextFileToDownloads() async {
     try{
      final text = messages[1]['text']!;
-    final fileName = 'AIaffidavit.txt';
+    final fileName = 'AIaffidavit.pdf';
 
   // Request storage permission for Android 10 or lower
   // if (await Permission.storage.request().isGranted) {
@@ -259,7 +259,7 @@ Future<String> getGeminiResponse(String inputText) async {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Expanded(child: customButton.taskButton("Export as Word file", ()async {
+                  Expanded(child: customButton.taskButton("Export as PDF", ()async {
           context.loaderOverlay.show();
            var res= await  saveTextFileToDownloads();
           context.loaderOverlay.hide();

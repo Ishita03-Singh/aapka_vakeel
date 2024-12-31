@@ -15,6 +15,7 @@ import 'package:aapka_vakeel/screens/notaryScreen.dart';
 import 'package:aapka_vakeel/screens/scbarContainer.dart';
 import 'package:aapka_vakeel/screens/stampPaper.dart';
 import 'package:aapka_vakeel/screens/trademark/trademark.dart';
+import 'package:aapka_vakeel/screens/trafficChallan.dart';
 import 'package:aapka_vakeel/services/authService.dart';
 import 'package:aapka_vakeel/utilities/colors.dart';
 import 'package:aapka_vakeel/utilities/custom_button.dart';
@@ -472,22 +473,39 @@ class _DashboardState extends State<Dashboard> {
                     SizedBox(
                       height: 20,
                     ),
-                    //  Row( mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //   children: [
-                    //   Container(child:
-                    //   getDashboardwidger(StrLiteral.GST,"GST","get queries related to gst solved at ease",(){}),
-                    //   ),
-                    //   SizedBox(width: 20,),
-                    //   Container(child:
-                    //   getDashboardwidger(StrLiteral.tradeMark,"Trademark","Get trademark and other facilities in simple steps",(){
-                    //     Navigator.push(
-                    //       context,
-                    //       PageTransition(
-                    //           child: Trademark(),
-                    //           type: PageTransitionType.rightToLeft));
-                    //   }),
-                    //   )
-                    //  ],),
+                     Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          child: getDashboardwidger(StrLiteral.challan, "Traffic Challan",
+                              "Get instant help with your challan ",
+                              () {
+                            _hidePopup();
+                            Navigator.push(
+                                context,
+                                PageTransition(
+                                    child: TrafficChallan(),
+                                    type: PageTransitionType.rightToLeft));
+                          }),
+                        ),
+                        SizedBox(
+                          width: 20,
+                        ),
+                        Container(
+                          child: getDashboardwidger(
+                              StrLiteral.tradeMark,
+                              "Trademark",
+                              "quick trademark assistance ", () {
+                            _hidePopup();
+                            // Navigator.push(
+                            //     context,
+                            //     PageTransition(
+                            //         child: StampPaper(),
+                            //         type: PageTransitionType.rightToLeft));
+                          }),
+                        )
+                      ],
+                    ),
                     SizedBox(height: 20),
                     GestureDetector(
                         onTap: () {

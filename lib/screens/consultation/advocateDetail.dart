@@ -127,11 +127,42 @@ class _AdvocateDetailState extends State<AdvocateDetail> {
                       children: [
                     Container(width: MediaQuery.of(context).size.width/2,
                       child: CustomText.infoText("Talk to this lawyer byscheduling a call")),
-                    CustomButton.IconTextOutlineButton("Schedule",Icons.calendar_month,(){
+                    CustomButton.IconTextOutlineButton("Schedule",Icons.calendar_month,()async {
                               //scheduleCall
 
-            var advocateCall= new AdvocateCall(uid: userClass.uid, userName: userClass.displayName, phoneNumber: userClass.phoneNumber, callTime: DateTime.now().toString(), advocateName: widget.advocate['firstName']+" "+ widget.advocate['lastName'], advoacteId: widget.advocate['phoneNumber'],isVideoCall: false);
+             var date =await customDateTimePicker.selectDate(context);
+             if (date == null) return; // User canceled the picker
+             var time= await customDateTimePicker.selectTime(context);
+             if (time == null) return; // User canceled the picker
+             DateTime combinedDateTime = DateTime(
+              date.year,
+              date.month,
+              date.day,
+              time.hour,
+              time.minute,
+            );
+            
+            var advocateCall= new AdvocateCall(uid: userClass.uid, userName: userClass.displayName, phoneNumber: userClass.phoneNumber, callTime: combinedDateTime.toString(), advocateName: widget.advocate['firstName']+" "+ widget.advocate['lastName'],isVideoCall: false,advoacteId: widget.advocate['phoneNumber']);
             userClass.advoacateCalls!.add(advocateCall);
+await FirebaseFirestore.instance
+    .collection('consultation')
+    .doc(advocateCall.advoacteId)
+    .collection('sessions')
+    .doc(combinedDateTime.toString()) // replace with a unique ID, like a timestamp or UUID
+    .set({
+      'userName': advocateCall.userName,
+      'phone': userClass.phoneNumber,
+      'email': userClass.email,
+      'address': userClass.address,
+      'callTime': combinedDateTime.toString(),
+      'advocateName': advocateCall.advocateName,
+      'advocateId': advocateCall.advoacteId,
+      'isVideoCall': 'false',
+    });
+    
+           await storeCallDetails();
+            CustomMessenger.defaultMessenger(context, "Call Scheduled at "+combinedDateTime.toString());
+            
                     })
                   ],)
                        ],
