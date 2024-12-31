@@ -240,6 +240,7 @@ class _OTPScreenState extends State<OTPScreen> {
                              print(user.uid);
                              try{
                               var userRes=false;
+                              var isAdvocate=false;
                               DocumentSnapshot userSnapshot= await _firestore.collection('users').doc(user.uid).get();
                                    if (userSnapshot.exists) {
                                     userRes=true;
@@ -248,6 +249,7 @@ class _OTPScreenState extends State<OTPScreen> {
                                     userSnapshot= await _firestore.collection('advocates').doc(user.uid).get();
                                      if (userSnapshot.exists) {
                                         userRes=true;
+                                        isAdvocate=true;
                                       }
                                       else{
                                         userRes=false;
@@ -260,7 +262,7 @@ class _OTPScreenState extends State<OTPScreen> {
                                 print('User data: $userData');
                                    userClass.uid=user.uid;
                                     userClass.email=userData?["email"];
-                                    userClass.isAdvocate=false;
+                                    userClass.isAdvocate=isAdvocate;
                                     userClass.displayName=userData?["firstName"]+" "+userData?["lastName"];
                                     userClass.address=userData?["address"];
                                     userClass.barRegistrationNo= userData?["barRegistrationNo"]??"";
