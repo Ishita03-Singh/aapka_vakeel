@@ -2,6 +2,7 @@ import 'package:aapka_vakeel/model/user.dart';
 import 'package:aapka_vakeel/others/Audio%20Call/main.dart';
 import 'package:aapka_vakeel/screens/AdvocateRegisterScreen.dart';
 import 'package:aapka_vakeel/screens/IntroScreen.dart';
+import 'package:aapka_vakeel/services/authService.dart';
 import 'package:aapka_vakeel/utilities/colors.dart';
 import 'package:aapka_vakeel/utilities/custom_button.dart';
 import 'package:aapka_vakeel/utilities/custom_confirmation.dart';
@@ -24,44 +25,39 @@ class UserProfile extends StatefulWidget {
 }
 
 class _UserProfileState extends State<UserProfile> {
- final _formKey = GlobalKey<FormState>(); 
- TextEditingController firstNameController = new TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+  TextEditingController firstNameController = new TextEditingController();
   TextEditingController lastNameController = new TextEditingController();
   TextEditingController EmailController = new TextEditingController();
   TextEditingController GenderController = new TextEditingController();
   TextEditingController AddressController = new TextEditingController();
   TextEditingController phonenumberController = new TextEditingController();
- Gender? _selectedGender;
- bool disabledEdit=true;
+  Gender? _selectedGender;
+  bool disabledEdit = true;
 
-
- @override
+  @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    firstNameController.text=userClass.displayName.split(' ')[0];
-    lastNameController.text=userClass.displayName.split(' ')[1];
-    EmailController.text=userClass.email;
-    GenderController.text=userClass.gender;
-    AddressController.text=userClass.address;
-    phonenumberController.text= userClass.phoneNumber;
-     Gender? gender = Gender.values.firstWhere(
-    (e) => e.toString().split('.').last == userClass.gender,
-    orElse: () => Gender.Others,
+    firstNameController.text = userClass.displayName.split(' ')[0];
+    lastNameController.text = userClass.displayName.split(' ')[1];
+    EmailController.text = userClass.email;
+    GenderController.text = userClass.gender;
+    AddressController.text = userClass.address;
+    phonenumberController.text = userClass.phoneNumber;
+    Gender? gender = Gender.values.firstWhere(
+      (e) => e.toString().split('.').last == userClass.gender,
+      orElse: () => Gender.Others,
     );
 
-  if (gender != null) {
-     _selectedGender=gender;
-  } else {
-   _selectedGender =Gender.Male;
-  }
-
-    
+    if (gender != null) {
+      _selectedGender = gender;
+    } else {
+      _selectedGender = Gender.Male;
+    }
   }
 
   Future<bool> _register() async {
-
-
     // print(_selectedGender);
     if (_formKey.currentState!.validate()) {
       try {
@@ -72,123 +68,112 @@ class _UserProfileState extends State<UserProfile> {
 
         // Save additional user data in Firestore
         // if(!widget.isAdvocate){
-          await FirebaseFirestore.instance.collection('users').doc(userClass.uid).set({
-          'phoneNumber':phonenumberController.text,
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(userClass.uid)
+            .set({
+          'phoneNumber': phonenumberController.text,
           'firstName': firstNameController.text,
           'lastName': lastNameController.text,
           'email': EmailController.text,
-          'gender':_selectedGender.toString().split('.').last,
-          'address':AddressController.text
+          'gender': _selectedGender.toString().split('.').last,
+          'address': AddressController.text
           // 'city':CityController.text,
           // 'pinCode':PinCodeController.text,
         });
         // }
-       
-      
-        
-        userClass.uid=userClass.uid;
-        userClass.email=EmailController.text;
-        userClass.displayName=firstNameController.text +" "+lastNameController.text;
-        userClass.address=AddressController.text;
-        userClass.gender=_selectedGender.toString().split('.').last;
-        userClass.phoneNumber= phonenumberController.text;
 
-        
-        
+        userClass.uid = userClass.uid;
+        userClass.email = EmailController.text;
+        userClass.displayName =
+            firstNameController.text + " " + lastNameController.text;
+        userClass.address = AddressController.text;
+        userClass.gender = _selectedGender.toString().split('.').last;
+        userClass.phoneNumber = phonenumberController.text;
+
         // Navigate to another page or show success message
         // ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Registration successful')));
         // CustomMessenger.defaultMessenger(context, "Registration successful");
         return true;
-
       } on FirebaseAuthException catch (e) {
         CustomMessenger.defaultMessenger(context, "Failed to register: $e");
         return false;
         // ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Failed to register: $e')));
       }
-    }
-    else{
+    } else {
       return false;
     }
   }
- 
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
-      appBar: MyAppBar.appbar(context,head: "My Profile"),
-      body:Container(
-        padding: EdgeInsets.all(12),
-        child:Form(
-           key: _formKey,
-          child: SingleChildScrollView(
-            child: Column
-            (crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-            CustomText.boldDarkText("First name"),
-            giveInputField("", firstNameController, true,TextInputType.text),
-            CustomText.boldDarkText("Last name"),
-             giveInputField("", lastNameController, true,TextInputType.text),
-            CustomText.boldDarkText("Gender"),
-            giveRadioField("Gender", GenderController, true),
-            CustomText.boldDarkText("Email"),
-            giveInputField("", EmailController, true,TextInputType.emailAddress),
-            CustomText.boldDarkText("Phone number"),
-            giveInputField("", phonenumberController, true,TextInputType.phone),
-            CustomText.boldDarkText("Address"),
-            giveInputField("", AddressController, true,TextInputType.streetAddress),
-            
-            disabledEdit?
-            customButton.taskButton("Edit", (){
-                        setState(() {
-                          disabledEdit=false;
-                        });
-                        })
-            :customButton.taskButton("Update", ()async{
-                        var res= await  _register();
-                        if(res){
-                          CustomMessenger.defaultMessenger(context, "User Updated successfully");
-                        // Navigator.push(
-                        //     context,
-                        //     PageTransition(
-                        //         child: CaptureImage(user:widget.userCredential.user! ,),
-                        //         type: PageTransitionType.rightToLeft));
-                        
-              }
-              else
-                          CustomMessenger.defaultMessenger(context, "Failed to update");
-            
-            
-            }),
-            SizedBox(height: 10),
-            customButton.cancelButton("Logout", ()async {
-              ConfirmDialog.showLogoutConfirmationDialog(context,()async{
-                  await signOutUser();
-                      // Navigate the user to the login or home screen
-                     
-                      Navigator.pushReplacement(context,   PageTransition(
-                                    child: IntroPage(),
-                                    type: PageTransitionType.rightToLeft));
-              },"Are you sure you want to Logout?","Logout");
-                       
-                        },color: Color(0xFFE0E1DD))
-            ],),
-          ),
+    return Scaffold(
+        appBar: MyAppBar.appbar(context, head: "My Profile"),
+        body: Container(
+            padding: EdgeInsets.all(12),
+            child: Form(
+              key: _formKey,
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    CustomText.boldDarkText("First name"),
+                    giveInputField(
+                        "", firstNameController, true, TextInputType.text),
+                    CustomText.boldDarkText("Last name"),
+                    giveInputField(
+                        "", lastNameController, true, TextInputType.text),
+                    CustomText.boldDarkText("Gender"),
+                    giveRadioField("Gender", GenderController, true),
+                    CustomText.boldDarkText("Email"),
+                    giveInputField(
+                        "", EmailController, true, TextInputType.emailAddress),
+                    CustomText.boldDarkText("Phone number"),
+                    giveInputField(
+                        "", phonenumberController, true, TextInputType.phone),
+                    CustomText.boldDarkText("Address"),
+                    giveInputField("", AddressController, true,
+                        TextInputType.streetAddress),
+                    disabledEdit
+                        ? customButton.taskButton("Edit", () {
+                            setState(() {
+                              disabledEdit = false;
+                            });
+                          })
+                        : customButton.taskButton("Update", () async {
+                            var res = await _register();
+                            if (res) {
+                              CustomMessenger.defaultMessenger(
+                                  context, "User Updated successfully");
+                              // Navigator.push(
+                              //     context,
+                              //     PageTransition(
+                              //         child: CaptureImage(user:widget.userCredential.user! ,),
+                              //         type: PageTransitionType.rightToLeft));
+                            } else
+                              CustomMessenger.defaultMessenger(
+                                  context, "Failed to update");
+                          }),
+                    SizedBox(height: 10),
+                    customButton.cancelButton("Logout", () async {
+                      ConfirmDialog.showLogoutConfirmationDialog(context,
+                          () async {
+                        await AuthService.signOutUser();
+                        // Navigate the user to the login or home screen
 
-        )
-      )
-    );
+                        Navigator.pushReplacement(
+                            context,
+                            PageTransition(
+                                child: IntroPage(),
+                                type: PageTransitionType.rightToLeft));
+                      }, "Are you sure you want to Logout?", "Logout");
+                    }, color: Color(0xFFE0E1DD))
+                  ],
+                ),
+              ),
+            )));
   }
 
-
-Future<void> signOutUser() async {
-  try {
-    await FirebaseAuth.instance.signOut();
-    MySharedPreferences.instance.RemoveUserLoggedIn();
-    print('User signed out successfully');
-  } catch (e) {
-    print('Error signing out: $e');
-  }
-}
 
   giveRadioField(
       String HeadText, TextEditingController controller, bool isrequired) {
@@ -265,49 +250,47 @@ Future<void> signOutUser() async {
     );
   }
 
-
- giveInputField(
-      String HeadText, TextEditingController controller, bool isrequired, TextInputType textInputType) {
+  giveInputField(String HeadText, TextEditingController controller,
+      bool isrequired, TextInputType textInputType) {
     return Container(
       padding: EdgeInsets.only(bottom: 20),
       child: Column(
         children: [
-          if(!disabledEdit)
-          Row(
-            children: [
-              if (isrequired)
-                Text(
-                  "*",
-                  style: TextStyle(color: Colors.red),
-                ),
-              // Padding(padding: EdgeInsets.all(4)),
-              // CustomText.infoText(HeadText),
-            ],
-          ),
-          Container(
-             decoration: BoxDecoration(
-                color: Colors.white, // Background color for the input
-                borderRadius: BorderRadius.circular(8),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.7), // Shadow color
-                    blurRadius: 6, // Spread of the shadow
-                    offset: Offset(0, 3), // Position of the shadow
+          if (!disabledEdit)
+            Row(
+              children: [
+                if (isrequired)
+                  Text(
+                    "*",
+                    style: TextStyle(color: Colors.red),
                   ),
-                ],
-              ),
+                // Padding(padding: EdgeInsets.all(4)),
+                // CustomText.infoText(HeadText),
+              ],
+            ),
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.white, // Background color for the input
+              borderRadius: BorderRadius.circular(8),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.7), // Shadow color
+                  blurRadius: 6, // Spread of the shadow
+                  offset: Offset(0, 3), // Position of the shadow
+                ),
+              ],
+            ),
             child: TextFormField(
-              
                 decoration: MyTextField.outlinedTextField(""),
                 keyboardType: textInputType,
                 controller: controller,
                 readOnly: disabledEdit,
-                 validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter ${HeadText}';
-                    }
-                    return null;
-                  },
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter ${HeadText}';
+                  }
+                  return null;
+                },
                 enabled: true,
                 enableInteractiveSelection: false,
                 cursorColor: AppColor.primaryTextColor,
