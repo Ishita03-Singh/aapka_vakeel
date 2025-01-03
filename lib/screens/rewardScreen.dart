@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:video_call/utils/custom_text.dart';
+
+import '../utilities/custom_text.dart';
+// import 'package:video_call/utils/custom_text.dart';
 
 class RewardScreen extends StatefulWidget {
   const RewardScreen({super.key});

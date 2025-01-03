@@ -2,8 +2,8 @@ import 'package:aapka_vakeel/model/user.dart';
 import 'package:aapka_vakeel/utilities/custom_button.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:video_call/video_call.dart';
-
+// import 'package:video_call/video_call.dart';
+import 'package:videosdk_flutter_example/screens/common/join_screen.dart';
 class AppointmentPage extends StatefulWidget {
   const AppointmentPage({super.key});
 

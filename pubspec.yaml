@@ -54,16 +54,17 @@ dependencies:
   path_provider:
   flutter_pdfview:
   visibility_detector:
-  flutter_webrtc:
+  # flutter_webrtc:
   permission_handler:
   geolocator: ^9.0.2
   geocoding: ^2.0.0
+  responsive_framework: 1.1.1
   flutter_callkit_incoming:
 
   firebase_storage:
   # flutter_document_writer:
-  video_call:
-    path: /Users/ishitasingh/Desktop/aapka_vakeel/videosdk/video_call
+  videosdk_flutter_example:
+    path: /Users/ishitasingh/Desktop/videosk/githubvideoSdk/videosdk-rtc-flutter-sdk-example
   # video_call:
   #   path: "D://personalGithub/videoSDK"
   uuid:
@@ -109,6 +110,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/
+    - .env.
 
     
 

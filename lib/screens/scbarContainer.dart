@@ -4,7 +4,9 @@ import 'package:aapka_vakeel/screens/settings.dart';
 import 'package:aapka_vakeel/utilities/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:video_call/utils/custom_text.dart';
+// import 'package:video_call/utils/custom_text.dart';
+
+import '../utilities/custom_text.dart';
 
 class ScBar extends StatelessWidget {
   const ScBar({super.key});

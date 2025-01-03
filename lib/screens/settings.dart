@@ -11,8 +11,9 @@ import 'package:aapka_vakeel/utilities/cutom_message.dart';
 import 'package:aapka_vakeel/utilities/my_appbar.dart';
 import 'package:aapka_vakeel/utilities/my_textfield.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_webrtc/flutter_webrtc.dart';
-import 'package:video_call/video_call.dart';
+// import 'package:flutter_webrtc/flutter_webrtc.dart';
+import 'package:videosdk_flutter_example/screens/common/join_screen.dart';
+// import 'package:video_call/video_call.dart';
 
 class Settings extends StatefulWidget {
   const Settings({super.key});

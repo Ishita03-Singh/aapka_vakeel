@@ -7,7 +7,8 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 // import 'package:aapka_vakeel/screens/videoCall.dart';
 // import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:video_call/video_call.dart';
+import 'package:videosdk_flutter_example/screens/common/join_screen.dart';
+// import 'package:video_call/video_call.dart';
 
 class AsyncLoader extends StatefulWidget {
   var username;

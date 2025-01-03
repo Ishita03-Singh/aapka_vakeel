@@ -5,8 +5,8 @@ import 'package:aapka_vakeel/utilities/my_appbar.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:video_call/video_call.dart';
-
+// import 'package:video_call/video_call.dart';
+import 'package:videosdk_flutter_example/screens/common/join_screen.dart';
 class TrademarkDetail extends StatefulWidget {
   String trademarkType="";
   TrademarkDetail({super.key,required this.trademarkType});

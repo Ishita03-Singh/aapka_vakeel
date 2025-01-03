@@ -4,9 +4,9 @@
 
 list(APPEND FLUTTER_PLUGIN_LIST
   file_selector_linux
-  flutter_webrtc
   screen_retriever
   url_launcher_linux
+  videosdk_webrtc
   window_manager
 )
 
